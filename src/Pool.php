@@ -44,16 +44,16 @@ class Pool
 
     public static function wait()
     {
-        Ev::run();
+        \Ev::run();
     }
 
     public static function waitOne()
     {
-        Ev::run(Ev::RUN_ONCE);
+        \Ev::run(\Ev::RUN_ONCE);
     }
 
     public static function check()
     {
-        Ev::run(Ev::RUN_NOWAIT);
+        \Ev::run(\Ev::RUN_NOWAIT);
     }
 }
