@@ -6,6 +6,8 @@
  * Time: 19:09
  */
 
+require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
 $process->start();
 
