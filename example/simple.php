@@ -8,8 +8,6 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-
-
 class TestRunnable extends \Jenner\SimpleFork\Runnable{
 
     /**
@@ -18,7 +16,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable{
      */
     public function run()
     {
-        echo "test" . PHP_EOL;
+        echo "I am a sub process" . PHP_EOL;
     }
 }
 

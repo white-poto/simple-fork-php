@@ -14,6 +14,7 @@ class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
         for($i = 0; $i<10; $i++){
             $this->cache->set($i, $i);
+            echo "set {$i} : {$i}" . PHH_EOL;
         }
     }
 }
@@ -22,7 +23,7 @@ class Worker extends \Jenner\SimpleFork\Process{
     public function run(){
         sleep(5);
         for($i=0; $i<10; $i++){
-            echo "get:" . $this->cache->get($i) . PHP_EOL;
+            echo "get {$i} : " . $this->cache->get($i) . PHP_EOL;
         }
     }
 }

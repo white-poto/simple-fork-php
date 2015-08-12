@@ -8,8 +8,6 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-
-
 class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
         for($i = 0; $i<10; $i++){
