@@ -13,6 +13,7 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
         for($i = 0; $i<10; $i++){
+            echo getmypid() . PHP_EOL;
             $this->queue->put(1, $i);
         }
     }
