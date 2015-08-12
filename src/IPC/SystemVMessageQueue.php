@@ -53,6 +53,8 @@ class SystemVMessageQueue implements QueueInterface
      */
     protected $key_t;
 
+    protected $ipc_filename;
+
     /**
      * @param int $channel 消息类型
      * @param string $ipc_filename IPC通信标志文件，用于获取唯一IPC KEY
@@ -70,13 +72,13 @@ class SystemVMessageQueue implements QueueInterface
         $maxsize = 100000
     )
     {
-
+        $this->ipc_filename = $ipc_filename;
         $this->msg_type = $channel;
         $this->serialize_needed = $serialize_needed;
         $this->block_send = $block_send;
         $this->option_receive = $option_receive;
         $this->maxsize = $maxsize;
-        $this->init_queue($ipc_filename, $channel);
+        $this->initQueue($ipc_filename, $channel);
     }
 
     /**
@@ -85,9 +87,9 @@ class SystemVMessageQueue implements QueueInterface
      * @param $msg_type
      * @throws \Exception
      */
-    public function init_queue($ipc_filename, $msg_type)
+    public function initQueue($ipc_filename, $msg_type)
     {
-        $this->key_t = $this->get_ipc_key($ipc_filename, $msg_type);
+        $this->key_t = $this->getIpcKey($ipc_filename, $msg_type);
         $this->queue = \msg_get_queue($this->key_t);
         if (!$this->queue) throw new \Exception('msg_get_queue failed');
     }
@@ -98,7 +100,7 @@ class SystemVMessageQueue implements QueueInterface
      * @throws \Exception
      * @return int
      */
-    public function get_ipc_key($ipc_filename, $msg_type)
+    public function getIpcKey($ipc_filename, $msg_type)
     {
         $key_t = \ftok($ipc_filename, $msg_type);
         if ($key_t == 0) throw new \Exception('ftok error');
@@ -189,11 +191,11 @@ class SystemVMessageQueue implements QueueInterface
      * @param int $value 状态值
      * @return bool
      */
-    public function set_status($key, $value)
+    public function setStatus($key, $value)
     {
-        $this->check_set_privilege($key);
+        $this->checkSetPrivilege($key);
         if ($key == 'msg_qbytes')
-            return $this->set_max_queue_size($value);
+            return $this->setMaxQueueSize($value);
         $queue_status[$key] = $value;
         return \msg_set_queue($this->queue, $queue_status);
     }
@@ -202,7 +204,7 @@ class SystemVMessageQueue implements QueueInterface
      * 删除一个队列
      * @return bool
      */
-    public function queue_remove()
+    public function queueRemove()
     {
         return \msg_remove_queue($this->queue);
     }
@@ -213,12 +215,12 @@ class SystemVMessageQueue implements QueueInterface
      * @throws \Exception
      * @return bool
      */
-    public function set_max_queue_size($size)
+    public function setMaxQueueSize($size)
     {
         $user = \get_current_user();
         if ($user !== 'root')
             throw new \Exception('changing msg_qbytes needs root privileges');
-        return $this->set_status('msg_qbytes', $size);
+        return $this->setStatus('msg_qbytes', $size);
     }
 
     /**
@@ -226,7 +228,7 @@ class SystemVMessageQueue implements QueueInterface
      * @param $key
      * @return bool
      */
-    public function queue_exists($key)
+    public function queueExists($key)
     {
         return \msg_queue_exists($key);
     }
@@ -236,7 +238,7 @@ class SystemVMessageQueue implements QueueInterface
      * @param $key
      * @throws \Exception
      */
-    private function check_set_privilege($key)
+    private function checkSetPrivilege($key)
     {
         $privilege_field = array('msg_perm.uid', 'msg_perm.gid', 'msg_perm.mode');
         if (!\in_array($key, $privilege_field)) {
@@ -245,5 +247,22 @@ class SystemVMessageQueue implements QueueInterface
 
             throw new \RuntimeException($message);
         }
+    }
+
+    /**
+     * init when wakeup
+     */
+    public function __wakeup()
+    {
+        $this->initQueue($this->ipc_filename, $this->msg_type);
+    }
+
+    /**
+     *
+     */
+    public function __destruct()
+    {
+        $this->queueRemove();
+        unset($this);
     }
 }
