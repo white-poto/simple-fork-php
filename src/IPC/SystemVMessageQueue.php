@@ -204,7 +204,7 @@ class SystemVMessageQueue implements QueueInterface
      * 删除一个队列
      * @return bool
      */
-    public function queueRemove()
+    public function remove()
     {
         return \msg_remove_queue($this->queue);
     }

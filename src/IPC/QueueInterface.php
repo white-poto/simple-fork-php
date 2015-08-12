@@ -30,4 +30,10 @@ interface QueueInterface {
      * @return mixed
      */
     public function size($channel);
+
+    /**
+     * remove the queue resource
+     * @return mixed
+     */
+    public function remove();
 }
