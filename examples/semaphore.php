@@ -29,7 +29,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable{
             $this->sem->acquire();
             echo "my turn: {$i} " . getmypid() . PHP_EOL;
             $this->sem->release();
-            usleep(10);
+            sleep(1);
         }
     }
 }
