@@ -5,7 +5,7 @@
  * Date: 2015/8/12
  * Time: 19:09
  */
-
+echo dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
