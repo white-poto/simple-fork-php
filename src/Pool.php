@@ -19,6 +19,7 @@ class Pool
 
     public function __construct()
     {
+        $this->waitProcesses();
     }
 
     public function submit(Process $process)
@@ -40,6 +41,12 @@ class Pool
                 $process->stop();
             }
         }
+    }
+
+    protected function waitProcesses(){
+        $w = new \EvChild(0, false, function ($w, $revents) {
+            pcntl_waitpid($w->rpid, $status);
+        });
     }
 
     public static function wait()
