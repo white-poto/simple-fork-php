@@ -36,10 +36,4 @@ $pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
 $pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
 $pool->start();
-
-
-while($pool->aliveCount() > 0){
-    echo "i am waiting" . PHP_EOL;
-    $pool->wait(false);
-    sleep(1);
-}
+$pool->wait();
