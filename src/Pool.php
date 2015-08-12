@@ -45,6 +45,7 @@ class Pool
 
     protected function waitProcesses(){
         $w = new \EvChild(0, false, function ($w, $revents) {
+            echo "exit" . PHP_EOL;
             pcntl_waitpid($w->rpid, $status);
         });
     }
