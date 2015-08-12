@@ -37,7 +37,7 @@ class Process
     /**
      * @var bool
      */
-    protected $running = false;
+    protected $alive = false;
 
     /**
      * @var int
@@ -79,9 +79,9 @@ class Process
     /**
      * @return bool
      */
-    public function isRunning()
+    public function isAlive()
     {
-        return $this->running;
+        return $this->alive;
     }
 
     /**
@@ -89,7 +89,7 @@ class Process
      */
     public function setStop()
     {
-        $this->running = false;
+        $this->alive = false;
     }
 
     /**
@@ -117,7 +117,7 @@ class Process
             throw new \RuntimeException("fork error");
         } elseif ($pid > 0) {
             $this->pid = $pid;
-            $this->running = true;
+            $this->alive = true;
         } else {
             call_user_func($callback);
         }
@@ -135,6 +135,7 @@ class Process
         if (pcntl_waitpid($this->pid, $this->status) == -1) {
             throw new \RuntimeException("wait son process failed");
         }
+        $this->alive = false;
     }
 
     /**

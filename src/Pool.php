@@ -36,10 +36,21 @@ class Pool
     public function shutdown()
     {
         foreach ($this->processes as $process) {
-            if ($process->isRunning()) {
+            if ($process->isAlive()) {
                 $process->stop();
             }
         }
+    }
+
+    public function aliveCount(){
+        $count = 0;
+        foreach($this->processes as $process){
+            if($process->isAlive()){
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
 
@@ -52,7 +63,7 @@ class Pool
                 }
             }
             usleep($sleep);
-        }while($block);
+        }while($block && $this->aliveCount() > 0);
     }
 
 }
