@@ -15,8 +15,8 @@
   },
 
   "autoload": {
-    "psr-0": {
-      "Jenner\\": "./src"
+    "psr-4": {
+      "Jenner\\SimpleFork\\": "./src"
     }
   }
 }
