@@ -47,9 +47,11 @@ class Process
     /**
      * @param Runnable $runnable
      */
-    public function __construct(Runnable $runnable)
+    public function __construct(Runnable $runnable = null)
     {
-        $this->runnable = $runnable;
+        if(!is_null($runnable)){
+            $this->runnable = $runnable;
+        }
     }
 
     /**
