@@ -23,7 +23,7 @@ class Worker extends \Jenner\SimpleFork\Process{
         sleep(5);
         for($i=0; $i<10; $i++){
             $res = $this->queue->get(1);
-            echo $i . PHP_EOL;
+            echo getmypid() . ' = ' .  $i . PHP_EOL;
             var_dump($res);
         }
     }
