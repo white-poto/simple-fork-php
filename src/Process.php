@@ -29,10 +29,19 @@ class Process
      */
     protected $runnable;
 
+    /**
+     * @var int
+     */
     protected $pid = 0;
 
+    /**
+     * @var bool
+     */
     protected $running = false;
 
+    /**
+     * @var int
+     */
     protected $status = 0;
 
     /**
@@ -59,16 +68,33 @@ class Process
         $this->queue = $queue;
     }
 
+    /**
+     * @return int
+     */
     public function getPid()
     {
         return $this->pid;
     }
 
+    /**
+     * @return bool
+     */
     public function isRunning()
     {
         return $this->running;
     }
 
+    /**
+     *
+     */
+    public function setStop()
+    {
+        $this->running = false;
+    }
+
+    /**
+     * @return int
+     */
     public function exitCode()
     {
         return $this->status;
@@ -97,6 +123,9 @@ class Process
         }
     }
 
+    /**
+     *
+     */
     public function stop()
     {
         if (!posix_kill($this->pid, SIGTERM)) {
