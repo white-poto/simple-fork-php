@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "ext-libev": "*",
+    "ext-ev": "*",
     "ext-pcntl": "*",
     "php": ">=5.3.0"
   },
