@@ -22,7 +22,8 @@ class Worker extends \Jenner\SimpleFork\Process{
     public function run(){
         sleep(5);
         for($i=0; $i<10; $i++){
-            echo "get:" . $this->queue->get(1) . PHP_EOL;
+            $res = $this->queue->get(1);
+            var_dump($res);
         }
     }
 }
