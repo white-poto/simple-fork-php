@@ -27,7 +27,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable{
     {
         for($i = 0; $i < 20; $i ++){
             $this->sem->acquire();
-            echo "my turn: " . getmypid() . PHP_EOL;
+            echo "my turn: {$i} " . getmypid() . PHP_EOL;
             $this->sem->release();
         }
     }
