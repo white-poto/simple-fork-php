@@ -43,7 +43,7 @@ class Pool
     }
 
 
-    protected function wait($block = true, $sleep = 100){
+    public function wait($block = true, $sleep = 100){
         do{
             foreach($this->processes as $process){
                 $res = pcntl_waitpid($process->getPid(), $status, WNOHANG);
