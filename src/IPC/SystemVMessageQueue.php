@@ -262,7 +262,6 @@ class SystemVMessageQueue implements QueueInterface
      */
     public function __destruct()
     {
-        $this->queueRemove();
         unset($this);
     }
 }
