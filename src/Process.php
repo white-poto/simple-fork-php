@@ -122,6 +122,7 @@ class Process
             $this->alive = true;
         } else {
             call_user_func($callback);
+            exit;
         }
     }
 
