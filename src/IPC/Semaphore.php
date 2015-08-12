@@ -31,7 +31,7 @@ class Semaphore
 
     /**
      * @param $key
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     private function __construct($key)
     {
@@ -42,7 +42,7 @@ class Semaphore
     }
 
     /**
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function __destruct()
     {
@@ -59,11 +59,11 @@ class Semaphore
         {
             throw new \RuntimeException('Cannot acquire semaphore: ' . $this->lock_id);
         }
-        $this->lock_id = true;
+        $this->locked = true;
     }
 
     /**
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function release()
     {
