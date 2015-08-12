@@ -19,7 +19,6 @@ class Pool
 
     public function __construct()
     {
-        $this->waitProcesses();
     }
 
     public function submit(Process $process)
@@ -43,25 +42,17 @@ class Pool
         }
     }
 
-    protected function waitProcesses(){
-        $w = new \EvChild(0, false, function ($w, $revents) {
-            echo "exit" . PHP_EOL;
-            pcntl_waitpid($w->rpid, $status);
-        });
+
+    protected function wait($block = true, $sleep = 100){
+        do{
+            foreach($this->processes as $process){
+                $res = pcntl_waitpid($process->getPid(), $status, WNOHANG);
+                if($res != 0){
+                    $process->setStop();
+                }
+            }
+            usleep($sleep);
+        }while($block);
     }
 
-    public static function wait()
-    {
-        \Ev::run();
-    }
-
-    public static function waitOne()
-    {
-        \Ev::run(\Ev::RUN_ONCE);
-    }
-
-    public static function check()
-    {
-        \Ev::run(\Ev::RUN_NOWAIT);
-    }
 }
