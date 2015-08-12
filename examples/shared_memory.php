@@ -40,4 +40,3 @@ $pool->submit($producer);
 $pool->submit($worker);
 $pool->start();
 $pool->wait();
-$memory->remove();
