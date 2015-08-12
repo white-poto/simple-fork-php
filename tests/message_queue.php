@@ -42,3 +42,4 @@ $pool->submit($producer);
 $pool->submit($worker);
 $pool->start();
 $pool->wait();
+$queue->queue_remove();
