@@ -52,6 +52,7 @@ class Process
         if(!is_null($runnable)){
             $this->runnable = $runnable;
         }
+        $this->signal();
     }
 
     /**
@@ -142,9 +143,31 @@ class Process
     }
 
     /**
+     * register signal handler
+     */
+    public function signal(){
+        pcntl_signal(SIGTERM, function(){
+            if($this->beforeExit()){
+                exit(0);
+            }
+        });
+    }
+
+    /**
      *
      */
     public function run()
     {
+    }
+
+    /**
+     * when the manager process call stop function.
+     * beforeExit() will web called before the sub process exit
+     * if return true, the sub process will exit.
+     * else it the sub process will keep running
+     * @return boolean
+     */
+    public function beforeExit(){
+        return true;
     }
 }
