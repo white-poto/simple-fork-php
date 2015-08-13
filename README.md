@@ -2,6 +2,15 @@ SimpleFork
 ===================
 基于PCNTL扩展的进程管理包，接口类似与Java的Thread和Runnable 
 
+引入
+---------------------
+```bash
+composer require jenner/simple_fork
+```
+``php
+require path/to/SimpleFork/autoload.php
+```
+
 特性
 ---------------------------
 + 提供进程池
