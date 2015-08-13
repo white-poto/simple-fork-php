@@ -149,11 +149,7 @@ class Process
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if ($this->beforeExit() || true) {
-                echo "exit" . PHP_EOL;
-                exit(0);
-            }
-            echo "not exit" . PHP_EOL;
+            exit();
         });
     }
 
