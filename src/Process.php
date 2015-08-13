@@ -108,6 +108,7 @@ class Process
      */
     public function start()
     {
+        declare(ticks=1);
         $callback = null;
         if (is_object($this->runnable)) {
             $callback = array($this->runnable, 'run');
