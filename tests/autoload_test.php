@@ -14,7 +14,7 @@ spl_autoload_register(function ($classname) {
     echo $dir . PHP_EOL;
     if (stristr($classname, "\\Jenner\\SimpleFork\\") == 0) {
         $file = $dir . basename($classname);
-        echo basename($classname) . PHP_EOL;
+        echo basename(basename($classname)) . PHP_EOL;
         echo $file . PHP_EOL;
         if (file_exists($file)) require $file;
     }
