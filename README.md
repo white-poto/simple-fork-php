@@ -7,7 +7,7 @@ SimpleFork
 ```bash
 composer require jenner/simple_fork
 ```
-``php
+```php
 require path/to/SimpleFork/autoload.php
 ```
 
