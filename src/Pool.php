@@ -86,4 +86,21 @@ class Pool
         } while ($block && $this->aliveCount() > 0);
     }
 
+
+    /**
+     * get process by pid
+     * @param $pid
+     * @return null|Process
+     */
+    public function getProcessByPid($pid)
+    {
+        foreach ($this->processes as $process) {
+            if ($process->getPid() == $pid) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
 }
