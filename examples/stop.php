@@ -1,0 +1,31 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Jenner
+ * Date: 2015/8/13
+ * Time: 9:22
+ */
+
+
+
+require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+class TestRunnable extends \Jenner\SimpleFork\Runnable{
+
+    /**
+     * 进程执行入口
+     * @return mixed
+     */
+    public function run()
+    {
+        while(true){
+            echo "I am running" . PHP_EOL;
+            sleep(1);
+        }
+    }
+}
+
+$process = new \Jenner\SimpleFork\Process(new TestRunnable());
+$process->start();
+sleep(5);
+$process->stop();
