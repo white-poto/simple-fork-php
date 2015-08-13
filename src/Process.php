@@ -52,6 +52,7 @@ class Process
         if (!is_null($runnable)) {
             $this->runnable = $runnable;
         }
+        $this->signal();
     }
 
     /**
