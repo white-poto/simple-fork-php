@@ -149,8 +149,10 @@ class Process
     {
         pcntl_signal(SIGTERM, function () {
             if ($this->beforeExit()) {
+                echo "exit" . PHP_EOL;
                 exit(0);
             }
+            echo "not exit" . PHP_EOL;
         });
     }
 
