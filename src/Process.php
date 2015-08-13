@@ -73,6 +73,7 @@ class Process
     }
 
     /**
+     * get pid
      * @return int
      */
     public function getPid()
@@ -89,7 +90,7 @@ class Process
     }
 
     /**
-     *
+     * set the process stopped flag
      */
     public function setStop()
     {
@@ -109,6 +110,10 @@ class Process
      */
     public function start()
     {
+        if ($this->isAlive()) {
+            throw new \LogicException("the process is already running");
+        }
+
         $callback = null;
         if (is_object($this->runnable)) {
             $callback = array($this->runnable, 'run');
@@ -129,7 +134,11 @@ class Process
         }
     }
 
-    public function reload(){
+    /**
+     * reload process to avoid memory leaks and overloading the php script file
+     */
+    public function reload()
+    {
         $this->stop();
         $this->start();
     }
@@ -146,7 +155,7 @@ class Process
         if (pcntl_waitpid($this->pid, $this->status) == -1) {
             throw new \RuntimeException("wait son process failed");
         }
-        $this->alive = false;
+        $this->setStop();
     }
 
     /**
@@ -155,14 +164,14 @@ class Process
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if($this->beforeExit()){
+            if ($this->beforeExit()) {
                 exit(0);
             }
         });
     }
 
     /**
-     *
+     * you should overwrite this function if you do not use the Runnable.
      */
     public function run()
     {
