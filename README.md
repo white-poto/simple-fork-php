@@ -10,6 +10,7 @@ SimpleFork
 + 提供Process和Runnable两种方式实现进程
 + 可以实时获取到进程状态
 + shutdown所有进程或单独stop一个进程时，可以注册覆盖beforeExit()方法，返回true则退出，false继续运行（在某些场景，进程不能立即退出）
++ 支持子进程运行时reload
 
 注意事项
 -----------------------
