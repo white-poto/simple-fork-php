@@ -6,7 +6,7 @@
  * Time: 15:25
  */
 
-declare(ticks=1);
+
 namespace Jenner\SimpleFork;
 
 
