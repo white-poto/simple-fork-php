@@ -52,7 +52,6 @@ class Process
         if (!is_null($runnable)) {
             $this->runnable = $runnable;
         }
-        $this->signal();
     }
 
     /**
@@ -122,6 +121,7 @@ class Process
             $this->pid = $pid;
             $this->alive = true;
         } else {
+            $this->signal();
             call_user_func($callback);
             exit(0);
         }
