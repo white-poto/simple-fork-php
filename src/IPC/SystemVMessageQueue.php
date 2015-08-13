@@ -64,7 +64,7 @@ class SystemVMessageQueue implements QueueInterface
      * @param int $maxsize 希望接收到的最大消息
      */
     public function __construct(
-        $channel=1,
+        $channel = 1,
         $ipc_filename = __FILE__,
         $serialize_needed = true,
         $block_send = true,

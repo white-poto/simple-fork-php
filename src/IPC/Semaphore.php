@@ -38,8 +38,7 @@ class Semaphore
      */
     private function __construct($key)
     {
-        if ( ($this->lock_id = sem_get($this->_stringToSemKey($key))) === false)
-        {
+        if (($this->lock_id = sem_get($this->_stringToSemKey($key))) === false) {
             throw new \RuntimeException('Cannot create semaphore for key: ' . $key);
         }
     }
@@ -60,8 +59,7 @@ class Semaphore
      */
     public function acquire()
     {
-        if (!sem_acquire($this->lock_id))
-        {
+        if (!sem_acquire($this->lock_id)) {
             throw new \RuntimeException('Cannot acquire semaphore: ' . $this->lock_id);
         }
         $this->locked = true;
@@ -73,10 +71,8 @@ class Semaphore
      */
     public function release()
     {
-        if ($this->locked)
-        {
-            if (!sem_release($this->lock_id))
-            {
+        if ($this->locked) {
+            if (!sem_release($this->lock_id)) {
                 throw new \RuntimeException('Cannot release semaphore: ' . $this->lock_id);
             }
             $this->locked = false;
@@ -92,8 +88,7 @@ class Semaphore
     {
         $md5 = md5($identifier);
         $key = 0;
-        for ($i = 0; $i < 32; $i++)
-        {
+        for ($i = 0; $i < 32; $i++) {
             $key += ord($md5{$i}) * $i;
         }
         return $key;

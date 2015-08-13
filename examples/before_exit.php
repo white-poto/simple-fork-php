@@ -8,7 +8,8 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class TestRunnable extends \Jenner\SimpleFork\Runnable{
+class TestRunnable extends \Jenner\SimpleFork\Runnable
+{
 
     /**
      * 进程执行入口
@@ -16,13 +17,14 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable{
      */
     public function run()
     {
-        while(true){
+        while (true) {
             echo "I am running" . PHP_EOL;
             sleep(1);
         }
     }
 
-    public function beforeExit(){
+    public function beforeExit()
+    {
         echo "I am going to exit." . PHP_EOL;
         return true;
     }

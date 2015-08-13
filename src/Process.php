@@ -49,7 +49,7 @@ class Process
      */
     public function __construct(Runnable $runnable = null)
     {
-        if(!is_null($runnable)){
+        if (!is_null($runnable)) {
             $this->runnable = $runnable;
         }
         $this->signal();
@@ -145,9 +145,10 @@ class Process
     /**
      * register signal handler
      */
-    public function signal(){
-        pcntl_signal(SIGTERM, function(){
-            if($this->beforeExit()){
+    public function signal()
+    {
+        pcntl_signal(SIGTERM, function () {
+            if ($this->beforeExit()) {
                 exit(0);
             }
         });
@@ -167,7 +168,8 @@ class Process
      * else it the sub process will keep running
      * @return boolean
      */
-    public function beforeExit(){
+    public function beforeExit()
+    {
         if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
             return call_user_func(array($this->runnable, 'beforeExit'));
         }

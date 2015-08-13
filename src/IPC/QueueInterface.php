@@ -8,7 +8,8 @@
 
 namespace Jenner\SimpleFork\IPC;
 
-interface QueueInterface {
+interface QueueInterface
+{
     /**
      * put value into the queue of channel
      * @param $channel

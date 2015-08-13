@@ -8,21 +8,25 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class Producer extends \Jenner\SimpleFork\Process{
-    public function run(){
-        for($i = 0; $i<10; $i++){
+class Producer extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
+        for ($i = 0; $i < 10; $i++) {
             echo getmypid() . PHP_EOL;
             $this->queue->put(1, $i);
         }
     }
 }
 
-class Worker extends \Jenner\SimpleFork\Process{
-    public function run(){
+class Worker extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
         sleep(5);
-        for($i=0; $i<10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $res = $this->queue->get(1);
-            echo getmypid() . ' = ' .  $i . PHP_EOL;
+            echo getmypid() . ' = ' . $i . PHP_EOL;
             var_dump($res);
         }
     }

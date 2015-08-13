@@ -48,7 +48,8 @@ abstract class Runnable
      */
     abstract public function run();
 
-    public function beforeExit(){
+    public function beforeExit()
+    {
         return true;
     }
 }

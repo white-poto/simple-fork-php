@@ -6,14 +6,12 @@
     {
       "name": "Jenner",
       "email": "hypxm@qq.com",
-      "homepage" : "http://www.huyanping.cn"
+      "homepage": "http://www.huyanping.cn"
     }
   ],
   "require": {
-
     "php": ">=5.3.0"
   },
-
   "autoload": {
     "psr-4": {
       "Jenner\\SimpleFork\\": "./src"

@@ -8,7 +8,8 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class TestRunnable extends \Jenner\SimpleFork\Runnable{
+class TestRunnable extends \Jenner\SimpleFork\Runnable
+{
 
     /**
      * 进程执行入口
@@ -29,7 +30,7 @@ $pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
 $pool->start();
 
 
-while($pool->aliveCount() > 0){
+while ($pool->aliveCount() > 0) {
     echo "i am waiting" . PHP_EOL;
     $pool->wait(false);
     sleep(1);

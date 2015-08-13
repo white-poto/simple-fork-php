@@ -50,7 +50,7 @@ class Pool
             }
         }
 
-        if($wait){
+        if ($wait) {
             $this->wait();
         }
     }
@@ -59,10 +59,11 @@ class Pool
      * get the count of running processes
      * @return int
      */
-    public function aliveCount(){
+    public function aliveCount()
+    {
         $count = 0;
-        foreach($this->processes as $process){
-            if($process->isAlive()){
+        foreach ($this->processes as $process) {
+            if ($process->isAlive()) {
                 $count++;
             }
         }
@@ -77,16 +78,17 @@ class Pool
      * sub processes exit. else it will check if thers are processes that had been exited once and return.
      * @param int $sleep when $block is true, it will check sub processes every $sleep minute
      */
-    public function wait($block = true, $sleep = 100){
-        do{
-            foreach($this->processes as $process){
+    public function wait($block = true, $sleep = 100)
+    {
+        do {
+            foreach ($this->processes as $process) {
                 $res = pcntl_waitpid($process->getPid(), $status, WNOHANG);
-                if($res != 0){
+                if ($res != 0) {
                     $process->setStop();
                 }
             }
             usleep($sleep);
-        }while($block && $this->aliveCount() > 0);
+        } while ($block && $this->aliveCount() > 0);
     }
 
 }

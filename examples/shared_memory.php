@@ -9,20 +9,23 @@
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 
-
-class Producer extends \Jenner\SimpleFork\Process{
-    public function run(){
-        for($i = 0; $i<10; $i++){
+class Producer extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
+        for ($i = 0; $i < 10; $i++) {
             $this->cache->set($i, $i);
             echo "set {$i} : {$i}" . PHH_EOL;
         }
     }
 }
 
-class Worker extends \Jenner\SimpleFork\Process{
-    public function run(){
+class Worker extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
         sleep(5);
-        for($i=0; $i<10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             echo "get {$i} : " . $this->cache->get($i) . PHP_EOL;
         }
     }
