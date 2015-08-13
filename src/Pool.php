@@ -13,19 +13,24 @@ class Pool
 {
 
     /**
+     * process list
      * @var array
      */
     protected $processes = array();
 
-    public function __construct()
-    {
-    }
-
+    /**
+     * add a process
+     * @param Process $process
+     * @return int
+     */
     public function submit(Process $process)
     {
         return array_push($this->processes, $process);
     }
 
+    /**
+     * start all processes
+     */
     public function start()
     {
         foreach ($this->processes as $process) {
@@ -33,6 +38,9 @@ class Pool
         }
     }
 
+    /**
+     * shutdown all process
+     */
     public function shutdown()
     {
         foreach ($this->processes as $process) {
@@ -42,6 +50,10 @@ class Pool
         }
     }
 
+    /**
+     * get the count of running processes
+     * @return int
+     */
     public function aliveCount(){
         $count = 0;
         foreach($this->processes as $process){
@@ -54,6 +66,12 @@ class Pool
     }
 
 
+    /**
+     * waiting for the sub processes to exit
+     * @param bool|true $block if true the parent process will be blocked until all
+     * sub processes exit. else it will check if thers are processes that had been exited once and return.
+     * @param int $sleep when $block is true, it will check sub processes every $sleep minute
+     */
     public function wait($block = true, $sleep = 100){
         do{
             foreach($this->processes as $process){

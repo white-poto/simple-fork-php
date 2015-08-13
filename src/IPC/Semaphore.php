@@ -12,6 +12,7 @@ namespace Jenner\SimpleFork\IPC;
 class Semaphore
 {
     /**
+     * get a lock instance
      * @param $key
      * @return Semaphore
      */
@@ -24,12 +25,14 @@ class Semaphore
      * @var
      */
     private $lock_id;
+
     /**
      * @var bool
      */
     private $locked = false;
 
     /**
+     * init a lock
      * @param $key
      * @throws \RuntimeException
      */
@@ -42,6 +45,7 @@ class Semaphore
     }
 
     /**
+     * release lock
      * @throws \RuntimeException
      */
     public function __destruct()
@@ -51,6 +55,7 @@ class Semaphore
 
 
     /**
+     * get a lock
      * @throws \Exception
      */
     public function acquire()
@@ -63,6 +68,7 @@ class Semaphore
     }
 
     /**
+     * release lock
      * @throws \RuntimeException
      */
     public function release()
