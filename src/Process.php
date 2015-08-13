@@ -6,6 +6,7 @@
  * Time: 15:25
  */
 
+declare(ticks=1);
 namespace Jenner\SimpleFork;
 
 
@@ -108,7 +109,6 @@ class Process
      */
     public function start()
     {
-        declare(ticks=1);
         $callback = null;
         if (is_object($this->runnable)) {
             $callback = array($this->runnable, 'run');
