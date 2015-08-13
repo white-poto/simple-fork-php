@@ -129,6 +129,11 @@ class Process
         }
     }
 
+    public function reload(){
+        $this->stop();
+        $this->start();
+    }
+
     /**
      * kill self
      */

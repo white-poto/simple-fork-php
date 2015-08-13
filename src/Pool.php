@@ -103,4 +103,16 @@ class Pool
         return null;
     }
 
+    /**
+     * restart
+     */
+    public function reload()
+    {
+        foreach ($this->processes as $process) {
+            if ($process->isAlive()) {
+                $process->reload();
+            }
+        }
+    }
+
 }
