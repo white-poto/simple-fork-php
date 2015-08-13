@@ -32,7 +32,7 @@ require path/to/SimpleFork/autoload.php
 
 如何使用declare(ticks=1);
 --------------------------
-+ declare(ticks=1); 这段声明用于进程信号处理
++ declare(ticks=1); 这段声明用于进程信号处理。如果注册了信号处理器，程序会没执行一行代码后自动检查是否有尚未处理的信号。[http://php.net/manual/zh/control-structures.declare.php](http://php.net/manual/zh/control-structures.declare.php 官方文档)
 
 TODO
 ---------------------------
