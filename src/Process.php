@@ -134,12 +134,10 @@ class Process
      */
     public function stop()
     {
-        echo "kill" . PHP_EOL;
         if (!posix_kill($this->pid, SIGTERM)) {
             throw new \RuntimeException("kill son process failed");
         }
 
-        echo "wait" . PHP_EOL;
         if (pcntl_waitpid($this->pid, $this->status) == -1) {
             throw new \RuntimeException("wait son process failed");
         }
@@ -152,7 +150,9 @@ class Process
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            exit();
+            if($this->beforeExit()){
+                exit(0);
+            }
         });
     }
 
@@ -172,9 +172,9 @@ class Process
      */
     public function beforeExit()
     {
-//        if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
-//            return call_user_func(array($this->runnable, 'beforeExit'));
-//        }
+        if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
+            return call_user_func(array($this->runnable, 'beforeExit'));
+        }
 
         return true;
     }
