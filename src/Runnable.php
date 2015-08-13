@@ -47,4 +47,6 @@ abstract class Runnable
      * @return mixed
      */
     abstract public function run();
+
+    public function beforeExit(){}
 }
