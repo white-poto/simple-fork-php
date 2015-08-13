@@ -172,9 +172,9 @@ class Process
      */
     public function beforeExit()
     {
-        if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
-            return call_user_func(array($this->runnable, 'beforeExit'));
-        }
+//        if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
+//            return call_user_func(array($this->runnable, 'beforeExit'));
+//        }
 
         return true;
     }
