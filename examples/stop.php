@@ -23,12 +23,6 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable
             sleep(1);
         }
     }
-
-    public function beforeExit()
-    {
-        echo "I am going to exit." . PHP_EOL;
-        return true;
-    }
 }
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());

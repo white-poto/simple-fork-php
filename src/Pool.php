@@ -40,18 +40,13 @@ class Pool
 
     /**
      * shutdown all process
-     * @param bool $wait if waiting for all sub process exit
      */
-    public function shutdown($wait = true)
+    public function shutdown()
     {
         foreach ($this->processes as $process) {
             if ($process->isAlive()) {
                 $process->stop();
             }
-        }
-
-        if ($wait) {
-            $this->wait();
         }
     }
 
