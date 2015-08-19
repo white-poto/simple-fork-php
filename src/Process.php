@@ -178,7 +178,7 @@ class Process
     {
         while (true) {
             $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
-            if ($res == 0) {
+            if ($res !== 0) {
                 $this->setStop();
                 return;
             }
