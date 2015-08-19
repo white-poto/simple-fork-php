@@ -8,7 +8,6 @@
  */
 
 declare(ticks=1);
-echo dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php' . PHP_EOL;
 require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 class Worker extends \Jenner\SimpleFork\Process
@@ -27,6 +26,7 @@ class Worker extends \Jenner\SimpleFork\Process
 $queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
 $worker_1 = new Worker();
 $worker_1->setQueue($queue);
+
 $worker_2 = new Worker();
 $worker_2->setQueue($queue);
 
