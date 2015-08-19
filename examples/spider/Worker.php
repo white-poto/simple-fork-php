@@ -19,7 +19,7 @@ class Worker extends \Jenner\SimpleFork\Process
             if($res !== false){
                 echo $res . PHP_EOL;
             }
-            sleep(1);
+            usleep(100000);
         }
     }
 }
