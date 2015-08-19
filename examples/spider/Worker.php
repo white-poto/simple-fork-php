@@ -17,7 +17,7 @@ class Worker extends \Jenner\SimpleFork\Process
         while(true){
             $res = $this->queue->get(1);
             if($res !== false){
-                echo $res . PHP_EOL;
+                echo $this->getPid() . ":" . $res . PHP_EOL;
             }
             usleep(100000);
         }
