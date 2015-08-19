@@ -17,6 +17,15 @@ composer require jenner/simple_fork
 require path/to/SimpleFork/autoload.php
 ```
 
+依赖
+----------------------
+必须  
++ ext-pcntl 进程控制
+可选  
++ ext-sysvmsg 消息队列
++ ext-sysvsem 同步互斥锁
++ ext-sysvshm 共享内存
+
 特性
 ---------------------------
 + 提供进程池
