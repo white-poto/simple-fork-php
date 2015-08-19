@@ -15,7 +15,7 @@ class Producer extends \Jenner\SimpleFork\Process
     public function run(){
         for($i=0; $i<100; $i++){
             $this->queue->put(1, $i);
-            usleep(50000);
+            //usleep(50000);
         }
     }
 }
