@@ -171,6 +171,25 @@ class Process
     }
 
     /**
+     * @param bool|true $block
+     * @param int $sleep
+     */
+    public function wait($block = true, $sleep = 100)
+    {
+        while (true) {
+            $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
+            if ($res == 0) {
+                $this->setStop();
+                return;
+            }
+            if (!$block) {
+                break;
+            }
+            usleep($sleep);
+        }
+    }
+
+    /**
      * you should overwrite this function if you do not use the Runnable.
      */
     public function run()

@@ -24,3 +24,4 @@ $queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue(1, "/tmp/simple-fork-tes
 $producer = new Producer();
 $producer->setQueue($queue);
 $producer->start();
+$producer->wait();

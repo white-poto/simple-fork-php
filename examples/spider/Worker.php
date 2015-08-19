@@ -28,3 +28,4 @@ $queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue(1, "/tmp/simple-fork-tes
 $worker = new Worker();
 $worker->setQueue($queue);
 $worker->start();
+$worker->wait();
