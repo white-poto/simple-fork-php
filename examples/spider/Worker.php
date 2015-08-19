@@ -33,4 +33,5 @@ $worker_2->setQueue($queue);
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($worker_1);
 $pool->submit($worker_2);
+$pool->start();
 $pool->wait();
