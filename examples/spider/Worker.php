@@ -9,7 +9,7 @@
 
 class Worker extends \Jenner\SimpleFork\Process
 {
-    public function start(){
+    public function run(){
         for($i = 0; $i<100; $i++){
             $res = $this->queue->get(1);
             if($res !== false){
