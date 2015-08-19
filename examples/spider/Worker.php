@@ -7,6 +7,9 @@
  * Time: 14:32
  */
 
+declare(ticks=1);
+require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
 class Worker extends \Jenner\SimpleFork\Process
 {
     public function run(){
