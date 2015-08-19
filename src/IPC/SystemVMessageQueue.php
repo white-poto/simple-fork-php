@@ -118,7 +118,16 @@ class SystemVMessageQueue implements QueueInterface
         $this->msg_type = $channel;
         $queue_status = $this->status();
         if ($queue_status['msg_qnum'] > 0) {
-            if (\msg_receive($this->queue, $this->msg_type, $msgtype_erhalten, $this->maxsize, $data, $this->serialize_needed, $this->option_receive, $err) === true) {
+            if (\msg_receive(
+                    $this->queue,
+                    $this->msg_type,
+                    $msgtype_erhalten,
+                    $this->maxsize, $data,
+                    $this->serialize_needed,
+                    $this->option_receive,
+                    $err
+                ) === true
+            ) {
                 return $data;
             } else {
                 throw new \Exception($err);
