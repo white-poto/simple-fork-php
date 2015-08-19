@@ -122,12 +122,13 @@ class Process
         }
 
         $pid = pcntl_fork();
-        $this->pid = $pid;
         if ($pid < 0) {
             throw new \RuntimeException("fork error");
         } elseif ($pid > 0) {
+            $this->pid = $pid;
             $this->alive = true;
         } else {
+            $this->pid = getmypid();
             $this->signal();
             call_user_func($callback);
             exit(0);
