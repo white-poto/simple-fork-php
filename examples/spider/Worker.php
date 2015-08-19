@@ -14,7 +14,7 @@ require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . D
 class Worker extends \Jenner\SimpleFork\Process
 {
     public function run(){
-        for($i = 0; $i<100; $i++){
+        while(true){
             $res = $this->queue->get(1);
             if($res !== false){
                 echo $res . PHP_EOL;
