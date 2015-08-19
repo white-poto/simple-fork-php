@@ -25,7 +25,12 @@ class Worker extends \Jenner\SimpleFork\Process
 }
 
 $queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
-$worker = new Worker();
-$worker->setQueue($queue);
-$worker->start();
-$worker->wait();
+$worker_1 = new Worker();
+$worker_1->setQueue($queue);
+$worker_2 = new Worker();
+$worker_2->setQueue($queue);
+
+$pool = new \Jenner\SimpleFork\Pool();
+$pool->submit($worker_1);
+$pool->submit($worker_2);
+$pool->wait();
