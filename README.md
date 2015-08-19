@@ -21,6 +21,7 @@ require path/to/SimpleFork/autoload.php
 ----------------------
 必须  
 + ext-pcntl 进程控制  
+
 可选  
 + ext-sysvmsg 消息队列
 + ext-sysvsem 同步互斥锁
