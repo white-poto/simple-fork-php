@@ -78,7 +78,7 @@ class Pool
         do {
             foreach ($this->processes as $process) {
                 $res = pcntl_waitpid($process->getPid(), $status, WNOHANG);
-                if ($res != 0) {
+                if ($res !== 0) {
                     $process->setStop();
                 }
             }
