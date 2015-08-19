@@ -91,7 +91,7 @@ class SystemVMessageQueue implements QueueInterface
     {
         $this->key_t = $this->getIpcKey($ipc_filename, $msg_type);
         $this->queue = \msg_get_queue($this->key_t);
-        if (!$this->queue) throw new \Exception('msg_get_queue failed');
+        if (!$this->queue) throw new \RuntimeException('msg_get_queue failed');
     }
 
     /**
@@ -102,8 +102,13 @@ class SystemVMessageQueue implements QueueInterface
      */
     public function getIpcKey($ipc_filename, $msg_type)
     {
+        if(file_exists($ipc_filename)){
+            throw new \RuntimeException("ipc_file is not exists");
+        }
+
         $key_t = \ftok($ipc_filename, $msg_type);
-        if ($key_t == 0) throw new \Exception('ftok error');
+        if ($key_t == 0) throw new \RuntimeException('ftok error');
+
         return $key_t;
     }
 
@@ -130,7 +135,7 @@ class SystemVMessageQueue implements QueueInterface
             ) {
                 return $data;
             } else {
-                throw new \Exception($err);
+                throw new \RuntimeException($err);
             }
         } else {
             return false;
@@ -148,7 +153,7 @@ class SystemVMessageQueue implements QueueInterface
     {
         $this->msg_type = $channel;
         if (!\msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
-            throw new \Exception($err);
+            throw new \RuntimeException($err);
         }
 
         return true;
@@ -188,6 +193,7 @@ class SystemVMessageQueue implements QueueInterface
     {
         $this->msg_type = $channel;
         $status = $this->status();
+
         return $status['msg_qnum'];
     }
 
@@ -206,6 +212,7 @@ class SystemVMessageQueue implements QueueInterface
         if ($key == 'msg_qbytes')
             return $this->setMaxQueueSize($value);
         $queue_status[$key] = $value;
+
         return \msg_set_queue($this->queue, $queue_status);
     }
 
@@ -229,6 +236,7 @@ class SystemVMessageQueue implements QueueInterface
         $user = \get_current_user();
         if ($user !== 'root')
             throw new \Exception('changing msg_qbytes needs root privileges');
+
         return $this->setStatus('msg_qbytes', $size);
     }
 
