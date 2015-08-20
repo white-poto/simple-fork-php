@@ -11,7 +11,6 @@ namespace Jenner\SimpleFork;
 
 class Pool
 {
-
     /**
      * process list
      * @var array
@@ -66,7 +65,6 @@ class Pool
         return $count;
     }
 
-
     /**
      * waiting for the sub processes to exit
      * @param bool|true $block if true the parent process will be blocked until all
@@ -85,7 +83,6 @@ class Pool
             usleep($sleep);
         } while ($block && $this->aliveCount() > 0);
     }
-
 
     /**
      * get process by pid

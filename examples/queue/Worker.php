@@ -7,17 +7,18 @@
  * Time: 14:32
  */
 
-declare(ticks=1);
+declare(ticks = 1);
 require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 error_reporting(E_ALL);
 
 class Worker extends \Jenner\SimpleFork\Process
 {
-    public function run(){
-        while(true){
+    public function run()
+    {
+        while (true) {
             $res = $this->queue->get(1);
-            if($res !== false){
+            if ($res !== false) {
                 echo $this->getPid() . ":" . $res . PHP_EOL;
             }
             //usleep(100000);

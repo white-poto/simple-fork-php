@@ -102,7 +102,7 @@ class SystemVMessageQueue implements QueueInterface
      */
     public function getIpcKey($ipc_filename, $msg_type)
     {
-        if(!file_exists($ipc_filename)){
+        if (!file_exists($ipc_filename)) {
             throw new \RuntimeException("ipc_file is not exists");
         }
 

@@ -151,9 +151,9 @@ class Process
             $this->pid = getmypid();
             $this->signal();
 
-            if(array_key_exists(self::BEFORE_START, $this->callbacks)){
+            if (array_key_exists(self::BEFORE_START, $this->callbacks)) {
                 $result = call_user_func($this->callbacks[self::BEFORE_START]);
-                if($result !== true){
+                if ($result !== true) {
                     exit(0);
                 }
             }
@@ -193,12 +193,12 @@ class Process
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if(!array_key_exists(self::BEFORE_EXIT, $this->callbacks)){
+            if (!array_key_exists(self::BEFORE_EXIT, $this->callbacks)) {
                 exit(0);
             }
 
             $result = call_user_func($this->callbacks[self::BEFORE_EXIT]);
-            if($result === true){
+            if ($result === true) {
                 exit(0);
             }
         });
@@ -230,7 +230,6 @@ class Process
     {
     }
 
-
     /**
      * 获取子进程执行入口
      * @return array|callable|null
@@ -256,7 +255,7 @@ class Process
      */
     public function on($event, $function)
     {
-        if(!is_callable($function)){
+        if (!is_callable($function)) {
             throw new \LogicException("the callback function is not callable");
         }
 

@@ -7,13 +7,14 @@
  * Time: 14:32
  */
 
-declare(ticks=1);
+declare(ticks = 1);
 require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 class Producer extends \Jenner\SimpleFork\Process
 {
-    public function run(){
-        for($i=0; $i<100; $i++){
+    public function run()
+    {
+        for ($i = 0; $i < 100; $i++) {
             $this->queue->put(1, $i);
             //usleep(50000);
         }

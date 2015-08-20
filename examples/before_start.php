@@ -6,7 +6,7 @@
  * Time: 14:37
  */
 
-declare(ticks=1);
+declare(ticks = 1);
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 class TestRunnable extends \Jenner\SimpleFork\Runnable
@@ -27,7 +27,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable
 }
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
-$process->on(\Jenner\SimpleFork\Process::BEFORE_START, function(){
+$process->on(\Jenner\SimpleFork\Process::BEFORE_START, function () {
     echo "start" . PHP_EOL;
     return true;
 });
