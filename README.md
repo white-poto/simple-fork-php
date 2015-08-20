@@ -77,6 +77,19 @@ $process = new \Jenner\SimpleFork\Process(new TestRunnable());
 $process->start();
 ```
 
+callback.php  
+```php
+$process = new \Jenner\SimpleFork\Process(function(){
+    for($i=0; $i<3; $i++){
+        echo $i . PHP_EOL;
+        sleep(1);
+    }
+});
+
+$process->start();
+$process->wait();
+```
+
 shared_memory.php
 ```php
 class Producer extends \Jenner\SimpleFork\Process{
