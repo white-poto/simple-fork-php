@@ -31,7 +31,7 @@ require path/to/SimpleFork/autoload.php
 ---------------------------
 + 提供进程池
 + 自动处理僵尸进程回收，支持无阻塞调用
-+ 提供共享内存、System V 消息队列、Semaphore锁，方便IPC通信（进程通信）
++ 提供共享内存、System V 消息队列、Semaphore锁，方便IPC通信（进程通信）；提供RedisCache、RedisQueue，可以用作分布式进程通信
 + 提供Process和Runnable两种方式实现进程
 + 可以实时获取到进程状态
 + shutdown所有进程或单独stop一个进程时，可以注册覆盖Execution::BEFORE_EXIT回调方法（on(Execution::BEFORE_EXIT, function(){})），返回true则退出，false继续运行（在某些场景，进程不能立即退出）
@@ -58,10 +58,10 @@ require path/to/SimpleFork/autoload.php
 
 TODO
 ---------------------------
-+ 接口升级
++ 接口升级 done
 + 丰富进程池功能，提供更多进程池
-+ 提供第三方进程通信机制（Redis等）
-+ 更多的测试及示例程序
++ 提供第三方进程通信机制（Redis等）done
++ 更多的测试及示例程序 done
 
 示例程序
 -------------------------
