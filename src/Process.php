@@ -106,7 +106,7 @@ class Process extends Execution
             $this->signal();
 
             if(array_key_exists(Execution::BEFORE_START, $this->callbacks)){
-                $result = call_user_func($this->callbacks, Execution::BEFORE_START);
+                $result = call_user_func($this->callbacks[Execution::BEFORE_START]);
                 if($result !== true){
                     exit(0);
                 }
