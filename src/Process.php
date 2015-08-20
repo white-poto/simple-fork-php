@@ -148,13 +148,12 @@ class Process extends Execution
     {
         pcntl_signal(SIGTERM, function () {
             if(!array_key_exists(Execution::BEFORE_EXIT, $this->callbacks)){
-                $this->wait();
-                return ;
+                exit(0);
             }
 
             $result = call_user_func($this->callbacks[Execution::BEFORE_EXIT]);
             if($result === true){
-                $this->wait();
+                exit(0);
             }
         });
     }
