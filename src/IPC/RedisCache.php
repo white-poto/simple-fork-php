@@ -12,8 +12,17 @@ namespace Jenner\SimpleFork\IPC;
 class RedisCache implements CacheInterface
 {
 
+    /**
+     * @var \Redis
+     */
     protected $redis;
 
+    /**
+     * @param string $host
+     * @param int $port
+     * @param int $database
+     * @param string $prefix
+     */
     public function __construct(
         $host = '127.0.0.1',
         $port = 6379,
