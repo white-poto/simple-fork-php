@@ -9,11 +9,11 @@
 namespace Jenner\SimpleFork;
 
 
-abstract class Runnable
+interface Runnable
 {
     /**
      * process entry
      * @return mixed
      */
-    abstract public function run();
+    public function run();
 }
