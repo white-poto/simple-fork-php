@@ -8,7 +8,6 @@
 
 namespace Jenner\SimpleFork\IPC;
 
-
 class RedisQueue implements QueueInterface
 {
     protected $redis;
