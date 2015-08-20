@@ -34,8 +34,14 @@ require path/to/SimpleFork/autoload.php
 + 提供共享内存、System V 消息队列、Semaphore锁，方便IPC通信（进程通信）
 + 提供Process和Runnable两种方式实现进程
 + 可以实时获取到进程状态
-+ shutdown所有进程或单独stop一个进程时，可以注册覆盖beforeExit()方法，返回true则退出，false继续运行（在某些场景，进程不能立即退出）
++ shutdown所有进程或单独stop一个进程时，可以注册覆盖Execution::BEFORE_EXIT回调方法（on(Execution::BEFORE_EXIT, function(){})），返回true则退出，false继续运行（在某些场景，进程不能立即退出）
 + 支持子进程运行时reload
+
+回调函数
+-------------------------------
+使用Process::on($event, $callback)方法注册  
++ Process::BEFORE_START 进程开始执行前调用，如果返回值不为true，则进程退出 
++ Process::BEFORE_EXIT 进程被动退出前（主进程调用了stop方法终止子进程）时调用，如果返回值不为true，子进程不会退出
 
 注意事项
 -----------------------

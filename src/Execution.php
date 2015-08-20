@@ -24,21 +24,6 @@ class Execution
     protected $cache;
 
     /**
-     * @var array
-     */
-    protected $callbacks = array();
-
-    /**
-     * event name of before process start
-     */
-    const BEFORE_START = "beforeStart";
-
-    /**
-     * event name of before process exit
-     */
-    const BEFORE_EXIT = "beforeExit";
-
-    /**
      * set cache instance
      * @param CacheInterface $cache
      */
@@ -54,20 +39,6 @@ class Execution
     public function setQueue(QueueInterface $queue)
     {
         $this->queue = $queue;
-    }
-
-    /**
-     * register callback functions
-     * @param $event
-     * @param $function
-     */
-    public function on($event, $function)
-    {
-        if(!is_callable($function)){
-            throw new \LogicException("the callback function is not callable");
-        }
-
-        $this->callbacks[$event] = $function;
     }
 
 }

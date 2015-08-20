@@ -38,6 +38,22 @@ class Process extends Execution
     protected $status = 0;
 
     /**
+     * @var array
+     */
+    protected $callbacks = array();
+
+    /**
+     * event name of before process start
+     */
+    const BEFORE_START = "beforeStart";
+
+    /**
+     * event name of before process exit
+     */
+    const BEFORE_EXIT = "beforeExit";
+
+
+    /**
      * @param $execution
      */
     public function __construct($execution = null)
@@ -105,8 +121,8 @@ class Process extends Execution
             $this->pid = getmypid();
             $this->signal();
 
-            if(array_key_exists(Execution::BEFORE_START, $this->callbacks)){
-                $result = call_user_func($this->callbacks[Execution::BEFORE_START]);
+            if(array_key_exists(self::BEFORE_START, $this->callbacks)){
+                $result = call_user_func($this->callbacks[self::BEFORE_START]);
                 if($result !== true){
                     exit(0);
                 }
@@ -147,11 +163,11 @@ class Process extends Execution
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if(!array_key_exists(Execution::BEFORE_EXIT, $this->callbacks)){
+            if(!array_key_exists(self::BEFORE_EXIT, $this->callbacks)){
                 exit(0);
             }
 
-            $result = call_user_func($this->callbacks[Execution::BEFORE_EXIT]);
+            $result = call_user_func($this->callbacks[self::BEFORE_EXIT]);
             if($result === true){
                 exit(0);
             }
@@ -201,5 +217,19 @@ class Process extends Execution
         }
 
         return $callback;
+    }
+
+    /**
+     * register callback functions
+     * @param $event
+     * @param $function
+     */
+    public function on($event, $function)
+    {
+        if(!is_callable($function)){
+            throw new \LogicException("the callback function is not callable");
+        }
+
+        $this->callbacks[$event] = $function;
     }
 }
