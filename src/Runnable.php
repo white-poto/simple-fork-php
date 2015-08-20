@@ -9,7 +9,7 @@
 namespace Jenner\SimpleFork;
 
 
-abstract class Runnable extends \Exception
+abstract class Runnable
 {
     /**
      * process entry

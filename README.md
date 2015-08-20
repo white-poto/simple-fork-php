@@ -1,6 +1,6 @@
 SimpleFork
 ===================
-基于PCNTL扩展的进程管理包，接口类似与Java的Thread和Runnable 
+基于PCNTL扩展的多进程控制框架，接口类似与Java的Thread和Runnable 
 
 为什么要写SimpleFork
 ------------------------

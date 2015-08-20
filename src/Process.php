@@ -6,11 +6,23 @@
  * Time: 15:25
  */
 
-
 namespace Jenner\SimpleFork;
 
-class Process extends Execution
+use Jenner\SimpleFork\IPC\CacheInterface;
+use Jenner\SimpleFork\IPC\QueueInterface;
+
+class Process
 {
+
+    /**
+     * @var CacheInterface
+     */
+    protected $queue;
+
+    /**
+     * @var QueueInterface
+     */
+    protected $cache;
 
     /**
      * @var Runnable
@@ -65,6 +77,24 @@ class Process extends Execution
         if (!is_null($execution) && is_callable($execution)) {
             $this->execution = $execution;
         }
+    }
+
+    /**
+     * set cache instance
+     * @param CacheInterface $cache
+     */
+    public function setCache(CacheInterface $cache)
+    {
+        $this->cache = $cache;
+    }
+
+    /**
+     * set message queue instance
+     * @param QueueInterface $queue
+     */
+    public function setQueue(QueueInterface $queue)
+    {
+        $this->queue = $queue;
     }
 
     /**
