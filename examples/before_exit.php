@@ -27,7 +27,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable
 }
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
-$process->on(\Jenner\SimpleFork\Execution::BEFORE_EXIT, function(){
+$process->on(\Jenner\SimpleFork\Process::BEFORE_EXIT, function(){
     return true;
 });
 

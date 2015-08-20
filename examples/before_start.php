@@ -27,7 +27,7 @@ class TestRunnable extends \Jenner\SimpleFork\Runnable
 }
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
-$process->on(\Jenner\SimpleFork\Execution::BEFORE_START, function(){
+$process->on(\Jenner\SimpleFork\Process::BEFORE_START, function(){
     echo "start" . PHP_EOL;
     return true;
 });
