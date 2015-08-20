@@ -9,21 +9,8 @@
 
 namespace Jenner\SimpleFork;
 
-
-use Jenner\SimpleFork\IPC\CacheInterface;
-use Jenner\SimpleFork\IPC\QueueInterface;
-
-class Process
+class Process extends Execution
 {
-    /**
-     * @var IPC\CacheInterface
-     */
-    protected $cache;
-
-    /**
-     * @var IPC\QueueInterface
-     */
-    protected $queue;
 
     /**
      * @var Runnable
@@ -31,9 +18,9 @@ class Process
     protected $runnable;
 
     /**
-     * @var
+     * @var callback function
      */
-    protected $callback;
+    protected $execution;
 
     /**
      * @var int
@@ -51,33 +38,17 @@ class Process
     protected $status = 0;
 
     /**
-     * @param $runnable
+     * @param $execution
      */
-    public function __construct($runnable = null)
+    public function __construct($execution = null)
     {
         $this->signal();
-        if (!is_null($runnable) && $runnable instanceof Runnable) {
-            $this->runnable = $runnable;
+        if (!is_null($execution) && $execution instanceof Runnable) {
+            $this->runnable = $execution;
         }
-        if (!is_null($runnable) && is_callable($runnable)) {
-            $this->callback = $runnable;
+        if (!is_null($execution) && is_callable($execution)) {
+            $this->execution = $execution;
         }
-    }
-
-    /**
-     * @param CacheInterface $cache
-     */
-    public function setCache(CacheInterface $cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * @param QueueInterface $queue
-     */
-    public function setQueue(QueueInterface $queue)
-    {
-        $this->queue = $queue;
     }
 
     /**
@@ -133,6 +104,14 @@ class Process
         } else {
             $this->pid = getmypid();
             $this->signal();
+
+            if(array_key_exists(Execution::BEFORE_START, $this->callbacks)){
+                $result = call_user_func($this->callbacks, Execution::BEFORE_START);
+                if($result !== true){
+                    exit(0);
+                }
+            }
+
             call_user_func($callback);
             exit(0);
         }
@@ -168,8 +147,14 @@ class Process
     public function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if ($this->beforeExit()) {
-                exit(0);
+            if(!array_key_exists(Execution::BEFORE_EXIT, $this->callbacks)){
+                $this->wait();
+                return ;
+            }
+
+            $result = call_user_func($this->callbacks[Execution::BEFORE_EXIT]);
+            if($result === true){
+                $this->wait();
             }
         });
     }
@@ -200,21 +185,6 @@ class Process
     {
     }
 
-    /**
-     * when the manager process call stop function.
-     * beforeExit() will web called before the sub process exit
-     * if return true, the sub process will exit.
-     * else it the sub process will keep running
-     * @return boolean
-     */
-    public function beforeExit()
-    {
-        if (is_object($this->runnable) && method_exists($this->runnable, 'beforeExit')) {
-            return call_user_func(array($this->runnable, 'beforeExit'));
-        }
-
-        return true;
-    }
 
     /**
      * 获取子进程执行入口
@@ -225,8 +195,8 @@ class Process
         $callback = null;
         if (is_object($this->runnable)) {
             $callback = array($this->runnable, 'run');
-        } elseif (is_callable($this->callback)) {
-            $callback = $this->callback;
+        } elseif (is_callable($this->execution)) {
+            $callback = $this->execution;
         } else {
             $callback = array($this, 'run');
         }
