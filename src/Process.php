@@ -31,6 +31,11 @@ class Process
     protected $runnable;
 
     /**
+     * @var
+     */
+    protected $callback;
+
+    /**
      * @var int
      */
     protected $pid = 0;
@@ -46,14 +51,17 @@ class Process
     protected $status = 0;
 
     /**
-     * @param Runnable $runnable
+     * @param $runnable
      */
-    public function __construct(Runnable $runnable = null)
+    public function __construct($runnable = null)
     {
-        if (!is_null($runnable)) {
+        $this->signal();
+        if (!is_null($runnable) && $runnable instanceof Runnable) {
             $this->runnable = $runnable;
         }
-        $this->signal();
+        if (!is_null($runnable) && is_callable($runnable)) {
+            $this->callback = $runnable;
+        }
     }
 
     /**
@@ -114,12 +122,7 @@ class Process
             throw new \LogicException("the process is already running");
         }
 
-        $callback = null;
-        if (is_object($this->runnable)) {
-            $callback = array($this->runnable, 'run');
-        } else {
-            $callback = array($this, 'run');
-        }
+        $callback = $this->getCallback();
 
         $pid = pcntl_fork();
         if ($pid < 0) {
@@ -211,5 +214,23 @@ class Process
         }
 
         return true;
+    }
+
+    /**
+     * 获取子进程执行入口
+     * @return array|callable|null
+     */
+    protected function getCallback()
+    {
+        $callback = null;
+        if (is_object($this->runnable)) {
+            $callback = array($this->runnable, 'run');
+        } elseif (is_callable($this->callback)) {
+            $callback = $this->callback;
+        } else {
+            $callback = array($this, 'run');
+        }
+
+        return $callback;
     }
 }
