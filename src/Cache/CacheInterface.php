@@ -8,7 +8,6 @@
 
 namespace Jenner\SimpleFork\Cache;
 
-
 interface CacheInterface
 {
 
