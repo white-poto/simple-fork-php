@@ -9,7 +9,7 @@
 namespace Jenner\SimpleFork\Lock;
 
 
-class Semaphore
+class Semaphore implements LockInterface
 {
     /**
      * get a lock instance

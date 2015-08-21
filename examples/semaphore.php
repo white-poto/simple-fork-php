@@ -12,7 +12,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 {
 
     /**
-     * @var \Jenner\SimpleFork\Lock\Semaphore
+     * @var \Jenner\SimpleFork\Lock\LockInterface
      */
     protected $sem;
 
