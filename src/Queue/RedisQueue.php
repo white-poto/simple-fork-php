@@ -6,7 +6,7 @@
  * Time: 15:03
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Queue;
 
 class RedisQueue implements QueueInterface
 {

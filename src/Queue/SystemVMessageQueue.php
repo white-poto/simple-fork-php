@@ -6,7 +6,7 @@
  * Time: 15:15
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Queue;
 
 
 class SystemVMessageQueue implements QueueInterface

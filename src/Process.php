@@ -8,8 +8,8 @@
 
 namespace Jenner\SimpleFork;
 
-use Jenner\SimpleFork\IPC\CacheInterface;
-use Jenner\SimpleFork\IPC\QueueInterface;
+use Jenner\SimpleFork\Cache\CacheInterface;
+use Jenner\SimpleFork\Queue\QueueInterface;
 
 class Process
 {

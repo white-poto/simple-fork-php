@@ -6,7 +6,7 @@
  * Time: 15:00
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Cache;
 
 
 class SharedMemory implements CacheInterface

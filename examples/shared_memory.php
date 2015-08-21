@@ -31,7 +31,7 @@ class Worker extends \Jenner\SimpleFork\Process
     }
 }
 
-$memory = new \Jenner\SimpleFork\IPC\SharedMemory();
+$memory = new \Jenner\SimpleFork\Cache\SharedMemory();
 $producer = new Producer();
 $producer->setCache($memory);
 

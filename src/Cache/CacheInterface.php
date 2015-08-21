@@ -6,7 +6,7 @@
  * Time: 14:59
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Cache;
 
 
 interface CacheInterface

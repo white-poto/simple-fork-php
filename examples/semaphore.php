@@ -8,17 +8,17 @@
 
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class TestRunnable extends \Jenner\SimpleFork\Runnable
+class TestRunnable implements \Jenner\SimpleFork\Runnable
 {
 
     /**
-     * @var \Jenner\SimpleFork\IPC\Semaphore
+     * @var \Jenner\SimpleFork\Lock\Semaphore
      */
     protected $sem;
 
     public function __construct()
     {
-        $this->sem = \Jenner\SimpleFork\IPC\Semaphore::create("test");
+        $this->sem = \Jenner\SimpleFork\Lock\Semaphore::create("test");
     }
 
     /**

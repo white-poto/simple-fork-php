@@ -6,7 +6,7 @@
  * Time: 20:52
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Lock;
 
 
 class Semaphore

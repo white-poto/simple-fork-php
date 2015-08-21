@@ -9,7 +9,7 @@
 declare(ticks = 1);
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class TestRunnable extends \Jenner\SimpleFork\Runnable
+class TestRunnable implements \Jenner\SimpleFork\Runnable
 {
 
     /**

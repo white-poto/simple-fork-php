@@ -32,7 +32,7 @@ class Worker extends \Jenner\SimpleFork\Process
     }
 }
 
-$queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue();
+$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
 $producer = new Producer();
 $producer->setQueue($queue);
 

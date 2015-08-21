@@ -6,7 +6,7 @@
  * Time: 15:14
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Cache;
 
 
 class RedisCache implements CacheInterface

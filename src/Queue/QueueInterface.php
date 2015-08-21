@@ -6,7 +6,7 @@
  * Time: 15:11
  */
 
-namespace Jenner\SimpleFork\IPC;
+namespace Jenner\SimpleFork\Queue;
 
 interface QueueInterface
 {
