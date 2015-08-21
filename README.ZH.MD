@@ -1,0 +1,134 @@
+SimpleFork
+===================
+simple fork framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
+
+Why SimpleFork
+------------------------
+Multi-Process program is hard for freshman. You must consider zombie process, interprocess communication and so on. Especially handle the process signal.
+SimpleFork framework provide several interfaces which like Java and solutions in process collect, sync and IPC. You do not need to consider that how to control multi-process.
+
+Require
+---------------------
+```bash
+composer require jenner/simple_fork
+```
+```php
+require path/to/SimpleFork/autoload.php
+```
+
+Dependencies
+----------------------
+must  
++ ext-pcntl 进程控制  
+
+optional
++ ext-sysvmsg 消息队列
++ ext-sysvsem 同步互斥锁
++ ext-sysvshm 共享内存
+
+特性
+---------------------------
++ 提供进程池
++ 自动处理僵尸进程回收，支持无阻塞调用
++ 提供共享内存、System V 消息队列、Semaphore锁，方便IPC通信（进程通信）；提供RedisCache、RedisQueue，可以用作分布式进程通信
++ 提供Process和Runnable两种方式实现进程
++ 可以实时获取到进程状态
++ shutdown所有进程或单独stop一个进程时，可以注册覆盖Execution::BEFORE_EXIT回调方法（on(Execution::BEFORE_EXIT, function(){})），返回true则退出，false继续运行（在某些场景，进程不能立即退出）
++ 支持子进程运行时reload
+
+回调函数
+-------------------------------
+使用Process::on($event, $callback)方法注册  
++ Process::BEFORE_START 进程开始执行前调用，如果返回值不为true，则进程退出 
++ Process::BEFORE_EXIT 进程被动退出前（主进程调用了stop方法终止子进程）时调用，如果返回值不为true，子进程不会退出
+
+注意事项
+-----------------------
++ System V 消息队列由于在程序退出时可能存在尚未处理完的数据，所以不会销毁。如果需要销毁，请调用$queue->remove()方法删除队列
++ 共享内存会在所有进程退出后删除
++ Semaphore对象会在对象回收时进行销毁
++ 进程池start()后，需要调用wait()进行僵尸进程回收，可以无阻塞调用
++ 获取进程状态(调用isAlive()方法)前，最好调用一个无阻塞的wait(false)进行一次回收，由于进程运行状态的判断不是原子操作，所以isAlive()方法不保证与实际状态完全一致
++ 如果你不清楚在什么情况下需要在程序的最开始加入declare(ticks=1);，那么最好默认第一行都加入这段声明。
+
+如何使用declare(ticks=1);
+--------------------------
++ declare(ticks=1); 这段声明用于进程信号处理。如果注册了信号处理器，程序会没执行一行代码后自动检查是否有尚未处理的信号。[http://php.net/manual/zh/control-structures.declare.php](http://php.net/manual/zh/control-structures.declare.php 官方文档)
+
+TODO
+---------------------------
++ 接口升级 done
++ 丰富进程池功能，提供更多进程池
++ 提供第三方进程通信机制（Redis等）done
++ 更多的测试及示例程序 done
+
+示例程序
+-------------------------
+更多示例程序见exmples目录  
+simple.php  
+```php
+class TestRunnable extends \Jenner\SimpleFork\Runnable{
+
+    /**
+     * 进程执行入口
+     * @return mixed
+     */
+    public function run()
+    {
+        echo "I am a sub process" . PHP_EOL;
+    }
+}
+
+$process = new \Jenner\SimpleFork\Process(new TestRunnable());
+$process->start();
+```
+
+callback.php  
+```php
+$process = new \Jenner\SimpleFork\Process(function(){
+    for($i=0; $i<3; $i++){
+        echo $i . PHP_EOL;
+        sleep(1);
+    }
+});
+
+$process->start();
+$process->wait();
+```
+
+shared_memory.php
+```php
+class Producer extends \Jenner\SimpleFork\Process{
+    public function run(){
+        for($i = 0; $i<10; $i++){
+            $this->cache->set($i, $i);
+            echo "set {$i} : {$i}" . PHH_EOL;
+        }
+    }
+}
+
+class Worker extends \Jenner\SimpleFork\Process{
+    public function run(){
+        sleep(5);
+        for($i=0; $i<10; $i++){
+            echo "get {$i} : " . $this->cache->get($i) . PHP_EOL;
+        }
+    }
+}
+
+$memory = new \Jenner\SimpleFork\IPC\SharedMemory();
+$producer = new Producer();
+$producer->setCache($memory);
+
+$worker = new Worker();
+$worker->setCache($memory);
+
+$pool = new \Jenner\SimpleFork\Pool();
+$pool->submit($producer);
+$pool->submit($worker);
+$pool->start();
+$pool->wait();
+```
+
+
+
