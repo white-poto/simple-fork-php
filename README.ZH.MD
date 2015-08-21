@@ -1,5 +1,7 @@
 SimpleFork
 ===================
+[英文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.MD 英文README.MD)  
+----------------------
 基于PCNTL扩展的多进程控制框架，接口类似与Java的Thread和Runnable 
 
 为什么要写SimpleFork
