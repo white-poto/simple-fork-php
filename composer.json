@@ -19,10 +19,7 @@
   "type": "package",
   "require": {
     "php": ">=5.3.0"
-  },
-  "require-dev": {
-    "phpdocumentor/phpdocumentor": "v2.8.5"
-  },
+  }
   "autoload": {
     "psr-4": {
       "Jenner\\SimpleFork\\": "./src"
