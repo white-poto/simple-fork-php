@@ -65,7 +65,7 @@ TODO
 
 示例程序
 -------------------------
-更多示例程序见exmples目录  
+更多示例程序见[examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples)目录  
 simple.php  
 ```php
 class TestRunnable extends \Jenner\SimpleFork\Runnable{

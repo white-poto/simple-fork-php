@@ -47,7 +47,7 @@ use Process::on($event, $callback) method to register callback functions
 
 Examples
 -------------------------
-more examples in [https://github.com/huyanping/simple-fork-php/tree/master/examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples) dictionary  
+more examples in [examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples) dictionary  
 simple.php  
 ```php
 class TestRunnable extends \Jenner\SimpleFork\Runnable{
