@@ -1,5 +1,6 @@
 SimpleFork
 ===================
+[中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
 simple fork framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
 
 Why SimpleFork
