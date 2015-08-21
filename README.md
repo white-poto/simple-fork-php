@@ -1,6 +1,5 @@
 SimpleFork
 ===================
-中文README.MD
 simple fork framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
 
 Why SimpleFork
