@@ -21,7 +21,7 @@ class Producer extends \Jenner\SimpleFork\Process
     }
 }
 
-$queue = new \Jenner\SimpleFork\IPC\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
+$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
 $producer = new Producer();
 $producer->setQueue($queue);
 $producer->start();

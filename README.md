@@ -50,7 +50,7 @@ Examples
 more examples in [examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples) dictionary  
 simple.php  
 ```php
-class TestRunnable extends \Jenner\SimpleFork\Runnable{
+class TestRunnable implements \Jenner\SimpleFork\Runnable{
 
     /**
      * 进程执行入口
@@ -99,7 +99,7 @@ class Worker extends \Jenner\SimpleFork\Process{
     }
 }
 
-$memory = new \Jenner\SimpleFork\IPC\SharedMemory();
+$memory = new \Jenner\SimpleFork\Cache\SharedMemory();
 $producer = new Producer();
 $producer->setCache($memory);
 
