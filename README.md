@@ -39,7 +39,7 @@ Property
 + You can register Process::BEFORE_EXIT callback functions by Process::on(). If the callback function return true, the process will exit, else it will continue to run.
 + You can reload the processes by reload() method.
 
-»Øµ÷º¯Êý
+Callback functions
 -------------------------------
 use Process::on($event, $callback) method to register callback functions  
 + Process::BEFORE_START It will be called when the process start. If it return false, the process will not start and exit with status 0.
