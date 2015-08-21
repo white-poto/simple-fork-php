@@ -5,7 +5,7 @@ simple fork framework based on PCNTL, the interfaces are like Thread and Runnabl
 
 Why SimpleFork
 ------------------------
-Multi-Process program is hard for freshman. You must consider recover zombie process, interprocess communication and so on. Especially handle the process signal.
+Writing Multi-Process program is hard for freshman. You must consider recover zombie process, interprocess communication and so on. Especially handle the process signal.
 SimpleFork framework provide several interfaces which like Java and solutions in process collect, sync and IPC. You do not need to consider that how to control multi-process.
 
 Require
