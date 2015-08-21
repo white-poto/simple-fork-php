@@ -1,6 +1,6 @@
 SimpleFork
 ===================
-中文README.MD
+涓枃README.MD
 simple fork framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
 
 Why SimpleFork
@@ -53,7 +53,7 @@ simple.php
 class TestRunnable extends \Jenner\SimpleFork\Runnable{
 
     /**
-     * 进程执行入口
+     * 杩涚▼鎵ц鍏ュ彛
      * @return mixed
      */
     public function run()
