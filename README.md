@@ -53,7 +53,7 @@ simple.php
 class TestRunnable implements \Jenner\SimpleFork\Runnable{
 
     /**
-     * 进程执行入口
+     * Entrance
      * @return mixed
      */
     public function run()
