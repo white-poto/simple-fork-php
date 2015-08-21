@@ -66,7 +66,7 @@ class Process
 
 
     /**
-     * @param $execution
+     * @param string $execution it can be a Runnable object, callback function or null
      */
     public function __construct($execution = null)
     {
