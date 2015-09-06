@@ -27,6 +27,7 @@ require path/to/SimpleFork/autoload.php
 + ext-sysvmsg 消息队列
 + ext-sysvsem 同步互斥锁
 + ext-sysvshm 共享内存
++ ext-redis redis缓存及redis队列
 
 特性
 ---------------------------
