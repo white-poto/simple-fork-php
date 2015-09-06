@@ -26,6 +26,7 @@ optional
 + ext-sysvmsg message queue
 + ext-sysvsem semaphore
 + ext-sysvshm shared memory
++ ext-redis redis cache and redis message queue
 
 Property
 ---------------------------
