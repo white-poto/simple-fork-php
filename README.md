@@ -5,7 +5,7 @@ simple fork framework based on PCNTL, the interfaces are like Thread and Runnabl
 
 Why SimpleFork
 ------------------------
-Writing Multi-Process program is hard for freshman. You must consider recover zombie process, interprocess communication and so on. Especially handle the process signal.
+Writing Multi-Process program is hard for freshman. You must consider that how to recover zombie process, interprocess communication and so on. Especially handle the process signal.
 SimpleFork framework provide several interfaces which like Java and solutions in process collect, sync and IPC. You do not need to consider that how to control multi-process.
 
 Require
@@ -31,13 +31,14 @@ optional
 Property
 ---------------------------
 + Process Pool
-+ Auto recover zombie process
++ Recover zombie process automatically
 + shared memory, system v message queue, semaphore lock. redis cache, redis queue
-+ Two way to make Process: extends Process or implements Runnable
++ Two ways to make Process: extends Process or implements Runnable
 + You can get the status of sub process
 + You can stop any process if you want, or just shutdown all process.
-+ You can register Process::BEFORE_EXIT callback functions by Process::on(). If the callback function return true, the process will exit, else it will continue to run.
-+ You can reload the processes by reload() method.
++ You can register Process::BEFORE_EXIT and Process::BEFORE_START callback functions by Process::on(). 
+If the callback function return true, the process will exit, else it will continue to run.
++ You can reload the processes by reload() method, then the processes will exit and start new process instead.
 
 Callback functions
 -------------------------------
