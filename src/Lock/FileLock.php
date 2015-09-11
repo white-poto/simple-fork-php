@@ -40,7 +40,7 @@ class FileLock implements LockInterface
     public function acquire()
     {
         $locked = flock($this->fp, LOCK_EX);
-        if(!$locked){
+        if (!$locked) {
             throw new \RuntimeException("get lock failed");
         }
         $this->locked = true;
@@ -55,7 +55,7 @@ class FileLock implements LockInterface
     public function release()
     {
         $unlock = flock($this->fp, LOCK_UN);
-        if(!$unlock){
+        if (!$unlock) {
             throw new \RuntimeException("release lock failed");
         }
         $this->locked = false;
@@ -63,8 +63,9 @@ class FileLock implements LockInterface
         return true;
     }
 
-    public function __destory(){
-        if($this->locked){
+    public function __destory()
+    {
+        if ($this->locked) {
             $this->release();
         }
     }

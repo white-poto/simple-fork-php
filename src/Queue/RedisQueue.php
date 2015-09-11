@@ -30,21 +30,21 @@ class RedisQueue implements QueueInterface
     {
         $this->redis = new \Redis();
         $connection_result = $this->redis->connect($host, $port);
-        if(!$connection_result){
+        if (!$connection_result) {
             throw new \RuntimeException("can not connect to the redis server");
         }
 
-        if($database != 0){
+        if ($database != 0) {
             $select_result = $this->redis->select($database);
-            if(!$select_result){
+            if (!$select_result) {
                 throw new \RuntimeException("can not select the database");
             }
         }
 
-        if(empty($prefix)) return;
+        if (empty($prefix)) return;
 
         $set_option_result = $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
-        if(!$set_option_result){
+        if (!$set_option_result) {
             throw new \RuntimeException("can not set the \\Redis::OPT_PREFIX Option");
         }
     }
