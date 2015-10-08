@@ -249,9 +249,9 @@ class Process
             $message = "the process pid is null, so maybe the process is not started";
             throw new \RuntimeException($message);
         }
-
+        var_dump($block);
         if($block){
-            var_dump($block);
+
             $res = pcntl_waitpid($this->pid, $status);
         }else{
             $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
