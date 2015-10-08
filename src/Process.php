@@ -60,6 +60,17 @@ class Process
     protected $stop_signal;
 
     /**
+     * @var int error code
+     */
+    protected $errno;
+
+    /**
+     * @var string error message
+     */
+    protected $errmsg;
+
+
+    /**
      * @var array
      */
     protected $callbacks = array();
@@ -126,12 +137,28 @@ class Process
     }
 
     /**
-     * @return int
+     * @return int get process exit code
      */
     public function exitCode()
     {
         $this->updateStatus();
         return $this->exit_code;
+    }
+
+    /**
+     * @return int get pcntl errno
+     */
+    public function errno()
+    {
+        return $this->errno();
+    }
+
+    /**
+     * @return string get pcntl errmsg
+     */
+    public function errmsg()
+    {
+        return $this->errmsg;
     }
 
     /**
@@ -178,8 +205,9 @@ class Process
 
     /**
      * kill self
+     * @param bool|true $block
      */
-    public function stop()
+    public function stop($block = true)
     {
         if (empty($this->pid)) {
             $message = "the process pid is null, so maybe the process is not started";
@@ -192,9 +220,7 @@ class Process
             throw new \RuntimeException("kill son process failed");
         }
 
-        if (pcntl_waitpid($this->pid, $this->exit_code) == -1) {
-            throw new \RuntimeException("wait son process failed");
-        }
+        $this->updateStatus(true);
     }
 
     /**
@@ -216,15 +242,20 @@ class Process
 
     /**
      * update the process status
+     * @param bool $block
      */
-    public function updateStatus()
+    public function updateStatus($block = false)
     {
         if (empty($this->pid)) {
             $message = "the process pid is null, so maybe the process is not started";
             throw new \RuntimeException($message);
         }
 
-        $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
+        if($block){
+            $res = pcntl_waitpid($this->getPid(), $status);
+        }else{
+            $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
+        }
 
         if ($res === -1) {
             $message = "pcntl_waitpid failed. the process maybe available";
@@ -232,14 +263,21 @@ class Process
         } elseif ($res === 0) {
             $this->running = true;
         } else {
-            $this->running = false;
-            $this->exit_code = $status;
+
             if (pcntl_wifsignaled($status)) {
                 $this->term_signal = pcntl_wtermsig($status);
             }
             if (pcntl_wifstopped($status)) {
                 $this->stop_signal = pcntl_wstopsig($status);
             }
+            if (pcntl_wifexited($status)) {
+                $this->exit_code = pcntl_wexitstatus($status);
+            } else {
+                $this->errno = pcntl_get_last_error();
+                $this->errmsg = pcntl_strerror($this->errno);
+            }
+
+            $this->running = false;
         }
     }
 
@@ -268,7 +306,7 @@ class Process
     }
 
     /**
-     * 获取子进程执行入口
+     * get sub process callback
      * @return array|callable|null
      */
     protected function getCallback()
