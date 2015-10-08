@@ -253,7 +253,7 @@ class Process
         if($block){
             $res = pcntl_waitpid($this->pid, $status);
         }else{
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG);
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
         }
 
         if ($res === -1) {
