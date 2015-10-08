@@ -15,7 +15,7 @@ class Producer extends \Jenner\SimpleFork\Process
     {
         for ($i = 0; $i < 10; $i++) {
             $this->cache->set($i, $i);
-            echo "set {$i} : {$i}" . PHH_EOL;
+            echo "set {$i} : {$i}" . PHP_EOL;
         }
     }
 }
