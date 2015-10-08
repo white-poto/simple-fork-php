@@ -103,7 +103,11 @@ class SystemVMessageQueue implements QueueInterface
     public function getIpcKey($ipc_filename, $msg_type)
     {
         if (!file_exists($ipc_filename)) {
-            throw new \RuntimeException("ipc_file is not exists");
+            $create_file = touch($ipc_filename);
+            if($create_file === false){
+                $message = "ipc_file is not exists and create failed";
+                throw new \RuntimeException($message);
+            }
         }
 
         $key_t = \ftok($ipc_filename, $msg_type);
