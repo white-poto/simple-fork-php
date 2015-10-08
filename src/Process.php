@@ -166,7 +166,7 @@ class Process
      */
     public function start()
     {
-        if (!is_null($this->pid) && $this->isRunning()) {
+        if (!empty($this->pid) && $this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
 
