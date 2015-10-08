@@ -42,7 +42,7 @@ class Process
     /**
      * @var bool
      */
-    protected $running = false;
+    protected $running = null;
 
     /**
      * @var int process exit status
