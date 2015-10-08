@@ -198,7 +198,7 @@ class Process
      */
     public function reload()
     {
-        $this->stop();
+        $this->stop(true);
         $this->start();
     }
 
@@ -219,7 +219,7 @@ class Process
             throw new \RuntimeException("kill son process failed");
         }
 
-        $this->updateStatus(true);
+        $this->updateStatus($block);
     }
 
     /**
