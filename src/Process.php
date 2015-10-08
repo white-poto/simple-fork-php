@@ -166,7 +166,7 @@ class Process
      */
     public function start()
     {
-        if ($this->isRunning()) {
+        if (!is_null($this->pid) && $this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
 
@@ -246,6 +246,11 @@ class Process
      */
     public function updateStatus($block = false)
     {
+        if (empty($this->pid)) {
+            $message = "the process pid is null, so maybe the process is not started";
+            throw new \RuntimeException($message);
+        }
+
         if($block){
             $res = pcntl_waitpid($this->pid, $status);
         }else{
