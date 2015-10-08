@@ -132,9 +132,6 @@ class Process
      */
     public function isRunning()
     {
-        if($this->running === false){
-            return false;
-        }
         $this->updateStatus();
         return $this->running;
     }
@@ -251,6 +248,10 @@ class Process
         if (empty($this->pid)) {
             $message = "the process pid is null, so maybe the process is not started";
             throw new \RuntimeException($message);
+        }
+
+        if($this->running === false){
+            return;
         }
 
         if($block){
