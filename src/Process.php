@@ -202,7 +202,7 @@ class Process
      */
     public function reload()
     {
-        $this->stop(true);
+        $this->shutdown(true);
         $this->start();
     }
 
@@ -210,7 +210,7 @@ class Process
      * kill self
      * @param bool|true $block
      */
-    public function stop($block = true)
+    public function shutdown($block = true)
     {
         if (empty($this->pid)) {
             $message = "the process pid is null, so maybe the process is not started";
@@ -261,7 +261,7 @@ class Process
         if($block){
             $res = pcntl_waitpid($this->pid, $status);
         }else{
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG);
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
         }
 
         if ($res === -1) {

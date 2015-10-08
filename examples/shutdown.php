@@ -28,4 +28,4 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
 $process->start();
 sleep(5);
-$process->stop();
+$process->shutdown();

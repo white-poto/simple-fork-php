@@ -34,4 +34,4 @@ $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function () {
 
 $process->start();
 sleep(5);
-$process->stop();
+$process->shutdown();

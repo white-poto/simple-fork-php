@@ -44,7 +44,7 @@ class Pool
     {
         foreach ($this->processes as $process) {
             if ($process->isRunning()) {
-                $process->stop();
+                $process->shutdown();
             }
         }
     }
