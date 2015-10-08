@@ -43,7 +43,7 @@ class Pool
     public function shutdown()
     {
         foreach ($this->processes as $process) {
-            if ($process->isAlive()) {
+            if ($process->isRunning()) {
                 $process->stop();
             }
         }
@@ -57,7 +57,7 @@ class Pool
     {
         $count = 0;
         foreach ($this->processes as $process) {
-            if ($process->isAlive()) {
+            if ($process->isRunning()) {
                 $count++;
             }
         }
@@ -75,9 +75,8 @@ class Pool
     {
         do {
             foreach ($this->processes as $process) {
-                $res = pcntl_waitpid($process->getPid(), $status, WNOHANG);
-                if ($res !== 0) {
-                    $process->setStop();
+                if($process->isRunning()){
+                    $process->updateStatus();
                 }
             }
             usleep($sleep);
@@ -106,7 +105,7 @@ class Pool
     public function reload()
     {
         foreach ($this->processes as $process) {
-            if ($process->isAlive()) {
+            if ($process->isRunning()) {
                 $process->reload();
             }
         }

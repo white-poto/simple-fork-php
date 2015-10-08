@@ -42,12 +42,22 @@ class Process
     /**
      * @var bool
      */
-    protected $alive = false;
+    protected $running = false;
 
     /**
-     * @var int
+     * @var int process exit status
      */
-    protected $status = 0;
+    protected $exit_code = 0;
+
+    /**
+     * @var int the signal which made the process terminate
+     */
+    protected $term_signal;
+
+    /**
+     * @var int the signal which made the process stop
+     */
+    protected $stop_signal;
 
     /**
      * @var array
@@ -109,17 +119,10 @@ class Process
     /**
      * @return bool
      */
-    public function isAlive()
+    public function isRunning()
     {
-        return $this->alive;
-    }
-
-    /**
-     * set the process stopped flag
-     */
-    public function setStop()
-    {
-        $this->alive = false;
+        $this->updateStatus();
+        return $this->running;
     }
 
     /**
@@ -127,7 +130,8 @@ class Process
      */
     public function exitCode()
     {
-        return $this->status;
+        $this->updateStatus();
+        return $this->exit_code;
     }
 
     /**
@@ -135,7 +139,7 @@ class Process
      */
     public function start()
     {
-        if ($this->isAlive()) {
+        if ($this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
 
@@ -177,14 +181,20 @@ class Process
      */
     public function stop()
     {
+        if (empty($this->pid)) {
+            $message = "the process pid is null, so maybe the process is not started";
+            throw new \LogicException($message);
+        }
+        if (!$this->isRunning()) {
+            throw new \LogicException("the process is not running");
+        }
         if (!posix_kill($this->pid, SIGTERM)) {
             throw new \RuntimeException("kill son process failed");
         }
 
-        if (pcntl_waitpid($this->pid, $this->status) == -1) {
+        if (pcntl_waitpid($this->pid, $this->exit_code) == -1) {
             throw new \RuntimeException("wait son process failed");
         }
-        $this->setStop();
     }
 
     /**
@@ -205,15 +215,42 @@ class Process
     }
 
     /**
+     * update the process status
+     */
+    public function updateStatus()
+    {
+        if (empty($this->pid)) {
+            $message = "the process pid is null, so maybe the process is not started";
+            throw new \RuntimeException($message);
+        }
+
+        $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
+
+        if ($res === -1) {
+            $message = "pcntl_waitpid failed. the process maybe available";
+            throw new \RuntimeException($message);
+        } elseif ($res === 0) {
+            $this->running = true;
+        } else {
+            $this->running = false;
+            $this->exit_code = $status;
+            if (pcntl_wifsignaled($status)) {
+                $this->term_signal = pcntl_wtermsig($status);
+            }
+            if (pcntl_wifstopped($status)) {
+                $this->stop_signal = pcntl_wstopsig($status);
+            }
+        }
+    }
+
+    /**
      * @param bool|true $block
      * @param int $sleep
      */
     public function wait($block = true, $sleep = 100)
     {
         while (true) {
-            $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
-            if ($res !== 0) {
-                $this->setStop();
+            if ($this->isRunning() === false) {
                 return;
             }
             if (!$block) {
