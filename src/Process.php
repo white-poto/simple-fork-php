@@ -141,7 +141,6 @@ class Process
      */
     public function exitCode()
     {
-        $this->updateStatus();
         return $this->exit_code;
     }
 
