@@ -166,8 +166,9 @@ class Process
     public function start()
     {
         if($this->running === false){
-            throw new \LogicException("the process can not restart");
+            throw new \LogicException("the process can not start more than twice");
         }
+
         if (!empty($this->pid) && $this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
@@ -262,7 +263,6 @@ class Process
         }else{
             $res = pcntl_waitpid($this->pid, $status, WNOHANG);
         }
-        var_dump($res);
 
         if ($res === -1) {
             $message = "pcntl_waitpid failed. the process maybe available";
