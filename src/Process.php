@@ -251,6 +251,7 @@ class Process
         }
 
         if($block){
+            var_dump($block);
             $res = pcntl_waitpid($this->pid, $status);
         }else{
             $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
