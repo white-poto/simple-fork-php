@@ -255,29 +255,29 @@ class Process
         }else{
             $res = pcntl_waitpid($this->pid, $status, WNOHANG);
         }
-
-        if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
-        } elseif ($res === 0) {
-            $this->running = true;
-        } else {
-
-            if (pcntl_wifsignaled($status)) {
-                $this->term_signal = pcntl_wtermsig($status);
-            }
-            if (pcntl_wifstopped($status)) {
-                $this->stop_signal = pcntl_wstopsig($status);
-            }
-            if (pcntl_wifexited($status)) {
-                $this->exit_code = pcntl_wexitstatus($status);
-            } else {
-                $this->errno = pcntl_get_last_error();
-                $this->errmsg = pcntl_strerror($this->errno);
-            }
-
-            $this->running = false;
-        }
+//
+//        if ($res === -1) {
+//            $message = "pcntl_waitpid failed. the process maybe available";
+//            throw new \RuntimeException($message);
+//        } elseif ($res === 0) {
+//            $this->running = true;
+//        } else {
+//
+//            if (pcntl_wifsignaled($status)) {
+//                $this->term_signal = pcntl_wtermsig($status);
+//            }
+//            if (pcntl_wifstopped($status)) {
+//                $this->stop_signal = pcntl_wstopsig($status);
+//            }
+//            if (pcntl_wifexited($status)) {
+//                $this->exit_code = pcntl_wexitstatus($status);
+//            } else {
+//                $this->errno = pcntl_get_last_error();
+//                $this->errmsg = pcntl_strerror($this->errno);
+//            }
+//
+//            $this->running = false;
+//        }
     }
 
     /**
