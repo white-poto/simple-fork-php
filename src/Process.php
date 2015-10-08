@@ -165,6 +165,9 @@ class Process
      */
     public function start()
     {
+        if($this->running === false){
+            throw new \LogicException("the process can not restart");
+        }
         if (!empty($this->pid) && $this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
