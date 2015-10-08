@@ -246,15 +246,10 @@ class Process
      */
     public function updateStatus($block = false)
     {
-        if (empty($this->pid)) {
-            $message = "the process pid is null, so maybe the process is not started";
-            throw new \RuntimeException($message);
-        }
-
         if($block){
-            $res = pcntl_waitpid($this->getPid(), $status);
+            $res = pcntl_waitpid($this->pid, $status);
         }else{
-            $res = pcntl_waitpid($this->getPid(), $status, WNOHANG);
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG);
         }
 
         if ($res === -1) {
