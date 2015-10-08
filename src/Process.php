@@ -249,12 +249,11 @@ class Process
             $message = "the process pid is null, so maybe the process is not started";
             throw new \RuntimeException($message);
         }
-        var_dump($block);
-        if($block){
 
+        if($block){
             $res = pcntl_waitpid($this->pid, $status);
         }else{
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG);
         }
 
         if ($res === -1) {
@@ -263,7 +262,6 @@ class Process
         } elseif ($res === 0) {
             $this->running = true;
         } else {
-
             if (pcntl_wifsignaled($status)) {
                 $this->term_signal = pcntl_wtermsig($status);
             }
