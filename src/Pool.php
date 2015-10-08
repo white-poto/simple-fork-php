@@ -80,6 +80,7 @@ class Pool
                 }
             }
             usleep($sleep);
+            var_dump($this->aliveCount());
         } while ($block && $this->aliveCount() > 0);
     }
 
