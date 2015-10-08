@@ -259,6 +259,7 @@ class Process
         }else{
             $res = pcntl_waitpid($this->pid, $status, WNOHANG);
         }
+        var_dump($res);
 
         if ($res === -1) {
             $message = "pcntl_waitpid failed. the process maybe available";
