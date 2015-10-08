@@ -75,8 +75,8 @@ class Pool
     {
         do {
             foreach ($this->processes as $process) {
-                if($process->isRunning()){
-                    $process->updateStatus();
+                if(!$process->isRunning()){
+                    continue;
                 }
             }
             usleep($sleep);
