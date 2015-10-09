@@ -104,7 +104,7 @@ class SystemVMessageQueue implements QueueInterface
     {
         if (!file_exists($ipc_filename)) {
             $create_file = touch($ipc_filename);
-            if($create_file === false){
+            if ($create_file === false) {
                 $message = "ipc_file is not exists and create failed";
                 throw new \RuntimeException($message);
             }

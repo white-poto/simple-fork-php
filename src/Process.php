@@ -165,7 +165,7 @@ class Process
      */
     public function start()
     {
-        if($this->running === false){
+        if ($this->running === false) {
             throw new \LogicException("the process can not start more than twice");
         }
 
@@ -254,14 +254,14 @@ class Process
             throw new \RuntimeException($message);
         }
 
-        if($this->running === false){
+        if ($this->running === false) {
             return;
         }
 
-        if($block){
+        if ($block) {
             $res = pcntl_waitpid($this->pid, $status);
-        }else{
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG|WUNTRACED);
+        } else {
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
         }
 
         if ($res === -1) {

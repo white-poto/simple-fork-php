@@ -75,7 +75,7 @@ class Pool
     {
         do {
             foreach ($this->processes as $process) {
-                if(!$process->isRunning()){
+                if (!$process->isRunning()) {
                     continue;
                 }
             }
