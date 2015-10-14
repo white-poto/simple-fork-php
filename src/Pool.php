@@ -39,12 +39,13 @@ class Pool
 
     /**
      * shutdown all process
+     * @param int $signal
      */
-    public function shutdown()
+    public function shutdown($signal = SIGTERM)
     {
         foreach ($this->processes as $process) {
             if ($process->isRunning()) {
-                $process->shutdown();
+                $process->shutdown(true, $signal);
             }
         }
     }

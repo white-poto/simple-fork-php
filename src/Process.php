@@ -209,8 +209,9 @@ class Process
     /**
      * kill self
      * @param bool|true $block
+     * @param int $signal
      */
-    public function shutdown($block = true)
+    public function shutdown($block = true, $signal = SIGTERM)
     {
         if (empty($this->pid)) {
             $message = "the process pid is null, so maybe the process is not started";
@@ -219,7 +220,7 @@ class Process
         if (!$this->isRunning()) {
             throw new \LogicException("the process is not running");
         }
-        if (!posix_kill($this->pid, SIGTERM)) {
+        if (!posix_kill($this->pid, $signal)) {
             throw new \RuntimeException("kill son process failed");
         }
 
