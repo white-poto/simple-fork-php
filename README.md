@@ -66,6 +66,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable{
 
 $process = new \Jenner\SimpleFork\Process(new TestRunnable());
 $process->start();
+$process->wait();
 ```
 
 callback.php  
