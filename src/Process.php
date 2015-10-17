@@ -91,7 +91,6 @@ class Process
      */
     public function __construct($execution = null)
     {
-        $this->signal();
         if (!is_null($execution) && $execution instanceof Runnable) {
             $this->runnable = $execution;
         }
