@@ -76,6 +76,11 @@ class Process
     protected $callbacks = array();
 
     /**
+     * @var array signal handlers
+     */
+    protected $signal_handlers = array();
+
+    /**
      * event name of before process start
      */
     const BEFORE_START = "beforeStart";
@@ -183,6 +188,9 @@ class Process
         } else {
             $this->pid = getmypid();
             $this->signal();
+            foreach ($this->signal_handlers as $signal => $handler) {
+                pcntl_signal($signal, $handler);
+            }
 
             if (array_key_exists(self::BEFORE_START, $this->callbacks)) {
                 $result = call_user_func($this->callbacks[self::BEFORE_START]);
@@ -341,5 +349,10 @@ class Process
         }
 
         $this->callbacks[$event] = $function;
+    }
+
+    public function registerSignalHandler($signal, callable $handler)
+    {
+        $this->signal_handlers[$signal] = $handler;
     }
 }
