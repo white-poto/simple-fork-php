@@ -14,7 +14,7 @@ class Producer extends \Jenner\SimpleFork\Process
     public function run()
     {
         for ($i = 0; $i < 10; $i++) {
-            $this->cache->set($i, $i);
+            $this->cache()->set($i, $i);
             echo "set {$i} : {$i}" . PHP_EOL;
         }
     }
@@ -26,17 +26,17 @@ class Worker extends \Jenner\SimpleFork\Process
     {
         sleep(5);
         for ($i = 0; $i < 10; $i++) {
-            echo "get {$i} : " . $this->cache->get($i) . PHP_EOL;
+            echo "get {$i} : " . $this->cache()->get($i) . PHP_EOL;
         }
     }
 }
 
 $memory = new \Jenner\SimpleFork\Cache\SharedMemory();
 $producer = new Producer();
-$producer->setCache($memory);
+$producer->cache($memory);
 
 $worker = new Worker();
-$worker->setCache($memory);
+$worker->cache($memory);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($producer);

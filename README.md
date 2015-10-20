@@ -1,7 +1,7 @@
 SimpleFork
 ===================
 [中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
-simple fork framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
+Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
 
 Why SimpleFork
 ------------------------
@@ -42,15 +42,15 @@ If the callback function return true, the process will exit, else it will contin
 
 Callback functions
 -------------------------------
-use Process::on($event, $callback) method to register callback functions  
+Use Process::on($event, $callback) method to register callback functions  
 + Process::BEFORE_START It will be called when the process start. If it return false, the process will not start and exit with status 0.
 + Process::BEFORE_EXIT It will be called when the main process call stop() method. If it return false, the process will not exit.
 
 
 Examples
 -------------------------
-more examples in [examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples) dictionary  
-simple.php  
+More examples in [examples](https://github.com/huyanping/simple-fork-php/tree/master/examples examples) dictionary  
+**A simple example.**  
 ```php
 class TestRunnable implements \Jenner\SimpleFork\Runnable{
 
@@ -69,7 +69,7 @@ $process->start();
 $process->wait();
 ```
 
-callback.php  
+**A process using callback**
 ```php
 $process = new \Jenner\SimpleFork\Process(function(){
     for($i=0; $i<3; $i++){
@@ -82,12 +82,12 @@ $process->start();
 $process->wait();
 ```
 
-shared_memory.php
+**process communication using shared memory** 
 ```php
 class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
         for($i = 0; $i<10; $i++){
-            $this->cache->set($i, $i);
+            $this->cache()->set($i, $i);
             echo "set {$i} : {$i}" . PHH_EOL;
         }
     }
@@ -97,21 +97,86 @@ class Worker extends \Jenner\SimpleFork\Process{
     public function run(){
         sleep(5);
         for($i=0; $i<10; $i++){
-            echo "get {$i} : " . $this->cache->get($i) . PHP_EOL;
+            echo "get {$i} : " . $this->cache()->get($i) . PHP_EOL;
         }
     }
 }
 
 $memory = new \Jenner\SimpleFork\Cache\SharedMemory();
 $producer = new Producer();
-$producer->setCache($memory);
+$producer->cache($memory);
 
 $worker = new Worker();
-$worker->setCache($memory);
+$worker->cache($memory);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($producer);
 $pool->submit($worker);
+$pool->start();
+$pool->wait();
+```
+
+**process communication using system v message queue** 
+```php
+class Producer extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            echo getmypid() . PHP_EOL;
+            $this->queue()->put(1, $i);
+        }
+    }
+}
+
+class Worker extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
+        sleep(5);
+        for ($i = 0; $i < 10; $i++) {
+            $res = $this->queue()->get(1);
+            echo getmypid() . ' = ' . $i . PHP_EOL;
+            var_dump($res);
+        }
+    }
+}
+
+$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+$producer = new Producer();
+$producer->queue($queue);
+
+$worker = new Worker();
+$worker->queue($queue);
+
+$pool = new \Jenner\SimpleFork\Pool();
+$pool->submit($producer);
+$pool->submit($worker);
+$pool->start();
+$pool->wait();
+```
+
+**process pool to manage processes**
+```php
+class TestRunnable implements \Jenner\SimpleFork\Runnable
+{
+
+    /**
+     * 进程执行入口
+     * @return mixed
+     */
+    public function run()
+    {
+        sleep(10);
+        echo getmypid() . ':done' . PHP_EOL;
+    }
+}
+
+$pool = new \Jenner\SimpleFork\Pool();
+$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+
 $pool->start();
 $pool->wait();
 ```

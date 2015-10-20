@@ -15,7 +15,7 @@ class Producer extends \Jenner\SimpleFork\Process
     public function run()
     {
         for ($i = 0; $i < 100; $i++) {
-            $this->queue->put(1, $i);
+            $this->queue()->put(1, $i);
             //usleep(50000);
         }
     }
@@ -23,6 +23,6 @@ class Producer extends \Jenner\SimpleFork\Process
 
 $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
 $producer = new Producer();
-$producer->setQueue($queue);
+$producer->queue($queue);
 $producer->start();
 $producer->wait();
