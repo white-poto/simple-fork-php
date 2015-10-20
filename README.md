@@ -171,7 +171,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
     public function __construct()
     {
         $this->sem = \Jenner\SimpleFork\Lock\Semaphore::create("test");
-        //$this->sem = \Jenner\SimpleFork\Lock\Semaphore::create("/tmp/test.lock");
+        //$this->sem = \Jenner\SimpleFork\Lock\FileLock::create("/tmp/test.lock");
     }
 
     /**
