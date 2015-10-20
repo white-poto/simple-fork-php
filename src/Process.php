@@ -105,6 +105,30 @@ class Process
     }
 
     /**
+     * @return bool|QueueInterface
+     */
+    public function cache()
+    {
+        if (is_object($this->cache) && $this->cache instanceof CacheInterface) {
+            return $this->cache;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool|CacheInterface
+     */
+    public function queue()
+    {
+        if (is_object($this->queue) && $this->queue instanceof QueueInterface) {
+            return $this->queue;
+        }
+
+        return false;
+    }
+
+    /**
      * set cache instance
      * @param CacheInterface $cache
      */
@@ -351,6 +375,10 @@ class Process
         $this->callbacks[$event] = $function;
     }
 
+    /**
+     * @param $signal
+     * @param callable $handler
+     */
     public function registerSignalHandler($signal, callable $handler)
     {
         $this->signal_handlers[$signal] = $handler;
