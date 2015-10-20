@@ -82,7 +82,7 @@ $process->start();
 $process->wait();
 ```
 
-**process communication using shared memory** 
+**Process communication using shared memory** 
 ```php
 class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
@@ -103,6 +103,7 @@ class Worker extends \Jenner\SimpleFork\Process{
 }
 
 $memory = new \Jenner\SimpleFork\Cache\SharedMemory();
+//$memory = new \Jenner\SimpleFork\Cache\RedisCache();
 $producer = new Producer();
 $producer->cache($memory);
 
@@ -116,7 +117,7 @@ $pool->start();
 $pool->wait();
 ```
 
-**process communication using system v message queue** 
+**Process communication using system v message queue** 
 ```php
 class Producer extends \Jenner\SimpleFork\Process
 {
@@ -143,6 +144,7 @@ class Worker extends \Jenner\SimpleFork\Process
 }
 
 $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+//$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
 $producer = new Producer();
 $producer->queue($queue);
 
@@ -156,7 +158,46 @@ $pool->start();
 $pool->wait();
 ```
 
-**process pool to manage processes**
+**Process communication using Semaphore lock**
+```php
+class TestRunnable implements \Jenner\SimpleFork\Runnable
+{
+
+    /**
+     * @var \Jenner\SimpleFork\Lock\LockInterface
+     */
+    protected $sem;
+
+    public function __construct()
+    {
+        $this->sem = \Jenner\SimpleFork\Lock\Semaphore::create("test");
+        $this->sem = \Jenner\SimpleFork\Lock\Semaphore::create("/tmp/test.lock");
+    }
+
+    /**
+     * 进程执行入口
+     * @return mixed
+     */
+    public function run()
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $this->sem->acquire();
+            echo "my turn: {$i} " . getmypid() . PHP_EOL;
+            $this->sem->release();
+            sleep(1);
+        }
+    }
+}
+
+$pool = new \Jenner\SimpleFork\Pool();
+$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+
+$pool->start();
+$pool->wait();
+```
+
+**Process pool to manage processes**
 ```php
 class TestRunnable implements \Jenner\SimpleFork\Runnable
 {
