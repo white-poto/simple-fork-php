@@ -11,5 +11,5 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
 $cache->set('test', 'test');
 
-$cache->remove();
+var_dump($cache->remove());
 var_dump($cache->get('test'));
