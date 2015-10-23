@@ -13,3 +13,6 @@ $cache->set('test', 'test');
 
 var_dump($cache->remove());
 var_dump($cache->get('test'));
+
+
+
