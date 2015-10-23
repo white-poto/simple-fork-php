@@ -14,7 +14,10 @@ $shm = shm_attach($key, 10000); //allocate shared memory
 shm_put_var($shm, 1, 'test');
 var_dump(shm_get_var($shm, 1));
 sleep(10);
+echo 'remove' . PHP_EOL;
 shm_remove($shm);
+echo 'remove' . PHP_EOL;
+sleep(10);
 
 var_dump(shm_get_var($shm, 1));
 
