@@ -16,7 +16,12 @@ var_dump(shm_get_var($shm, 1));
 sleep(10);
 echo 'remove' . PHP_EOL;
 var_dump(shm_remove($shm));
-echo 'remove' . PHP_EOL;
+echo 'remove done' . PHP_EOL;
+// here. actually the shm is still exists
+sleep(10);
+echo 'unset' . PHP_EOL;
+unset($shm);
+
 sleep(10);
 
 var_dump(shm_get_var($shm, 1));
