@@ -1,0 +1,20 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Jenner
+ * Date: 2015/10/23
+ * Time: 16:48
+ */
+
+require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'autoload.php';
+
+$pool = new \Jenner\SimpleFork\Pool();
+for($i=0; $i<100; $i++){
+    $process = new \Jenner\SimpleFork\Process(function(){
+        echo getmypid() . PHP_EOL;
+    });
+    $pool->submit($process);
+}
+
+$pool->start();
+$pool->wait();

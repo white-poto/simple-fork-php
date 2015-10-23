@@ -21,17 +21,19 @@ class ProcessTest extends PHPUnit_Framework_TestCase
      */
     protected $process_callback;
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->process_thread = new MyThread();
         $this->process_runable = new \Jenner\SimpleFork\Process(new MyRunnable());
-        $this->process_callback = new \Jenner\SimpleFork\Process(function(){
-            for($i=0; $i<3; $i++){
+        $this->process_callback = new \Jenner\SimpleFork\Process(function () {
+            for ($i = 0; $i < 3; $i++) {
                 echo "callback pid:" . getmypid() . PHP_EOL;
             }
         });
     }
 
-    public function testWait(){
+    public function testWait()
+    {
         $this->process_thread->start();
         $this->process_thread->wait();
         $this->assertEquals(0, $this->process_thread->exitCode());
@@ -40,15 +42,18 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
 }
 
-class MyThread extends \Jenner\SimpleFork\Process{
-    public function run(){
-        for($i=0; $i<3; $i++){
+class MyThread extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
+        for ($i = 0; $i < 3; $i++) {
             echo "thread pid:" . getmypid() . PHP_EOL;
         }
     }
 }
 
-class MyRunnable implements \Jenner\SimpleFork\Runnable{
+class MyRunnable implements \Jenner\SimpleFork\Runnable
+{
 
     /**
      * process entry
@@ -56,7 +61,7 @@ class MyRunnable implements \Jenner\SimpleFork\Runnable{
      */
     public function run()
     {
-        for($i=0; $i<3; $i++){
+        for ($i = 0; $i < 3; $i++) {
             echo "runnable pid:" . getmypid() . PHP_EOL;
         }
     }
