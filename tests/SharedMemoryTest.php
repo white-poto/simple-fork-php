@@ -17,4 +17,12 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $process->start();
         $process->wait();
     }
+
+    public function testHas(){
+        $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $cache->set('test', 'test');
+        $this->assertTrue($cache->has('test'));
+        $cache->delete('test');
+        $this->assertFalse($cache->has('test'));
+    }
 }
