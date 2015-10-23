@@ -41,5 +41,7 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $process->start();
         sleep(1);
         var_dump($cache->get('test'));
+        $cache->remove();
+        var_dump($cache->get('test'));
     }
 }
