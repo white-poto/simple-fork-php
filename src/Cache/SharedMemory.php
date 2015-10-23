@@ -49,7 +49,7 @@ class SharedMemory implements CacheInterface
     /**
      * init shared memory
      */
-    public function attach()
+    protected function attach()
     {
         //增加客户端连接数
         $tmp_file = '/tmp/' . basename(__FILE__);
@@ -62,7 +62,7 @@ class SharedMemory implements CacheInterface
     /**
      * @return bool
      */
-    public function dettach()
+    protected function dettach()
     {
         $this->set($this->client_count_key, $this->get($this->client_count_key) - 1);
         //如果是最后一个使用的客户端，则删除共享内存
