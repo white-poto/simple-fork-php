@@ -13,8 +13,8 @@ for($i=0; $i<100; $i++){
     $process = new \Jenner\SimpleFork\Process(function(){
         echo getmypid() . PHP_EOL;
     });
+    $process->start();
     $pool->submit($process);
 }
 
-$pool->start();
 $pool->wait();
