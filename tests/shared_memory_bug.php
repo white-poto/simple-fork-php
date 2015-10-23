@@ -15,7 +15,7 @@ shm_put_var($shm, 1, 'test');
 var_dump(shm_get_var($shm, 1));
 sleep(10);
 echo 'remove' . PHP_EOL;
-shm_remove($shm);
+var_dump(shm_remove($shm));
 echo 'remove' . PHP_EOL;
 sleep(10);
 
