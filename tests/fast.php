@@ -6,7 +6,7 @@
  * Time: 16:48
  */
 
-require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'autoload.php';
+require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $pool = new \Jenner\SimpleFork\Pool();
 for($i=0; $i<100; $i++){
