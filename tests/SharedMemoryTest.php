@@ -10,13 +10,15 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
 {
     public function testSetAndGet(){
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
-
         $process = new \Jenner\SimpleFork\Process(function() use($cache){
             $cache->set('test', 'test');
         });
         $process->start();
+
+        // wait sub process
         sleep(1);
         $this->assertEquals('test', $cache->get('test'));
+
         $process->wait();
     }
 
@@ -24,7 +26,20 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
         $cache->set('test', 'test');
         $this->assertTrue($cache->has('test'));
+        $this->assertEquals($cache->get('test'), 'test');
         $cache->delete('test');
         $this->assertFalse($cache->has('test'));
+    }
+
+    public function testRemove(){
+        $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $cache->set('test', 'test');
+        $process = new \Jenner\SimpleFork\Process(function() use($cache){
+            $cache->remove();
+        });
+        $this->assertEquals($cache->get('test'), 'test');
+        $process->start();
+        sleep(1);
+        $this->assertFalse($cache->get('test'));
     }
 }
