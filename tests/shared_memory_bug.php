@@ -14,6 +14,7 @@ $shm = shm_attach($key, 10000); //allocate shared memory
 shm_put_var($shm, 1, 'test');
 var_dump(shm_get_var($shm, 1));
 shm_remove($shm);
+sleep(10);
 var_dump(shm_get_var($shm, 1));
 
 
