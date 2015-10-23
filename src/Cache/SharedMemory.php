@@ -79,7 +79,13 @@ class SharedMemory implements CacheInterface
     public function remove()
     {
         //dallocate shared memory
-        return shm_remove($this->shm);
+        if(!shm_remove($this->shm)){
+            return false;
+        }
+        // shm_remove maybe not working
+        unset($this->shm);
+
+        return true;
     }
 
     /**
