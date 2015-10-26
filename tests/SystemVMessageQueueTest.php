@@ -27,7 +27,7 @@ class SystemVMessageQueueTest extends PHPUnit_Framework_TestCase
         $process->start();
         $process->wait();
         unset($process);
-        $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
         $this->assertEquals($queue->size(1), 1);
         $this->assertEquals($queue->get(1), 'test');
     }
