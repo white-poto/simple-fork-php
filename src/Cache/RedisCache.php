@@ -101,6 +101,9 @@ class RedisCache implements CacheInterface
      */
     public function delete($key)
     {
-        return $this->redis->del($key);
+        if ($this->redis->del($key) > 0) {
+            return true;
+        }
+        return false;
     }
 }
