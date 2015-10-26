@@ -25,7 +25,7 @@ class RedisQueue implements QueueInterface
         $host = '127.0.0.1',
         $port = 6379,
         $database = 0,
-        $prefix = ""
+        $prefix = "simple-fork-"
     )
     {
         $this->redis = new \Redis();
