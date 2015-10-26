@@ -47,28 +47,24 @@ class SharedMemory implements CacheInterface
     }
 
     /**
-     * init shared memory
+     * connect shared memory
+     *
+     * @param string $file
      */
-    protected function attach()
+    public function attach($file = __FILE__)
     {
         //增加客户端连接数
-        $tmp_file = '/tmp/' . basename(__FILE__);
+        $tmp_file = '/tmp/' . $file;
         touch($tmp_file);
         $key = ftok($tmp_file, 'a');
         $this->shm = shm_attach($key, $this->size); //allocate shared memory
-        $this->set($this->client_count_key, $this->get($this->client_count_key) + 1);
     }
 
     /**
      * @return bool
      */
-    protected function dettach()
+    public function dettach()
     {
-        $this->set($this->client_count_key, $this->get($this->client_count_key) - 1);
-        //如果是最后一个使用的客户端，则删除共享内存
-        if ($this->get($this->client_count_key) == 0) {
-            return $this->remove();
-        }
         return shm_detach($this->shm); //allocate shared memory
     }
 
@@ -158,14 +154,5 @@ class SharedMemory implements CacheInterface
     public function __wakeup()
     {
         $this->attach();
-    }
-
-    /**
-     *
-     */
-    public function __destruct()
-    {
-        $this->dettach();
-        unset($this);
     }
 }
