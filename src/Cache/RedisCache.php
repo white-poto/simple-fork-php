@@ -52,6 +52,14 @@ class RedisCache implements CacheInterface
     }
 
     /**
+     * close redis connection
+     */
+    public function __destruct()
+    {
+        $this->redis->close();
+    }
+
+    /**
      * get var
      * @param $key
      * @param null $default
