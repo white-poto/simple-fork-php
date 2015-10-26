@@ -89,7 +89,7 @@ class Semaphore implements LockInterface
         }
 
         if (!sem_release($this->lock_id)) {
-            throw new \RuntimeException('Cannot release semaphore: ' . $this->lock_id);
+            return false;
         }
         $this->locked = false;
 
