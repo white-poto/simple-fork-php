@@ -27,7 +27,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->process_runable = new \Jenner\SimpleFork\Process(new MyRunnable());
         $this->process_callback = new \Jenner\SimpleFork\Process(function () {
             for ($i = 0; $i < 3; $i++) {
-                echo "callback pid:" . getmypid() . PHP_EOL;
+//                echo "callback pid:" . getmypid() . PHP_EOL;
             }
         });
     }
@@ -57,7 +57,7 @@ class MyThread extends \Jenner\SimpleFork\Process
     public function run()
     {
         for ($i = 0; $i < 3; $i++) {
-            echo "thread pid:" . getmypid() . PHP_EOL;
+//            echo "thread pid:" . getmypid() . PHP_EOL;
         }
     }
 }
@@ -72,7 +72,7 @@ class MyRunnable implements \Jenner\SimpleFork\Runnable
     public function run()
     {
         for ($i = 0; $i < 3; $i++) {
-            echo "runnable pid:" . getmypid() . PHP_EOL;
+//            echo "runnable pid:" . getmypid() . PHP_EOL;
         }
     }
 }
