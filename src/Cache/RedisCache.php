@@ -106,4 +106,12 @@ class RedisCache implements CacheInterface
         }
         return false;
     }
+
+    /**
+     * close the connection
+     */
+    public function close()
+    {
+        $this->redis->close();
+    }
 }
