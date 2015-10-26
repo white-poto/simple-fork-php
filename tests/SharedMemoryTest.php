@@ -14,12 +14,12 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
             $cache->set('test', 'test');
         });
         $process->start();
-
         // wait sub process
-        sleep(1);
+        $process->wait();
+
         $this->assertEquals('test', $cache->get('test'));
 
-        $process->wait();
+
     }
 
     public function testHas(){
@@ -39,9 +39,7 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         });
         $this->assertEquals($cache->get('test'), 'test');
         $process->start();
-        sleep(1);
-        var_dump($cache->get('test'));
-        var_dump($cache->remove());
-        var_dump($cache->get('test'));
+        $process->wait();
+        $this->assertFalse($cache->get('test'));
     }
 }
