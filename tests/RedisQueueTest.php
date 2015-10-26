@@ -27,12 +27,14 @@ class RedisQueueTest extends PHPUnit_Framework_TestCase
         $process = new \Jenner\SimpleFork\Process(function () {
             $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
             $queue->put('test', 'test');
+            $queue->close();
         });
         $process->start();
         $process->wait();
         $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         $this->assertEquals($queue->size('test'), 1);
         $this->assertEquals($queue->get('test'), 'test');
+        $queue->close();
     }
 
 }
