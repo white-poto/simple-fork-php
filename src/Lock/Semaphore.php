@@ -59,6 +59,7 @@ class Semaphore implements LockInterface
     /**
      * get a lock
      *
+     * @return bool
      * @throws \Exception
      */
     public function acquire()
@@ -68,14 +69,17 @@ class Semaphore implements LockInterface
         }
 
         if (!sem_acquire($this->lock_id)) {
-            throw new \RuntimeException('Cannot acquire semaphore: ' . $this->lock_id);
+            return false;
         }
         $this->locked = true;
+
+        return true;
     }
 
     /**
      * release lock
      *
+     * @return bool
      * @throws \RuntimeException
      */
     public function release()
@@ -84,18 +88,18 @@ class Semaphore implements LockInterface
             throw new \RuntimeException("release a non lock");
         }
 
-        if ($this->locked) {
-            if (!sem_release($this->lock_id)) {
-                throw new \RuntimeException('Cannot release semaphore: ' . $this->lock_id);
-            }
-            $this->locked = false;
+        if (!sem_release($this->lock_id)) {
+            throw new \RuntimeException('Cannot release semaphore: ' . $this->lock_id);
         }
+        $this->locked = false;
+
+        return true;
     }
 
     /**
      * is locked
      *
-     * @return mixed
+     * @return bool
      */
     public function isLocked()
     {

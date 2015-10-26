@@ -14,21 +14,21 @@ interface LockInterface
     /**
      * get a lock
      *
-     * @return mixed
+     * @return bool
      */
     public function acquire();
 
     /**
      * release lock
      *
-     * @return mixed
+     * @return bool
      */
     public function release();
 
     /**
      * is locked
      *
-     * @return mixed
+     * @return bool
      */
     public function isLocked();
 }
