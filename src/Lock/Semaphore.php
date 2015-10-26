@@ -52,7 +52,7 @@ class Semaphore implements LockInterface
      */
     public function __destruct()
     {
-        if($this->isLocked()){
+        if ($this->isLocked()) {
             $this->release();
         }
     }
@@ -61,13 +61,25 @@ class Semaphore implements LockInterface
     /**
      * get a lock
      *
+     * @param bool $blocking
      * @return bool
-     * @throws \Exception
      */
-    public function acquire()
+    public function acquire($blocking = true)
     {
         if ($this->locked) {
             throw new \RuntimeException("already lock by yourself");
+        }
+
+        if ($blocking === false) {
+            if (version_compare(PHP_VERSION, '5.6.0') < 0) {
+                throw new \RuntimeException("php version is at least 5.6.0 for param blocking");
+            }
+            if (!sem_acquire($this->lock_id, true)) {
+                return false;
+            }
+            $this->locked = true;
+
+            return true;
         }
 
         if (!sem_acquire($this->lock_id)) {

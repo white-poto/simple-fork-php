@@ -14,9 +14,10 @@ interface LockInterface
     /**
      * get a lock
      *
+     * @param bool $blocking
      * @return bool
      */
-    public function acquire();
+    public function acquire($blocking = true);
 
     /**
      * release lock

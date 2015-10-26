@@ -54,15 +54,21 @@ class FileLock implements LockInterface
     /**
      * get a lock
      *
+     * @param bool $blocking
      * @return mixed
      */
-    public function acquire()
+    public function acquire($blocking = true)
     {
         if ($this->locked) {
             throw new \RuntimeException("already lock by yourself");
         }
 
-        $locked = flock($this->fp, LOCK_EX);
+        if($blocking){
+            $locked = flock($this->fp, LOCK_EX);
+        }else{
+            $locked = flock($this->fp, LOCK_EX|LOCK_NB);
+        }
+
         if ($locked !== true) {
             return false;
         }
