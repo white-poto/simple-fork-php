@@ -11,17 +11,33 @@ namespace Jenner\SimpleFork\Lock;
 
 class FileLock implements LockInterface
 {
+    /**
+     * @var string lock file
+     */
     protected $file;
 
+    /**
+     * @var resource
+     */
     protected $fp;
 
+    /**
+     * @var bool
+     */
     protected $locked = false;
 
+    /**
+     * @param $file
+     * @return FileLock
+     */
     public static function create($file)
     {
         return new FileLock($file);
     }
 
+    /**
+     * @param $file
+     */
     private function __construct($file)
     {
         if (!file_exists($file) || !is_readable($file)) {
@@ -39,9 +55,12 @@ class FileLock implements LockInterface
      */
     public function acquire()
     {
+        if ($this->locked) {
+            throw new \RuntimeException("already lock by yourself");
+        }
         $locked = flock($this->fp, LOCK_EX);
         if (!$locked) {
-            throw new \RuntimeException("get lock failed");
+            return false;
         }
         $this->locked = true;
 
@@ -54,15 +73,21 @@ class FileLock implements LockInterface
      */
     public function release()
     {
+        if (!$this->locked) {
+            throw new \RuntimeException("release a non lock");
+        }
         $unlock = flock($this->fp, LOCK_UN);
         if (!$unlock) {
-            throw new \RuntimeException("release lock failed");
+            return false;
         }
         $this->locked = false;
 
         return true;
     }
 
+    /**
+     *
+     */
     public function __destory()
     {
         if ($this->locked) {
