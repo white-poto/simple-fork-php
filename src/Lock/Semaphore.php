@@ -70,7 +70,7 @@ class Semaphore implements LockInterface
             throw new \RuntimeException("already lock by yourself");
         }
 
-        if (!sem_acquire($this->lock_id)) {
+        if (!sem_acquire($this->lock_id, true)) {
             return false;
         }
         $this->locked = true;
