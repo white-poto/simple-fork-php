@@ -56,7 +56,7 @@ class RedisCache implements CacheInterface
      */
     public function __destruct()
     {
-        $this->redis->close();
+        $this->close();
     }
 
     /**

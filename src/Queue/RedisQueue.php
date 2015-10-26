@@ -51,6 +51,7 @@ class RedisQueue implements QueueInterface
 
     /**
      * put value into the queue of channel
+     *
      * @param $channel
      * @param $value
      * @return mixed
@@ -62,6 +63,7 @@ class RedisQueue implements QueueInterface
 
     /**
      * get value from the queue of channel
+     *
      * @param $channel
      * @return mixed
      */
@@ -72,6 +74,7 @@ class RedisQueue implements QueueInterface
 
     /**
      * get the size of the queue of channel
+     *
      * @param $channel
      * @return mixed
      */
@@ -82,10 +85,27 @@ class RedisQueue implements QueueInterface
 
     /**
      * remove the queue resource
+     *
      * @return mixed
      */
     public function remove()
     {
         return $this->redis->flushDB();
+    }
+
+    /**
+     * close the connection
+     */
+    public function close()
+    {
+        $this->redis->close();
+    }
+
+    /**
+     * close the connection
+     */
+    public function __destruct()
+    {
+        $this->close();
     }
 }
