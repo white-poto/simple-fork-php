@@ -80,6 +80,7 @@ class SharedMemory implements CacheInterface
         if(!shm_remove($this->shm)){
             return false;
         }
+        $this->dettach();
         // shm_remove maybe not working
         unset($this->shm);
 
