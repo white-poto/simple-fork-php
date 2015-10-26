@@ -63,7 +63,7 @@ class FileLock implements LockInterface
         }
 
         $locked = flock($this->fp, LOCK_EX);
-        if (!$locked) {
+        if ($locked !== true) {
             return false;
         }
         $this->locked = true;
@@ -83,7 +83,7 @@ class FileLock implements LockInterface
         }
 
         $unlock = flock($this->fp, LOCK_UN);
-        if (!$unlock) {
+        if ($unlock !== true) {
             return false;
         }
         $this->locked = false;
