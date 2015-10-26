@@ -8,15 +8,17 @@
  */
 class SystemVMessageQueueTest extends PHPUnit_Framework_TestCase
 {
-    public function testAll(){
-        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
-        $this->assertTrue($queue->put(1, 'test'));
-        $this->assertEquals($queue->size(1), 1);
-        $this->assertEquals($queue->get(1), 'test');
-        unset($queue);
-    }
+//    public function testAll()
+//    {
+//        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+//        $this->assertTrue($queue->put(1, 'test'));
+//        $this->assertEquals($queue->size(1), 1);
+//        $this->assertEquals($queue->get(1), 'test');
+//        unset($queue);
+//    }
 
-    public function testCommunication(){
+    public function testCommunication()
+    {
         $process = new \Jenner\SimpleFork\Process(function () {
             $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
             $queue->put(1, 'test');
