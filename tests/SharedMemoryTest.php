@@ -40,6 +40,7 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($cache->get('test'), 'test');
         $process->start();
         $process->wait();
+        var_dump($cache->get('test'));
         $this->assertFalse($cache->get('test'));
     }
 }
