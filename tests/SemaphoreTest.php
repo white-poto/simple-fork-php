@@ -40,9 +40,9 @@ class SemaphoreTest extends PHPUnit_Framework_TestCase
     public function testCommunication(){
         $process = new \Jenner\SimpleFork\Process(function(){
             $lock = \Jenner\SimpleFork\Lock\Semaphore::create('test');
-            $lock->acquire();
+            var_dump($lock->acquire());
             sleep(5);
-            $lock->release();
+            var_dump($lock->release());
         });
         $process->start();
         sleep(3);

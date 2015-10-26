@@ -49,9 +49,9 @@ class FileLockTest extends PHPUnit_Framework_TestCase
         }
         $process = new \Jenner\SimpleFork\Process(function() use($lock_file){
             $lock = \Jenner\SimpleFork\Lock\FileLock::create($lock_file);
-            $lock->acquire();
+            var_dump($lock->acquire());
             sleep(5);
-            $lock->release();
+            var_dump($lock->release());
         });
         $process->start();
         sleep(3);
