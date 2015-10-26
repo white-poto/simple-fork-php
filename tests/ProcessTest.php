@@ -38,6 +38,16 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->process_thread->wait();
         $this->assertEquals(0, $this->process_thread->exitCode());
         $this->assertEquals(0, $this->process_thread->errno());
+
+        $this->process_runable->start();
+        $this->process_runable->wait();
+        $this->assertEquals(0, $this->process_runable->exitCode());
+        $this->assertEquals(0, $this->process_runable->errno());
+
+        $this->process_callback->start();
+        $this->process_callback->wait();
+        $this->assertEquals(0, $this->process_callback->exitCode());
+        $this->assertEquals(0, $this->process_callback->errno());
     }
 
 }
