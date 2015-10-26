@@ -27,6 +27,8 @@ class FileLock implements LockInterface
     protected $locked = false;
 
     /**
+     * create a file lock instance
+     *
      * @param $file
      * @return FileLock
      */
@@ -51,6 +53,7 @@ class FileLock implements LockInterface
 
     /**
      * get a lock
+     *
      * @return mixed
      */
     public function acquire()
@@ -70,6 +73,7 @@ class FileLock implements LockInterface
 
     /**
      * release lock
+     *
      * @return mixed
      */
     public function release()
@@ -85,6 +89,16 @@ class FileLock implements LockInterface
         $this->locked = false;
 
         return true;
+    }
+
+    /**
+     * is locked
+     *
+     * @return mixed
+     */
+    public function isLocked()
+    {
+        return $this->locked === true ? true : false;
     }
 
     /**

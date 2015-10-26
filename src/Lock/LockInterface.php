@@ -13,13 +13,22 @@ interface LockInterface
 {
     /**
      * get a lock
+     *
      * @return mixed
      */
     public function acquire();
 
     /**
      * release lock
+     *
      * @return mixed
      */
     public function release();
+
+    /**
+     * is locked
+     *
+     * @return mixed
+     */
+    public function isLocked();
 }

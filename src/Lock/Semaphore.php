@@ -12,7 +12,8 @@ namespace Jenner\SimpleFork\Lock;
 class Semaphore implements LockInterface
 {
     /**
-     * get a lock instance
+     * create a lock instance
+     *
      * @param $key
      * @return Semaphore
      */
@@ -33,6 +34,7 @@ class Semaphore implements LockInterface
 
     /**
      * init a lock
+     *
      * @param $key
      * @throws \RuntimeException
      */
@@ -45,6 +47,7 @@ class Semaphore implements LockInterface
 
     /**
      * release lock
+     *
      * @throws \RuntimeException
      */
     public function __destruct()
@@ -55,6 +58,7 @@ class Semaphore implements LockInterface
 
     /**
      * get a lock
+     *
      * @throws \Exception
      */
     public function acquire()
@@ -71,6 +75,7 @@ class Semaphore implements LockInterface
 
     /**
      * release lock
+     *
      * @throws \RuntimeException
      */
     public function release()
@@ -88,7 +93,18 @@ class Semaphore implements LockInterface
     }
 
     /**
+     * is locked
+     *
+     * @return mixed
+     */
+    public function isLocked()
+    {
+        return $this->locked === true ? true : false;
+    }
+
+    /**
      * Semaphore requires a numeric value as the key
+     *
      * @param $identifier
      * @return int
      */
