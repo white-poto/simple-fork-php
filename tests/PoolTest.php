@@ -8,10 +8,11 @@
  */
 class PoolTest extends PHPUnit_Framework_TestCase
 {
-    public function testAliveCount(){
+    public function testAliveCount()
+    {
         $pool = new \Jenner\SimpleFork\Pool();
-        for($i=0; $i<10; $i++){
-            $process = new \Jenner\SimpleFork\Process(function(){
+        for ($i = 0; $i < 10; $i++) {
+            $process = new \Jenner\SimpleFork\Process(function () {
                 sleep(3);
             });
             $pool->submit($process);

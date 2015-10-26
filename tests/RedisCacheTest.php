@@ -13,11 +13,13 @@ class RedisCacheTest extends PHPUnit_Framework_TestCase
      */
     protected $cache;
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->cache = new Jenner\SimpleFork\Cache\RedisCache();
     }
 
-    public function testAll(){
+    public function testAll()
+    {
         $this->cache->set('test', 'test');
         $this->assertTrue($this->cache->has('test'));
         $this->assertEquals($this->cache->get('test'), 'test');

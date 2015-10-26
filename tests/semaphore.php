@@ -7,7 +7,7 @@
  */
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$process = new \Jenner\SimpleFork\Process(function(){
+$process = new \Jenner\SimpleFork\Process(function () {
     $lock = \Jenner\SimpleFork\Lock\Semaphore::create('test');
     var_dump($lock->acquire());
     sleep(5);

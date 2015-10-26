@@ -8,9 +8,10 @@
  */
 class SharedMemoryTest extends PHPUnit_Framework_TestCase
 {
-    public function testSetAndGet(){
+    public function testSetAndGet()
+    {
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
-        $process = new \Jenner\SimpleFork\Process(function() use($cache){
+        $process = new \Jenner\SimpleFork\Process(function () use ($cache) {
             $cache->set('test', 'test');
         });
         $process->start();
@@ -22,7 +23,8 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testHas(){
+    public function testHas()
+    {
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
         $cache->set('test', 'test');
         $this->assertTrue($cache->has('test'));
@@ -31,10 +33,11 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($cache->has('test'));
     }
 
-    public function testRemove(){
+    public function testRemove()
+    {
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
         $cache->set('test', 'test');
-        $process = new \Jenner\SimpleFork\Process(function() use($cache){
+        $process = new \Jenner\SimpleFork\Process(function () use ($cache) {
             $cache->remove();
         });
         $this->assertEquals($cache->get('test'), 'test');

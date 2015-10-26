@@ -9,10 +9,10 @@
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $lock_file = "/tmp/simple-fork.lock";
-if(!file_exists($lock_file)){
+if (!file_exists($lock_file)) {
     touch($lock_file);
 }
-$process = new \Jenner\SimpleFork\Process(function() use($lock_file){
+$process = new \Jenner\SimpleFork\Process(function () use ($lock_file) {
     $lock = \Jenner\SimpleFork\Lock\FileLock::create($lock_file);
     echo getmypid() . PHP_EOL;
     var_dump($lock->acquire());

@@ -13,32 +13,41 @@ class SemaphoreTest extends PHPUnit_Framework_TestCase
      */
     protected $lock;
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->lock = \Jenner\SimpleFork\Lock\Semaphore::create("test");
     }
 
-    public function tearDown(){
+    public function tearDown()
+    {
         unset($this->lock);
     }
 
-    public function testLock(){
+    public function testLock()
+    {
         $this->assertTrue($this->lock->acquire());
         $this->assertTrue($this->lock->release());
     }
 
-    public function testAcquireException(){
+    public function testAcquireException()
+    {
         $this->setExpectedException("RuntimeException");
         $this->lock->acquire();
         $this->lock->acquire();
     }
 
-    public function testReleaseException(){
+    public function testReleaseException()
+    {
         $this->setExpectedException("RuntimeException");
         $this->lock->release();
     }
 
-    public function testCommunication(){
-        $process = new \Jenner\SimpleFork\Process(function(){
+    public function testCommunication()
+    {
+        if (version_compare(PHP_VERSION, '5.6.0') < 0) {
+            $this->markTestSkipped("php version is too low");
+        }
+        $process = new \Jenner\SimpleFork\Process(function () {
             $lock = \Jenner\SimpleFork\Lock\Semaphore::create('test');
             var_dump($lock->acquire());
             sleep(5);
