@@ -179,7 +179,7 @@ class Process
      */
     public function errno()
     {
-        return $this->errno();
+        return $this->errno;
     }
 
     /**
