@@ -63,7 +63,7 @@ class RedisCache implements CacheInterface
      * get var
      * @param $key
      * @param null $default
-     * @return bool|mixed
+     * @return bool|string|null
      */
     public function get($key, $default = null)
     {
