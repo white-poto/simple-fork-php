@@ -52,7 +52,9 @@ class Semaphore implements LockInterface
      */
     public function __destruct()
     {
-        $this->release();
+        if($this->isLocked()){
+            $this->release();
+        }
     }
 
 
