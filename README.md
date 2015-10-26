@@ -1,6 +1,6 @@
 SimpleFork
 ===================
-[![travis](https://travis-ci.org/huyanping/simple-fork-php.svg)](https://travis-ci.org/huyanping/simple-fork-php.svg)
+[![travis](https://travis-ci.org/huyanping/simple-fork-php.svg)](https://travis-ci.org/huyanping/simple-fork-php)
 
 [中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
 Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
