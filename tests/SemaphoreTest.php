@@ -46,7 +46,7 @@ class SemaphoreTest extends PHPUnit_Framework_TestCase
         });
         $process->start();
         sleep(1);
-        $lock = \Jenner\SimpleFork\Lock\Semaphore::create(test);
+        $lock = \Jenner\SimpleFork\Lock\Semaphore::create("test");
         $this->assertFalse($lock->acquire());
         $process->wait();
         $this->assertTrue($lock->acquire());
