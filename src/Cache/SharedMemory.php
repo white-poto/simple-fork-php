@@ -55,7 +55,8 @@ class SharedMemory implements CacheInterface
     public function attach($file = __FILE__)
     {
         //增加客户端连接数
-        $tmp_file = '/tmp/' . $file;
+        $file = basename($file);
+        $tmp_file = '/tmp/' . substr($file, 0, strrpos($file, '.')) . 'lock';
         touch($tmp_file);
         $key = ftok($tmp_file, 'a');
         $this->shm = shm_attach($key, $this->size); //allocate shared memory
