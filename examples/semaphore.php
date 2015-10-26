@@ -30,8 +30,8 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
         for ($i = 0; $i < 20; $i++) {
             $this->sem->acquire();
             echo "my turn: {$i} " . getmypid() . PHP_EOL;
-            $this->sem->release();
             sleep(1);
+            $this->sem->release();
         }
     }
 }
