@@ -71,7 +71,9 @@ class SharedMemory implements CacheInterface
     }
 
     /**
-     * remove shared memory
+     * remove shared memory.
+     * you should know that it maybe does not work.
+     *
      * @return bool
      */
     public function remove()
@@ -81,7 +83,7 @@ class SharedMemory implements CacheInterface
             return false;
         }
         $this->dettach();
-        // shm_remove maybe not working
+        // shm_remove maybe not working. it likes a php bug.
         unset($this->shm);
 
         return true;
