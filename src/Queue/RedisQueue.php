@@ -58,7 +58,11 @@ class RedisQueue implements QueueInterface
      */
     public function put($channel, $value)
     {
-        return $this->redis->lPush($channel, $value);
+        if($this->redis->lPush($channel, $value) !== false){
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -76,7 +80,7 @@ class RedisQueue implements QueueInterface
      * get the size of the queue of channel
      *
      * @param $channel
-     * @return mixed
+     * @return int
      */
     public function size($channel)
     {
