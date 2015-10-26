@@ -35,12 +35,11 @@ class SharedMemoryTest extends PHPUnit_Framework_TestCase
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
         $cache->set('test', 'test');
         $process = new \Jenner\SimpleFork\Process(function() use($cache){
-            $cache->remove();
+            var_dump($cache->remove());
         });
         $this->assertEquals($cache->get('test'), 'test');
         $process->start();
         $process->wait();
-        var_dump($cache->get('test'));
         $this->assertFalse($cache->get('test'));
     }
 }
