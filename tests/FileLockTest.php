@@ -13,26 +13,31 @@ class FileLockTest extends PHPUnit_Framework_TestCase
      */
     protected $lock;
 
-    public function setUp(){
+    public function setUp()
+    {
         $this->lock = \Jenner\SimpleFork\Lock\FileLock::create(__FILE__);
     }
 
-    public function tearDown(){
+    public function tearDown()
+    {
         unset($this->lock);
     }
 
-    public function testLock(){
+    public function testLock()
+    {
         $this->assertTrue($this->lock->acquire());
         $this->assertTrue($this->lock->release());
     }
 
-    public function testAcquireException(){
+    public function testAcquireException()
+    {
         $this->setExpectedException("RuntimeException");
         $this->lock->acquire();
         $this->lock->acquire();
     }
 
-    public function testReleaseException(){
+    public function testReleaseException()
+    {
         $this->setExpectedException("RuntimeException");
         $this->lock->release();
     }

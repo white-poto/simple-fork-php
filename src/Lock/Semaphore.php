@@ -59,6 +59,10 @@ class Semaphore implements LockInterface
      */
     public function acquire()
     {
+        if ($this->locked) {
+            throw new \RuntimeException("already lock by yourself");
+        }
+
         if (!sem_acquire($this->lock_id)) {
             throw new \RuntimeException('Cannot acquire semaphore: ' . $this->lock_id);
         }
@@ -71,6 +75,10 @@ class Semaphore implements LockInterface
      */
     public function release()
     {
+        if (!$this->locked) {
+            throw new \RuntimeException("release a non lock");
+        }
+
         if ($this->locked) {
             if (!sem_release($this->lock_id)) {
                 throw new \RuntimeException('Cannot release semaphore: ' . $this->lock_id);
