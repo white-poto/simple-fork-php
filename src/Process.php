@@ -114,6 +114,7 @@ class Process
 
     /**
      * set or get cache
+     *
      * @param CacheInterface|null $cache
      * @return bool|CacheInterface
      */
@@ -136,6 +137,7 @@ class Process
 
     /**
      * set or get queue
+     *
      * @param QueueInterface|null $queue
      * @return bool|QueueInterface
      */
@@ -312,6 +314,7 @@ class Process
 
     /**
      * update the process status
+     *
      * @param bool $block
      */
     public function updateStatus($block = false)
@@ -373,6 +376,7 @@ class Process
 
     /**
      * register callback functions
+     *
      * @param $event
      * @param $function
      */
@@ -403,6 +407,7 @@ class Process
 
     /**
      * get sub process callback
+     *
      * @return array|callable|null
      */
     protected function getCallback()

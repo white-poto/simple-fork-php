@@ -13,6 +13,7 @@ interface CacheInterface
 
     /**
      * get var
+     *
      * @param $key
      * @param null $default
      * @return bool|mixed
@@ -21,6 +22,7 @@ interface CacheInterface
 
     /**
      * set var
+     *
      * @param $key
      * @param null $value
      * @return
@@ -29,6 +31,7 @@ interface CacheInterface
 
     /**
      * has var ?
+     *
      * @param $key
      * @return bool
      */
@@ -36,6 +39,7 @@ interface CacheInterface
 
     /**
      * delete var
+     *
      * @param $key
      * @return bool
      */

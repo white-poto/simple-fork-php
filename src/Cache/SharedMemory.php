@@ -54,7 +54,6 @@ class SharedMemory implements CacheInterface
      */
     public function attach($file = __FILE__)
     {
-        //增加客户端连接数
         $file = basename($file);
         $tmp_file = '/tmp/' . substr($file, 0, strrpos($file, '.')) . 'lock';
         touch($tmp_file);
@@ -91,6 +90,7 @@ class SharedMemory implements CacheInterface
 
     /**
      * set var
+     *
      * @param $key
      * @param $value
      * @return bool
@@ -102,6 +102,7 @@ class SharedMemory implements CacheInterface
 
     /**
      * get var
+     *
      * @param $key
      * @param null $default
      * @return bool|mixed
@@ -117,6 +118,7 @@ class SharedMemory implements CacheInterface
 
     /**
      * delete var
+     *
      * @param $key
      * @return bool
      */
@@ -131,6 +133,7 @@ class SharedMemory implements CacheInterface
 
     /**
      * has var ?
+     *
      * @param $key
      * @return bool
      */
@@ -145,6 +148,7 @@ class SharedMemory implements CacheInterface
 
     /**
      * generate shm key
+     *
      * @param $val
      * @return mixed
      */

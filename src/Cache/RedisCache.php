@@ -61,6 +61,7 @@ class RedisCache implements CacheInterface
 
     /**
      * get var
+     *
      * @param $key
      * @param null $default
      * @return bool|string|null
@@ -75,6 +76,7 @@ class RedisCache implements CacheInterface
 
     /**
      * set var
+     *
      * @param $key
      * @param null $value
      * @return boolean
@@ -86,6 +88,7 @@ class RedisCache implements CacheInterface
 
     /**
      * has var ?
+     *
      * @param $key
      * @return bool
      */
@@ -96,6 +99,7 @@ class RedisCache implements CacheInterface
 
     /**
      * delete var
+     *
      * @param $key
      * @return bool
      */
