@@ -14,7 +14,7 @@ class Pool
     /**
      * process list
      *
-     * @var array
+     * @var Process[]
      */
     protected $processes = array();
 
@@ -22,10 +22,14 @@ class Pool
      * add a process
      *
      * @param Process $process
+     * @param null|string $name process name
      * @return int
      */
-    public function submit(Process $process)
+    public function submit(Process $process, $name = null)
     {
+        if (!is_null($name)) {
+            $process->name($name);
+        }
         return array_push($this->processes, $process);
     }
 
@@ -57,7 +61,8 @@ class Pool
      * shutdown sub process and no wait. it is dangerous,
      * maybe the sub process is working.
      */
-    public function shutdownForce(){
+    public function shutdownForce()
+    {
         $this->shutdown(SIGKILL);
     }
 
@@ -107,6 +112,23 @@ class Pool
     {
         foreach ($this->processes as $process) {
             if ($process->getPid() == $pid) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * get process by name
+     *
+     * @param $name process name
+     * @return Process|null
+     */
+    public function getProcessByName($name)
+    {
+        foreach ($this->processes as $process) {
+            if ($process->name() == $name) {
                 return $process;
             }
         }
