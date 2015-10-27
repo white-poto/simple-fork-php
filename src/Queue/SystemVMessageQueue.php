@@ -12,43 +12,36 @@ namespace Jenner\SimpleFork\Queue;
 class SystemVMessageQueue implements QueueInterface
 {
     /**
-     * 消息分组类型，用于将一个消息队列中的信息进行分组
      * @var int
      */
     protected $msg_type;
 
     /**
-     * 队列标志
      * @var
      */
     protected $queue;
 
     /**
-     * 是否序列化
      * @var bool
      */
     protected $serialize_needed;
 
     /**
-     * 无法写入队列时，是否阻塞
      * @var bool
      */
     protected $block_send;
 
     /**
-     * 设置位MSG_IPC_NOWAIT，如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
      * @var int
      */
     protected $option_receive;
 
     /**
-     * 希望接收到的最大消息大小
      * @var int
      */
     protected $maxsize;
 
     /**
-     * IPC通信KEY
      * @var
      */
     protected $key_t;
@@ -56,12 +49,15 @@ class SystemVMessageQueue implements QueueInterface
     protected $ipc_filename;
 
     /**
-     * @param int $channel 消息类型
-     * @param string $ipc_filename IPC通信标志文件，用于获取唯一IPC KEY
-     * @param bool $serialize_needed 是否序列化
-     * @param bool $block_send 无法写入队列时，是否阻塞
-     * @param int $option_receive 设置位MSG_IPC_NOWAIT，如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
-     * @param int $maxsize 希望接收到的最大消息
+     * @param int $channel message type
+     * @param string $ipc_filename ipc file to make ipc key.
+     * if it does not exists, it will try to create the file.
+     * @param bool $serialize_needed serialize or not
+     * @param bool $block_send if block when the queue is full
+     * @param int $option_receive if the value is MSG_IPC_NOWAIT，it will not
+     * going to wait a message coming. if the value is null,
+     * it will block and wait a message
+     * @param int $maxsize the max size of queue
      */
     public function __construct(
         $channel = 1,
@@ -82,7 +78,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 初始化一个队列
+     * init queue
+     *
      * @param $ipc_filename
      * @param $msg_type
      * @throws \Exception
@@ -117,7 +114,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 从队列获取一个
+     * get message
+     *
      * @param $channel
      * @return bool|string
      * @throws \Exception
@@ -147,7 +145,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 写入队列
+     * put message
+     *
      * @param $channel
      * @param $message
      * @return bool
@@ -164,22 +163,19 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /*
-     * 返回值数组下标如下：
-     * msg_perm.uid	 The uid of the owner of the queue. 用户ID
-     * msg_perm.gid	 The gid of the owner of the queue. 用户组ID
-     * msg_perm.mode	 The file access mode of the queue. 访问模式
-     * msg_stime	 The time that the last message was sent to the queue. 最后一次队列写入时间
-     * msg_rtime	 The time that the last message was received from the queue.  最后一次队列接收时间
-     * msg_ctime	 The time that the queue was last changed. 最后一次修改时间
-     * msg_qnum	 The number of messages waiting to be read from the queue. 当前等待被读取的队列数量
-     * msg_qbytes	 The maximum number of bytes allowed in one message queue.  一个消息队列中允许接收的最大消息总大小
+     * return array's keys
+     * msg_perm.uid	 The uid of the owner of the queue.
+     * msg_perm.gid	 The gid of the owner of the queue.
+     * msg_perm.mode	 The file access mode of the queue.
+     * msg_stime	 The time that the last message was sent to the queue.
+     * msg_rtime	 The time that the last message was received from the queue.
+     * msg_ctime	 The time that the queue was last changed.
+     * msg_qnum	 The number of messages waiting to be read from the queue.
+     * msg_qbytes	 The maximum number of bytes allowed in one message queue.
      *               On Linux, this value may be read and modified via /proc/sys/kernel/msgmnb.
-     * msg_lspid	 The pid of the process that sent the last message to the queue. 最后发送消息的进程ID
-     * msg_lrpid	 The pid of the process that received the last message from the queue. 最后接收消息的进程ID
+     * msg_lspid	 The pid of the process that sent the last message to the queue.
+     * msg_lrpid	 The pid of the process that received the last message from the queue.
      *
-     * @return array
-     */
-    /**
      * @return array
      */
     public function status()
@@ -189,7 +185,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 获取队列当前堆积状态
+     * get the size of queue
+     *
      * @param $channel
      * @return mixed
      */
@@ -204,7 +201,6 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * allows you to change the values of the msg_perm.uid,
      * msg_perm.gid, msg_perm.mode and msg_qbytes fields of the underlying message queue data structure
-     * 可以用来修改队列运行接收的最大读取的数据
      *
      * @param string $key 状态下标
      * @param int $value 状态值
@@ -221,7 +217,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 删除一个队列
+     * remove queue
+     *
      * @return bool
      */
     public function remove()
@@ -230,7 +227,9 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 修改队列能容纳的最大字节数，需要root权限
+     * update the max size of queue
+     * need root
+     *
      * @param $size
      * @throws \Exception
      * @return bool
@@ -245,7 +244,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 判断一个队列是否存在
+     * check if the queue is exists or not
+     *
      * @param $key
      * @return bool
      */
@@ -255,7 +255,8 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * 检查修改队列状态的权限
+     * check the privilege of update the queue's status
+     *
      * @param $key
      * @throws \Exception
      */
