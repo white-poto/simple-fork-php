@@ -119,7 +119,7 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * 从队列获取一个
      * @param $channel
-     * @return bool
+     * @return bool|string
      * @throws \Exception
      */
     public function get($channel)

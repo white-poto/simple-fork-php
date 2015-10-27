@@ -16,6 +16,11 @@ class RedisQueue implements QueueInterface
     protected $redis;
 
     /**
+     * @var array
+     */
+    protected $keys;
+
+    /**
      * @param string $host
      * @param int $port
      * @param int $database
@@ -47,6 +52,8 @@ class RedisQueue implements QueueInterface
         if (!$set_option_result) {
             throw new \RuntimeException("can not set the \\Redis::OPT_PREFIX Option");
         }
+
+        $this->keys = array();
     }
 
     /**
@@ -54,10 +61,12 @@ class RedisQueue implements QueueInterface
      *
      * @param $channel
      * @param $value
-     * @return mixed
+     * @return bool
      */
     public function put($channel, $value)
     {
+        if(!array_key_exists($channel, $this->keys)) array_push($this->keys, $channel);
+
         if($this->redis->lPush($channel, $value) !== false){
             return true;
         }
@@ -69,10 +78,12 @@ class RedisQueue implements QueueInterface
      * get value from the queue of channel
      *
      * @param $channel
-     * @return mixed
+     * @return string|bool
      */
     public function get($channel)
     {
+        if(!$this->redis->exists($channel)) return false;
+
         return $this->redis->rPop($channel);
     }
 
