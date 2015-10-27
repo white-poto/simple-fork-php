@@ -13,12 +13,14 @@ class Pool
 {
     /**
      * process list
+     *
      * @var array
      */
     protected $processes = array();
 
     /**
      * add a process
+     *
      * @param Process $process
      * @return int
      */
@@ -39,6 +41,7 @@ class Pool
 
     /**
      * shutdown all process
+     *
      * @param int $signal
      */
     public function shutdown($signal = SIGTERM)
@@ -51,7 +54,16 @@ class Pool
     }
 
     /**
+     * shutdown sub process and no wait. it is dangerous,
+     * maybe the sub process is working.
+     */
+    public function shutdownForce(){
+        $this->shutdown(SIGKILL);
+    }
+
+    /**
      * get the count of running processes
+     *
      * @return int
      */
     public function aliveCount()
@@ -68,6 +80,7 @@ class Pool
 
     /**
      * waiting for the sub processes to exit
+     *
      * @param bool|true $block if true the parent process will be blocked until all
      * sub processes exit. else it will check if thers are processes that had been exited once and return.
      * @param int $sleep when $block is true, it will check sub processes every $sleep minute
@@ -86,6 +99,7 @@ class Pool
 
     /**
      * get process by pid
+     *
      * @param $pid
      * @return null|Process
      */
