@@ -1,6 +1,9 @@
 SimpleFork
 ===================
 [![travis](https://travis-ci.org/huyanping/simple-fork-php.svg)](https://travis-ci.org/huyanping/simple-fork-php)
+[![Total Downloads](https://img.shields.io/packagist/dt/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
+[![Latest Stable Version](http://img.shields.io/packagist/v/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
+[![License](https://img.shields.io/packagist/l/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
 
 [中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
 Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
