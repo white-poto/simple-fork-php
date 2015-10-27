@@ -40,6 +40,11 @@ class Process
     protected $pid = 0;
 
     /**
+     * @var string custom process name
+     */
+    protected $name = null;
+
+    /**
      * @var bool
      */
     protected $running = null;
@@ -69,7 +74,6 @@ class Process
      */
     protected $errmsg;
 
-
     /**
      * @var array
      */
@@ -94,13 +98,16 @@ class Process
     /**
      * @param string $execution it can be a Runnable object, callback function or null
      */
-    public function __construct($execution = null)
+    public function __construct($execution = null, $name = null)
     {
         if (!is_null($execution) && $execution instanceof Runnable) {
             $this->runnable = $execution;
         }
         if (!is_null($execution) && is_callable($execution)) {
             $this->execution = $execution;
+        }
+        if(!is_null($name)){
+            $this->name = $name;
         }
     }
 
@@ -150,11 +157,26 @@ class Process
 
     /**
      * get pid
+     *
      * @return int
      */
     public function getPid()
     {
         return $this->pid;
+    }
+
+    /**
+     * get or set name
+     *
+     * @param string|null $name
+     * @return mixed
+     */
+    public function name($name = null){
+        if(!is_null($name)){
+            $this->name = $name;
+        }else{
+            return $this->name();
+        }
     }
 
     /**
@@ -167,7 +189,9 @@ class Process
     }
 
     /**
-     * @return int get process exit code
+     * get process exit code
+     *
+     * @return int
      */
     public function exitCode()
     {
@@ -175,7 +199,9 @@ class Process
     }
 
     /**
-     * @return int get pcntl errno
+     * get pcntl errno
+     *
+     * @return int
      */
     public function errno()
     {
@@ -183,7 +209,9 @@ class Process
     }
 
     /**
-     * @return string get pcntl errmsg
+     * get pcntl errmsg
+     *
+     * @return string
      */
     public function errmsg()
     {
@@ -191,6 +219,9 @@ class Process
     }
 
     /**
+     * start the sub process
+     * and run the callback
+     *
      * @return string pid
      */
     public function start()
@@ -231,7 +262,8 @@ class Process
     }
 
     /**
-     * reload process to avoid memory leaks and overloading the php script file
+     * reload process to avoid memory leaks
+     * and overloading the php script file
      */
     public function reload()
     {
@@ -241,6 +273,7 @@ class Process
 
     /**
      * kill self
+     *
      * @param bool|true $block
      * @param int $signal
      */
@@ -339,6 +372,29 @@ class Process
     }
 
     /**
+     * register callback functions
+     * @param $event
+     * @param $function
+     */
+    public function on($event, $function)
+    {
+        if (!is_callable($function)) {
+            throw new \LogicException("the callback function is not callable");
+        }
+
+        $this->callbacks[$event] = $function;
+    }
+
+    /**
+     * @param $signal
+     * @param callable $handler
+     */
+    public function registerSignalHandler($signal, callable $handler)
+    {
+        $this->signal_handlers[$signal] = $handler;
+    }
+
+    /**
      * you should overwrite this function if you do not use the Runnable.
      */
     public function run()
@@ -361,28 +417,5 @@ class Process
         }
 
         return $callback;
-    }
-
-    /**
-     * register callback functions
-     * @param $event
-     * @param $function
-     */
-    public function on($event, $function)
-    {
-        if (!is_callable($function)) {
-            throw new \LogicException("the callback function is not callable");
-        }
-
-        $this->callbacks[$event] = $function;
-    }
-
-    /**
-     * @param $signal
-     * @param callable $handler
-     */
-    public function registerSignalHandler($signal, callable $handler)
-    {
-        $this->signal_handlers[$signal] = $handler;
     }
 }
