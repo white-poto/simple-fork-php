@@ -255,7 +255,7 @@ class Process
             throw new \RuntimeException("fork error");
         } elseif ($pid > 0) {
             $this->pid = $pid;
-            $this->alive = true;
+            $this->running = true;
         } else {
             $this->pid = getmypid();
             $this->signal();
