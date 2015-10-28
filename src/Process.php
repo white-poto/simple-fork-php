@@ -276,16 +276,6 @@ class Process
     }
 
     /**
-     * reload process to avoid memory leaks
-     * and overloading the php script file
-     */
-    public function reload()
-    {
-        $this->shutdown(true);
-        $this->start();
-    }
-
-    /**
      * kill self
      *
      * @param bool|true $block

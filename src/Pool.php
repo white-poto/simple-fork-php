@@ -135,17 +135,4 @@ class Pool
 
         return null;
     }
-
-    /**
-     * restart
-     */
-    public function reload()
-    {
-        foreach ($this->processes as $process) {
-            if ($process->isRunning()) {
-                $process->reload();
-            }
-        }
-    }
-
 }
