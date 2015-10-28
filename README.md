@@ -1,9 +1,10 @@
 SimpleFork
 ===================
+[![Latest Stable Version](https://poser.pugx.org/jenner/simple_fork/v/stable)](https://packagist.org/packages/jenner/simple_fork) 
+[![Total Downloads](https://poser.pugx.org/jenner/simple_fork/downloads)](https://packagist.org/packages/jenner/simple_fork) 
+[![Latest Unstable Version](https://poser.pugx.org/jenner/simple_fork/v/unstable)](https://packagist.org/packages/jenner/simple_fork) 
+[![License](https://poser.pugx.org/jenner/simple_fork/license)](https://packagist.org/packages/jenner/simple_fork) 
 [![travis](https://travis-ci.org/huyanping/simple-fork-php.svg)](https://travis-ci.org/huyanping/simple-fork-php)
-[![Total Downloads](https://img.shields.io/packagist/dt/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
-[![Latest Stable Version](http://img.shields.io/packagist/v/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
-[![License](https://img.shields.io/packagist/l/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/?branch=master)
 
