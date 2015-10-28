@@ -11,6 +11,8 @@ services:
 
 before_script:
  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+ - composer self-update
+ - composer update
 
 script:
- - composer self-update && composer update && phpunit
+ - phpunit
