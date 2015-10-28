@@ -17,9 +17,13 @@ class PoolTest extends PHPUnit_Framework_TestCase
             });
             $pool->submit($process);
         }
+        $start = time();
         $pool->start();
         $this->assertEquals(10, $pool->aliveCount());
         $pool->wait();
+        $time = time() - $start;
+        $this->assertTrue($time >= 3);
+        $this->assertEquals(0, $pool->aliveCount());
     }
 
     public function testShutdown()
@@ -35,7 +39,7 @@ class PoolTest extends PHPUnit_Framework_TestCase
         $pool->start();
         $pool->shutdown();
         $time = time() - $start;
-        $this->assertTrue($time >= 3);
+        $this->assertTrue($time < 3);
         $this->assertEquals(0, $pool->aliveCount());
     }
 
