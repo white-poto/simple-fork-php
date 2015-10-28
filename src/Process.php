@@ -52,27 +52,27 @@ class Process
     /**
      * @var int process exit status
      */
-    protected $exit_code = 0;
+    protected $exit_code = null;
 
     /**
      * @var int the signal which made the process terminate
      */
-    protected $term_signal;
+    protected $term_signal = null;
 
     /**
      * @var int the signal which made the process stop
      */
-    protected $stop_signal;
+    protected $stop_signal = null;
 
     /**
      * @var int error code
      */
-    protected $errno;
+    protected $errno = null;
 
     /**
      * @var string error message
      */
-    protected $errmsg;
+    protected $errmsg = null;
 
     /**
      * @var array
@@ -106,11 +106,26 @@ class Process
         if (!is_null($execution) && is_callable($execution)) {
             $this->execution = $execution;
         }
-        if(!is_null($name)){
+        if (!is_null($name)) {
             $this->name = $name;
         }
+
+        $this->initStatus();
     }
 
+    /**
+     * init process status
+     */
+    protected function initStatus()
+    {
+        $this->pid = null;
+        $this->running = null;
+        $this->exit_code = null;
+        $this->term_signal = null;
+        $this->stop_signal = null;
+        $this->errno = null;
+        $this->errmsg = null;
+    }
 
     /**
      * set or get cache
@@ -121,7 +136,7 @@ class Process
     public function cache(CacheInterface $cache = null)
     {
         // set cache
-        if(!is_null($cache)){
+        if (!is_null($cache)) {
             $this->cache = $cache;
             return true;
         }
@@ -144,7 +159,7 @@ class Process
     public function queue(QueueInterface $queue = null)
     {
         // set queue
-        if(!is_null($queue)){
+        if (!is_null($queue)) {
             $this->queue = $queue;
             return true;
         }
@@ -173,10 +188,11 @@ class Process
      * @param string|null $name
      * @return mixed
      */
-    public function name($name = null){
-        if(!is_null($name)){
+    public function name($name = null)
+    {
+        if (!is_null($name)) {
             $this->name = $name;
-        }else{
+        } else {
             return $this->name();
         }
     }
@@ -228,10 +244,6 @@ class Process
      */
     public function start()
     {
-        if ($this->running === false) {
-            throw new \LogicException("the process can not start more than twice");
-        }
-
         if (!empty($this->pid) && $this->isRunning()) {
             throw new \LogicException("the process is already running");
         }
@@ -319,12 +331,7 @@ class Process
      */
     public function updateStatus($block = false)
     {
-        if (empty($this->pid)) {
-            $message = "the process pid is null, so maybe the process is not started";
-            throw new \RuntimeException($message);
-        }
-
-        if ($this->running === false) {
+        if ($this->running !== true) {
             return;
         }
 
