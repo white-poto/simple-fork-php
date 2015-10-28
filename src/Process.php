@@ -399,7 +399,8 @@ class Process
     }
 
     /**
-     * you should overwrite this function if you do not use the Runnable.
+     * you should overwrite this function
+     * if you do not use the Runnable or callback.
      */
     public function run()
     {
