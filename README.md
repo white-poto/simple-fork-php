@@ -5,7 +5,7 @@ SimpleFork
 [![Latest Stable Version](http://img.shields.io/packagist/v/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
 [![License](https://img.shields.io/packagist/l/jenner/simple_fork.svg?style=flat)](https://packagist.org/packages/jenner/simple_fork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/?branch=master)
-[![Coverage Status](https://coveralls.io/repos/huyanping/simple-fork-php/badge.svg?branch=master&service=github)](https://coveralls.io/github/huyanping/simple-fork-php?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/?branch=master)
 
 [中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
 Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
