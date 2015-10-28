@@ -50,6 +50,15 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->process_callback->errno());
     }
 
+    public function testAll(){
+        $this->process_thread->start();
+        $this->process_thread->wait();
+        $this->assertEquals($this->process_thread->errno(), 0);
+        $this->assertEquals($this->process_thread->errmsg(), '');
+        $this->assertEquals($this->process_thread->exitCode(), 0);
+        $this->assertEquals($this->process_thread->isRunning(), false);
+    }
+
 }
 
 class MyThread extends \Jenner\SimpleFork\Process
