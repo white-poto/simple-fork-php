@@ -27,7 +27,8 @@ class RedisCacheTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->cache->get('cache'));
     }
 
-    public function tearDown(){
+    public function tearDown()
+    {
         $this->cache->close();
     }
 }
