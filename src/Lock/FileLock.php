@@ -63,10 +63,10 @@ class FileLock implements LockInterface
             throw new \RuntimeException("already lock by yourself");
         }
 
-        if($blocking){
+        if ($blocking) {
             $locked = flock($this->fp, LOCK_EX);
-        }else{
-            $locked = flock($this->fp, LOCK_EX|LOCK_NB);
+        } else {
+            $locked = flock($this->fp, LOCK_EX | LOCK_NB);
         }
 
         if ($locked !== true) {

@@ -65,9 +65,9 @@ class RedisQueue implements QueueInterface
      */
     public function put($channel, $value)
     {
-        if(!array_key_exists($channel, $this->keys)) array_push($this->keys, $channel);
+        if (!array_key_exists($channel, $this->keys)) array_push($this->keys, $channel);
 
-        if($this->redis->lPush($channel, $value) !== false){
+        if ($this->redis->lPush($channel, $value) !== false) {
             return true;
         }
 
@@ -82,7 +82,7 @@ class RedisQueue implements QueueInterface
      */
     public function get($channel)
     {
-        if(!$this->redis->exists($channel)) return false;
+        if (!$this->redis->exists($channel)) return false;
 
         return $this->redis->rPop($channel);
     }

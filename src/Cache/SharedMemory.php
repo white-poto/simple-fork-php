@@ -33,7 +33,7 @@ class SharedMemory implements CacheInterface
      * @param int $size memory size
      * @param string $file
      */
-    public function __construct($size = 33554432, $file=__FILE__)
+    public function __construct($size = 33554432, $file = __FILE__)
     {
         $this->size = $size;
         if (function_exists("shm_attach") === false) {
@@ -78,7 +78,7 @@ class SharedMemory implements CacheInterface
     public function remove()
     {
         //dallocate shared memory
-        if(!shm_remove($this->shm)){
+        if (!shm_remove($this->shm)) {
             return false;
         }
         $this->dettach();
