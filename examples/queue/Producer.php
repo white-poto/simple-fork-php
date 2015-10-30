@@ -14,15 +14,15 @@ class Producer extends \Jenner\SimpleFork\Process
 {
     public function run()
     {
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
         for ($i = 0; $i < 100; $i++) {
-            $this->queue()->put(1, $i);
+            $queue->put(1, $i);
             //usleep(50000);
         }
     }
 }
 
-$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
+
 $producer = new Producer();
-$producer->queue($queue);
 $producer->start();
 $producer->wait();

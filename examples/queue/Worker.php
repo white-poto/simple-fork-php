@@ -16,8 +16,9 @@ class Worker extends \Jenner\SimpleFork\Process
 {
     public function run()
     {
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
         while (true) {
-            $res = $this->queue()->get(1);
+            $res = $queue->get(1);
             if ($res !== false) {
                 echo $this->getPid() . ":" . $res . PHP_EOL;
             }
@@ -26,13 +27,10 @@ class Worker extends \Jenner\SimpleFork\Process
     }
 }
 
-$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
 
 $worker_1 = new Worker();
-$worker_1->queue($queue);
 
 $worker_2 = new Worker();
-$worker_2->queue($queue);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($worker_1);

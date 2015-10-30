@@ -13,17 +13,6 @@ use Jenner\SimpleFork\Queue\QueueInterface;
 
 class Process
 {
-
-    /**
-     * @var QueueInterface
-     */
-    protected $queue;
-
-    /**
-     * @var CacheInterface
-     */
-    protected $cache;
-
     /**
      * @var Runnable
      */
@@ -125,51 +114,6 @@ class Process
         $this->stop_signal = null;
         $this->errno = null;
         $this->errmsg = null;
-    }
-
-    /**
-     * set or get cache
-     *
-     * @param CacheInterface|null $cache
-     * @return bool|CacheInterface
-     */
-    public function cache(CacheInterface $cache = null)
-    {
-        // set cache
-        if (!is_null($cache)) {
-            $this->cache = $cache;
-            return true;
-        }
-
-        // get cache
-        if (is_object($this->cache) && $this->cache instanceof CacheInterface) {
-            return $this->cache;
-        }
-
-        return false;
-    }
-
-
-    /**
-     * set or get queue
-     *
-     * @param QueueInterface|null $queue
-     * @return bool|QueueInterface
-     */
-    public function queue(QueueInterface $queue = null)
-    {
-        // set queue
-        if (!is_null($queue)) {
-            $this->queue = $queue;
-            return true;
-        }
-
-        // get queue
-        if (is_object($this->queue) && $this->queue instanceof QueueInterface) {
-            return $this->queue;
-        }
-
-        return false;
     }
 
     /**

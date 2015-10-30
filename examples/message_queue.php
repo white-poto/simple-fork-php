@@ -12,9 +12,10 @@ class Producer extends \Jenner\SimpleFork\Process
 {
     public function run()
     {
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
         for ($i = 0; $i < 10; $i++) {
             echo getmypid() . PHP_EOL;
-            $this->queue()->put(1, $i);
+            $queue->put(1, $i);
         }
     }
 }
@@ -24,20 +25,20 @@ class Worker extends \Jenner\SimpleFork\Process
     public function run()
     {
         sleep(5);
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
         for ($i = 0; $i < 10; $i++) {
-            $res = $this->queue()->get(1);
+            $res = $queue->get(1);
             echo getmypid() . ' = ' . $i . PHP_EOL;
             var_dump($res);
         }
     }
 }
 
-$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+
 $producer = new Producer();
-$producer->queue($queue);
+
 
 $worker = new Worker();
-$worker->queue($queue);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($producer);
