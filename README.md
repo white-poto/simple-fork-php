@@ -94,8 +94,10 @@ $process->wait();
 ```php
 class Producer extends \Jenner\SimpleFork\Process{
     public function run(){
+        $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        //$cache = new \Jenner\SimpleFork\Cache\RedisCache();
         for($i = 0; $i<10; $i++){
-            $this->cache()->set($i, $i);
+            $cache->set($i, $i);
             echo "set {$i} : {$i}" . PHH_EOL;
         }
     }
@@ -104,19 +106,17 @@ class Producer extends \Jenner\SimpleFork\Process{
 class Worker extends \Jenner\SimpleFork\Process{
     public function run(){
         sleep(5);
+        $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        //$cache = new \Jenner\SimpleFork\Cache\RedisCache();
         for($i=0; $i<10; $i++){
-            echo "get {$i} : " . $this->cache()->get($i) . PHP_EOL;
+            echo "get {$i} : " . $cache->get($i) . PHP_EOL;
         }
     }
 }
 
-$memory = new \Jenner\SimpleFork\Cache\SharedMemory();
-//$memory = new \Jenner\SimpleFork\Cache\RedisCache();
 $producer = new Producer();
-$producer->cache($memory);
 
 $worker = new Worker();
-$worker->cache($memory);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($producer);
@@ -131,9 +131,11 @@ class Producer extends \Jenner\SimpleFork\Process
 {
     public function run()
     {
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+        //$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         for ($i = 0; $i < 10; $i++) {
             echo getmypid() . PHP_EOL;
-            $this->queue()->put(1, $i);
+            $queue->put(1, $i);
         }
     }
 }
@@ -143,21 +145,19 @@ class Worker extends \Jenner\SimpleFork\Process
     public function run()
     {
         sleep(5);
+        $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
+        //$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         for ($i = 0; $i < 10; $i++) {
-            $res = $this->queue()->get(1);
+            $res = $queue->get(1);
             echo getmypid() . ' = ' . $i . PHP_EOL;
             var_dump($res);
         }
     }
 }
 
-$queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
-//$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
 $producer = new Producer();
-$producer->queue($queue);
 
 $worker = new Worker();
-$worker->queue($queue);
 
 $pool = new \Jenner\SimpleFork\Pool();
 $pool->submit($producer);
