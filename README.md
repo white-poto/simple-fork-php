@@ -44,16 +44,26 @@ Property
 + Two ways to make Process: extends Process or implements Runnable
 + You can get the status of sub process
 + You can stop any process if you want, or just shutdown all process.
-+ You can register Process::BEFORE_EXIT and Process::BEFORE_START callback functions by Process::on(). 
++ You can register Process::BEFORE_EXIT and Process::BEFORE_START 
+callback functions by Process::on(). 
 If the callback function return true, the process will exit, else it will continue to run.
-+ You can reload the processes by reload() method, then the processes will exit and start new process instead.
++ You can reload the processes by reload() method, then the processes 
+will exit and start new process instead.
 
 Callback functions
 -------------------------------
 Use Process::on($event, $callback) method to register callback functions  
-+ Process::BEFORE_START It will be called when the process start. If it return false, the process will not start and exit with status 0.
-+ Process::BEFORE_EXIT It will be called when the main process call stop() method. If it return false, the process will not exit.
++ Process::BEFORE_START It will be called when the process start. 
+If it return false, the process will not start and exit with status 0.
++ Process::BEFORE_EXIT It will be called when the main process call stop() method. 
+If it return false, the process will not exit.
 
+Notice
+--------------------------
+If you want to register signal handler in the master process, the child will inherit the handler.
+If you want to register signal handler in child process but before it start, 
+you can call the `Process::registerSignalHandler` method. After the child process
+start, it will register the signal handler automatically.
 
 Examples
 -------------------------
