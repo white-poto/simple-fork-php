@@ -9,12 +9,8 @@
 namespace Jenner\SimpleFork;
 
 
-class FixedPool
+class FixedPool extends AbstractPool
 {
-    /**
-     * @var Process[] process list
-     */
-    protected $processes;
 
     /**
      * @var callable|Runnable sub process callback
@@ -39,7 +35,6 @@ class FixedPool
 
         $this->runnable;
         $this->max = $max;
-        $this->processes = array();
     }
 
     /**
@@ -80,42 +75,6 @@ class FixedPool
             $this->start();
             $block ? usleep($interval) : null;
         } while ($block);
-    }
-
-    /**
-     * waiting for the sub processes to exit
-     *
-     * @param bool|true $block if true the parent process will be blocked until all
-     * sub processes exit. else it will check if thers are processes that had been exited once and return.
-     * @param int $sleep when $block is true, it will check sub processes every $sleep minute
-     */
-    public function wait($block = true, $sleep = 100)
-    {
-        do {
-            foreach ($this->processes as $process) {
-                if (!$process->isRunning()) {
-                    continue;
-                }
-            }
-            usleep($sleep);
-        } while ($block && $this->aliveCount() > 0);
-    }
-
-    /**
-     * get the count of running processes
-     *
-     * @return int
-     */
-    public function aliveCount()
-    {
-        $count = 0;
-        foreach ($this->processes as $process) {
-            if ($process->isRunning()) {
-                $count++;
-            }
-        }
-
-        return $count;
     }
 
     /**
