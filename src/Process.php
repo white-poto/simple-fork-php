@@ -80,11 +80,6 @@ class Process
      */
     const BEFORE_EXIT = 'beforeExit';
 
-    /**
-     * event name of after process exit
-     */
-    const AFTER_FINISHED = 'afterFinished';
-
 
     /**
      * @param string $execution it can be a Runnable object, callback function or null
@@ -211,10 +206,6 @@ class Process
             }
 
             call_user_func($callback);
-
-            if (array_key_exists(self::AFTER_FINISHED, $this->callbacks)) {
-                call_user_func($this->callbacks[self::AFTER_FINISHED]);
-            }
 
             exit(0);
         }
