@@ -57,9 +57,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $process->start();
         sleep(1);
         $this->assertEquals('test', $cache->get('test'));
-        $process->shutdown();
-        sleep(3);
-        $this->assertFalse($cache->has('test'));
+        $cache->delete('test');
     }
 
     public function testShutdown()
