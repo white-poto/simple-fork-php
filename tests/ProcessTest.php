@@ -33,25 +33,27 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     }
 
     public function testOn(){
+        $ipc_file = '/tmp/ipc_test';
+        touch($ipc_file);
         $process = new \Jenner\SimpleFork\Process(function(){
 
         });
 
-        $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function(){
-            $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function() use ($ipc_file){
+            $cache = new \Jenner\SimpleFork\Cache\SharedMemory(33554432, $ipc_file);
             $cache->set('test', 'test');
             sleep(3);
             return true;
         });
 
-        $process->on(\Jenner\SimpleFork\Process::BEFORE_EXIT, function(){
-            $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $process->on(\Jenner\SimpleFork\Process::BEFORE_EXIT, function() use ($ipc_file){
+            $cache = new \Jenner\SimpleFork\Cache\SharedMemory(33554432, $ipc_file);
             $cache->delete('test');
             sleep(3);
             return true;
         });
 
-        $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $cache = new \Jenner\SimpleFork\Cache\SharedMemory(33554432, $ipc_file);
         $this->assertFalse($cache->has('test'));
         $process->start();
         sleep(1);
