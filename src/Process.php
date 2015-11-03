@@ -36,11 +36,6 @@ class Process
     protected $running = null;
 
     /**
-     * @var int process exit status
-     */
-    protected $exit_code = null;
-
-    /**
      * @var int the signal which made the process terminate
      */
     protected $term_signal = null;
@@ -111,7 +106,6 @@ class Process
     {
         $this->pid = null;
         $this->running = null;
-        $this->exit_code = null;
         $this->term_signal = null;
         $this->stop_signal = null;
         $this->errno = null;
@@ -150,16 +144,6 @@ class Process
     {
         $this->updateStatus();
         return $this->running;
-    }
-
-    /**
-     * get process exit code
-     *
-     * @return int
-     */
-    public function exitCode()
-    {
-        return $this->exit_code;
     }
 
     /**
@@ -295,7 +279,7 @@ class Process
                 $this->stop_signal = pcntl_wstopsig($status);
             }
             if (pcntl_wifexited($status)) {
-                $this->exit_code = pcntl_wexitstatus($status);
+                $this->errno = pcntl_wexitstatus($status);
             } else {
                 $this->errno = pcntl_get_last_error();
                 $this->errmsg = pcntl_strerror($this->errno);

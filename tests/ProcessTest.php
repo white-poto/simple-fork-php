@@ -23,14 +23,12 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 
     public function testFailed(){
         $process = new \Jenner\SimpleFork\Process(function(){
-            exit(255);
+            function_not_exists();
         });
         $process->start();
-        $this->assertEquals(255, $process->exitCode());
-        $this->assertEquals(255, $process->errno());
+        $process->wait();
+        var_dump($process->errno());
         var_dump($process->errmsg());
-
-
     }
 
 
@@ -45,21 +43,17 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         });
         $this->process_thread->start();
         $this->process_thread->wait();
-        $this->assertEquals(0, $this->process_thread->exitCode());
         $this->assertEquals(0, $this->process_thread->errno());
         $this->assertEquals($this->process_thread->errno(), 0);
         $this->assertEquals($this->process_thread->errmsg(), '');
-        $this->assertEquals($this->process_thread->exitCode(), 0);
         $this->assertEquals($this->process_thread->isRunning(), false);
 
         $this->process_runable->start();
         $this->process_runable->wait();
-        $this->assertEquals(0, $this->process_runable->exitCode());
         $this->assertEquals(0, $this->process_runable->errno());
 
         $this->process_callback->start();
         $this->process_callback->wait();
-        $this->assertEquals(0, $this->process_callback->exitCode());
         $this->assertEquals(0, $this->process_callback->errno());
     }
 
