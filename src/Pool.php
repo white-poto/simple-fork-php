@@ -57,7 +57,7 @@ class Pool extends AbstractPool
     /**
      * get process by name
      *
-     * @param $name process name
+     * @param string $name process name
      * @return Process|null
      */
     public function getProcessByName($name)

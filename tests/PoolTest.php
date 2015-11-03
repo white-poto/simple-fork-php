@@ -8,6 +8,18 @@
  */
 class PoolTest extends PHPUnit_Framework_TestCase
 {
+    public function testMethods(){
+        $process = new \Jenner\SimpleFork\Process(function(){
+            sleep(3);
+        }, 'test');
+        $pool = new \Jenner\SimpleFork\Pool();
+        $pool->submit($process);
+        $pool->start();
+        $this->assertEquals(1, $pool->aliveCount());
+        $this->assertEquals($process, $pool->getProcessByPid($process->getPid()));
+        $this->assertEquals($process, $pool->getProcessByName('test'));
+    }
+
     public function testAliveCount()
     {
         $pool = new \Jenner\SimpleFork\Pool();
