@@ -284,7 +284,6 @@ class Process
             } else {
                 $this->errno = pcntl_get_last_error();
                 $this->errmsg = pcntl_strerror($this->errno);
-                var_dump($this->errmsg);
             }
 
             $this->running = false;

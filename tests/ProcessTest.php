@@ -27,8 +27,8 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         });
         $process->start();
         $process->wait();
-        var_dump($process->errno());
-        var_dump($process->errmsg());
+        $this->assertEquals(255, $process->errno());
+        $this->assertEquals("Unknown error 255", $process->errmsg());
     }
 
 
