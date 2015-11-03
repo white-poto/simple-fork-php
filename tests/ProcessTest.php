@@ -41,8 +41,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($process->isRunning());
         $this->assertTrue(time() - $time < 3);
         $this->assertTrue($process->ifSignal());
-        var_dump($process->errmsg());
-        var_dump($process->errno());
+        $this->assertEquals(0, $process->errno());
     }
 
 
@@ -59,7 +58,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->process_thread->wait();
         $this->assertEquals(0, $this->process_thread->errno());
         $this->assertEquals($this->process_thread->errno(), 0);
-        $this->assertEquals($this->process_thread->errmsg(), '');
+        $this->assertEquals($this->process_thread->errmsg(), 'Success');
         $this->assertEquals($this->process_thread->isRunning(), false);
 
         $this->process_runable->start();
