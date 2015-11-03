@@ -210,10 +210,10 @@ class Process
                 }
             }
 
-            call_user_func($callback);
+            $result = call_user_func($callback);
 
             if (array_key_exists(self::AFTER_FINISHED, $this->callbacks)) {
-                call_user_func($this->callbacks[self::AFTER_FINISHED]);
+                call_user_func($this->callbacks[self::AFTER_FINISHED], $result);
             }
 
             exit(0);
