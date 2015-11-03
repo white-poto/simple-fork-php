@@ -31,6 +31,20 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Unknown error 255", $process->errmsg());
     }
 
+    public function testShutdown(){
+        $process = new \Jenner\SimpleFork\Process(function(){
+            sleep(3);
+        });
+        $time = time();
+        $process->start();
+        $process->shutdown(SIGKILL);
+        $this->assertFalse($process->isRunning());
+        $this->assertTrue(time() - $time < 3);
+        $this->assertTrue($process->ifSignal());
+        var_dump($process->errmsg());
+        var_dump($process->errno());
+    }
+
 
     public function testWait()
     {

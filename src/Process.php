@@ -56,6 +56,11 @@ class Process
     protected $errmsg = null;
 
     /**
+     * @var null
+     */
+    protected $if_signal = false;
+
+    /**
      * @var array
      */
     protected $callbacks = array();
@@ -164,6 +169,11 @@ class Process
     public function errmsg()
     {
         return $this->errmsg;
+    }
+
+    public function ifSignal()
+    {
+        return $this->if_signal;
     }
 
     /**
@@ -284,6 +294,11 @@ class Process
             } else {
                 $this->errno = pcntl_get_last_error();
                 $this->errmsg = pcntl_strerror($this->errno);
+            }
+            if (pcntl_wifsignaled($status)) {
+                $this->if_signal = true;
+            } else {
+                $this->if_signal = false;
             }
 
             $this->running = false;
