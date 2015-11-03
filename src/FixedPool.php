@@ -32,7 +32,7 @@ class FixedPool
      */
     public function __construct($callback, $max = 10)
     {
-        if(!is_callable($callback) || !($callback instanceof Runnable)){
+        if (!is_callable($callback) || !($callback instanceof Runnable)) {
             $message = "callback must be a callback function or a object of Runnalbe";
             throw new \InvalidArgumentException($message);
         }
@@ -44,33 +44,61 @@ class FixedPool
 
     /**
      * start the pool
-     *
-     * @param int $usleep sleep usleep millisecond in every loop
      */
-    public function start($usleep = 100)
+    public function start()
     {
-        while (true) {
-            $alive_count = $this->aliveCount();
-            // create sub process and run
-            if ($alive_count < $this->max) {
-                $need = $this->max - $alive_count;
-                for ($i = 0; $i < $need; $i++) {
-                    $process = new Process($this->runnable);
-                    $process->start();
-                    $this->processes[$process->getPid()] = $process;
-                }
+        $alive_count = $this->aliveCount();
+        // create sub process and run
+        if ($alive_count < $this->max) {
+            $need = $this->max - $alive_count;
+            for ($i = 0; $i < $need; $i++) {
+                $process = new Process($this->runnable);
+                $process->start();
+                $this->processes[$process->getPid()] = $process;
             }
+        }
 
-            // recycle sub process and delete the processes
-            // which are not running from process list
+        // recycle sub process and delete the processes
+        // which are not running from process list
+        foreach ($this->processes as $process) {
+            if (!$process->isRunning()) {
+                unset($this->processes[$process->getPid()]);
+            }
+        }
+    }
+
+    /**
+     * keep sub process count
+     *
+     * @param bool $block block the master process
+     * to keep the sub process count all the time
+     * @param int $interval check time interval
+     */
+    public function keep($block = false, $interval = 100)
+    {
+        do {
+            $this->start();
+            $block ? usleep($interval) : null;
+        } while ($block);
+    }
+
+    /**
+     * waiting for the sub processes to exit
+     *
+     * @param bool|true $block if true the parent process will be blocked until all
+     * sub processes exit. else it will check if thers are processes that had been exited once and return.
+     * @param int $sleep when $block is true, it will check sub processes every $sleep minute
+     */
+    public function wait($block = true, $sleep = 100)
+    {
+        do {
             foreach ($this->processes as $process) {
                 if (!$process->isRunning()) {
-                    unset($this->processes[$process->getPid()]);
+                    continue;
                 }
             }
-
-            usleep($usleep);
-        }
+            usleep($sleep);
+        } while ($block && $this->aliveCount() > 0);
     }
 
     /**
@@ -88,5 +116,15 @@ class FixedPool
         }
 
         return $count;
+    }
+
+    /**
+     * return process count
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->processes);
     }
 }
