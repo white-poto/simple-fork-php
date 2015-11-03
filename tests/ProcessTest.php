@@ -28,7 +28,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $process->start();
         $this->assertEquals(255, $process->exitCode());
         $this->assertEquals(255, $process->errno());
-        echo $process->errmsg();
+        var_dump($process->errmsg());
 
 
     }
