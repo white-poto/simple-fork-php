@@ -56,7 +56,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $process->start();
         sleep(1);
         $this->assertEquals('test', $cache->get('test'));
-        sleep(3);
+        sleep(6);
         $this->assertFalse($cache->has('test'));
         $process->wait();
     }
