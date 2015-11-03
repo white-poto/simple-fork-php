@@ -73,12 +73,17 @@ class Process
     /**
      * event name of before process start
      */
-    const BEFORE_START = "beforeStart";
+    const BEFORE_START = 'beforeStart';
 
     /**
      * event name of before process exit
      */
-    const BEFORE_EXIT = "beforeExit";
+    const BEFORE_EXIT = 'beforeExit';
+
+    /**
+     * event name of after process exit
+     */
+    const AFTER_FINISHED = 'afterFinished';
 
 
     /**
@@ -212,6 +217,11 @@ class Process
             }
 
             call_user_func($callback);
+
+            if (array_key_exists(self::AFTER_FINISHED, $this->callbacks)) {
+                call_user_func($this->callbacks[self::AFTER_FINISHED]);
+            }
+
             exit(0);
         }
     }

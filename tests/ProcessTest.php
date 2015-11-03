@@ -21,7 +21,20 @@ class ProcessTest extends PHPUnit_Framework_TestCase
      */
     protected $process_callback;
 
-    public function setUp()
+    public function testFailed(){
+        $process = new \Jenner\SimpleFork\Process(function(){
+            exit(255);
+        });
+        $process->start();
+        $this->assertEquals(255, $process->exitCode());
+        $this->assertEquals(255, $process->errno());
+        echo $process->errmsg();
+
+
+    }
+
+
+    public function testWait()
     {
         $this->process_thread = new MyThread();
         $this->process_runable = new \Jenner\SimpleFork\Process(new MyRunnable());
@@ -30,10 +43,6 @@ class ProcessTest extends PHPUnit_Framework_TestCase
 //                echo "callback pid:" . getmypid() . PHP_EOL;
             }
         });
-    }
-
-    public function testWait()
-    {
         $this->process_thread->start();
         $this->process_thread->wait();
         $this->assertEquals(0, $this->process_thread->exitCode());
@@ -53,6 +62,8 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->process_callback->exitCode());
         $this->assertEquals(0, $this->process_callback->errno());
     }
+
+
 }
 
 class MyThread extends \Jenner\SimpleFork\Process
