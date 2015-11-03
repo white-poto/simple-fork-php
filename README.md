@@ -57,6 +57,9 @@ Use Process::on($event, $callback) method to register callback functions
 If it return false, the process will not start and exit with status 0.
 + Process::BEFORE_EXIT It will be called when the main process call stop() method. 
 If it return false, the process will not exit.
++ Process::AFTER_FINISHED It will be called after the sub process callback is finished.
+It accept a param which is the return value of the 
+callback(`Runnable::run()`, `Process::run`, `new Process(callable)`)
 
 Notice
 --------------------------

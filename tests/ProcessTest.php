@@ -40,7 +40,6 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function(){
             $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
             $cache->set('test', 'test');
-            sleep(3);
             return true;
         });
 
