@@ -28,7 +28,7 @@ class FixedPool extends AbstractPool
      */
     public function __construct($callback, $max = 10)
     {
-        if (!is_callable($callback) || !($callback instanceof Runnable)) {
+        if (!is_callable($callback) && !($callback instanceof Runnable)) {
             $message = "callback must be a callback function or a object of Runnalbe";
             throw new \InvalidArgumentException($message);
         }
