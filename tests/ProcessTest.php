@@ -21,8 +21,9 @@ class ProcessTest extends PHPUnit_Framework_TestCase
      */
     protected $process_callback;
 
-    public function testFailed(){
-        $process = new \Jenner\SimpleFork\Process(function(){
+    public function testFailed()
+    {
+        $process = new \Jenner\SimpleFork\Process(function () {
             function_not_exists();
         });
         $process->start();
@@ -31,8 +32,9 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Unknown error 255", $process->errmsg());
     }
 
-    public function testShutdown(){
-        $process = new \Jenner\SimpleFork\Process(function(){
+    public function testShutdown()
+    {
+        $process = new \Jenner\SimpleFork\Process(function () {
             sleep(3);
         });
         $time = time();
