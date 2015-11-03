@@ -139,7 +139,7 @@ class Process
         if (!is_null($name)) {
             $this->name = $name;
         } else {
-            return $this->name();
+            return $this->name;
         }
     }
 
