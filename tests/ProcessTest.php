@@ -52,6 +52,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         });
 
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
+        $cache->delete('test');
         $process->start();
         sleep(1);
         $this->assertEquals('test', $cache->get('test'));
