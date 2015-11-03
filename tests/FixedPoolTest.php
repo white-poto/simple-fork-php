@@ -19,6 +19,11 @@ class FixedPoolTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(10, $pool->aliveCount());
         $pool->wait(true);
     }
+
+    public function testException(){
+        $this->setExpectedException('InvalidArgumentException');
+        $pool = new \Jenner\SimpleFork\FixedPool('test');
+    }
 }
 
 
