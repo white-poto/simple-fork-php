@@ -9,7 +9,7 @@
 declare(ticks = 1);
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class TestRunnable implements \Jenner\SimpleFork\Runnable
+class TestRunnable2 implements \Jenner\SimpleFork\Runnable
 {
 
     /**
@@ -26,7 +26,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 
 }
 
-$process = new \Jenner\SimpleFork\Process(new TestRunnable());
+$process = new \Jenner\SimpleFork\Process(new TestRunnable2());
 $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function () {
     echo "start" . PHP_EOL;
     return true;
