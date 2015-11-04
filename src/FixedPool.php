@@ -48,6 +48,7 @@ class FixedPool extends AbstractPool
             $need = $this->max - $alive_count;
             for ($i = 0; $i < $need; $i++) {
                 $process = new Process($this->runnable);
+                echo 'up' . PHP_EOL;
                 $process->start();
                 $this->processes[$process->getPid()] = $process;
             }
