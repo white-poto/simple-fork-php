@@ -33,7 +33,7 @@ class FixedPool extends AbstractPool
             throw new \InvalidArgumentException($message);
         }
 
-        $this->runnable;
+        $this->runnable = $callback;
         $this->max = $max;
     }
 
