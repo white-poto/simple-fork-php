@@ -16,16 +16,16 @@ class RedisQueue implements QueueInterface
     protected $redis;
 
     /**
-     * @var string
+     * @var string redis key of queue
      */
     protected $channel;
 
     /**
-     * @param string $host
-     * @param int $port
-     * @param int $database
-     * @param string $channel
-     * @param string $prefix
+     * @param string $host redis server host
+     * @param int $port redis server port
+     * @param int $database redis server database num
+     * @param string $channel redis queue key
+     * @param string $prefix prefix of redis queue key
      */
     public function __construct(
         $host = '127.0.0.1',
@@ -81,7 +81,6 @@ class RedisQueue implements QueueInterface
     /**
      * get value from the queue
      *
-     * @param $channel
      * @return string|bool
      */
     public function get()

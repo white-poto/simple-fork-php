@@ -12,7 +12,7 @@ namespace Jenner\SimpleFork\Queue;
 class SystemVMessageQueue implements QueueInterface
 {
     /**
-     * @var int
+     * @var int channel
      */
     protected $msg_type;
 
@@ -46,6 +46,9 @@ class SystemVMessageQueue implements QueueInterface
      */
     protected $key_t;
 
+    /**
+     * @var string
+     */
     protected $ipc_filename;
 
     /**
@@ -196,8 +199,8 @@ class SystemVMessageQueue implements QueueInterface
      * allows you to change the values of the msg_perm.uid,
      * msg_perm.gid, msg_perm.mode and msg_qbytes fields of the underlying message queue data structure
      *
-     * @param string $key ״̬�±�
-     * @param int $value ״ֵ̬
+     * @param string $key status key
+     * @param int $value status value
      * @return bool
      */
     public function setStatus($key, $value)
