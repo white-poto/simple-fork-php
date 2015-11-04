@@ -9,10 +9,7 @@
 declare(ticks = 1);
 require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable(), 10);
-$fixed_pool->start();
 
-$fixed_pool->keep(true);
 
 class TestRunnable implements \Jenner\SimpleFork\Runnable {
 
@@ -26,3 +23,8 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable {
         echo 'sub process:' . getmypid() . PHP_EOL;
     }
 }
+
+$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable(), 10);
+$fixed_pool->start();
+
+$fixed_pool->keep(true);
