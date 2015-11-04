@@ -18,7 +18,7 @@ class Worker extends \Jenner\SimpleFork\Process
     {
         $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue(1, "/tmp/simple-fork-test.ipc");
         while (true) {
-            $res = $queue->get(1);
+            $res = $queue->get();
             if ($res !== false) {
                 echo $this->getPid() . ":" . $res . PHP_EOL;
             }

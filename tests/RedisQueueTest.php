@@ -16,9 +16,9 @@ class RedisQueueTest extends PHPUnit_Framework_TestCase
     public function testAll()
     {
         $this->queue = new \Jenner\SimpleFork\Queue\RedisQueue();
-        $this->assertTrue($this->queue->put('test', 'test'));
-        $this->assertEquals($this->queue->get('test'), 'test');
-        $this->assertEquals($this->queue->size('test'), 0);
+        $this->assertTrue($this->queue->put('test'));
+        $this->assertEquals($this->queue->get(), 'test');
+        $this->assertEquals($this->queue->size(), 0);
         $this->queue->close();
     }
 
@@ -26,14 +26,14 @@ class RedisQueueTest extends PHPUnit_Framework_TestCase
     {
         $process = new \Jenner\SimpleFork\Process(function () {
             $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
-            $queue->put('test', 'test');
+            $queue->put('test');
             $queue->close();
         });
         $process->start();
         $process->wait();
         $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
-        $this->assertEquals($queue->size('test'), 1);
-        $this->assertEquals($queue->get('test'), 'test');
+        $this->assertEquals($queue->size(), 1);
+        $this->assertEquals($queue->get(), 'test');
         $queue->close();
     }
 

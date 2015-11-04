@@ -16,20 +16,22 @@ class RedisQueue implements QueueInterface
     protected $redis;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $keys;
+    protected $channel;
 
     /**
      * @param string $host
      * @param int $port
      * @param int $database
+     * @param string $channel
      * @param string $prefix
      */
     public function __construct(
         $host = '127.0.0.1',
         $port = 6379,
         $database = 0,
+        $channel = "cache",
         $prefix = "simple-fork-"
     )
     {
@@ -46,28 +48,30 @@ class RedisQueue implements QueueInterface
             }
         }
 
-        if (empty($prefix)) return;
+        if (empty($channel)) {
+            throw new \InvalidArgumentException("channel can not be empty");
+        }
+
+        $this->channel = $channel;
+
+        if(empty($prefix)) return;
 
         $set_option_result = $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
         if (!$set_option_result) {
             throw new \RuntimeException("can not set the \\Redis::OPT_PREFIX Option");
         }
-
-        $this->keys = array();
     }
 
     /**
-     * put value into the queue of channel
+     * put value into the queue
      *
-     * @param $channel
      * @param $value
      * @return bool
      */
-    public function put($channel, $value)
+    public function put($value)
     {
-        if (!array_key_exists($channel, $this->keys)) array_push($this->keys, $channel);
 
-        if ($this->redis->lPush($channel, $value) !== false) {
+        if ($this->redis->lPush($this->channel, $value) !== false) {
             return true;
         }
 
@@ -75,27 +79,26 @@ class RedisQueue implements QueueInterface
     }
 
     /**
-     * get value from the queue of channel
+     * get value from the queue
      *
      * @param $channel
      * @return string|bool
      */
-    public function get($channel)
+    public function get()
     {
-        if (!$this->redis->exists($channel)) return false;
+        if (!$this->redis->exists($this->channel)) return false;
 
-        return $this->redis->rPop($channel);
+        return $this->redis->rPop($this->channel);
     }
 
     /**
-     * get the size of the queue of channel
+     * get the size of the queue
      *
-     * @param $channel
      * @return int
      */
-    public function size($channel)
+    public function size()
     {
-        return $this->redis->lSize($channel);
+        return $this->redis->lSize($this->channel);
     }
 
     /**
@@ -105,7 +108,7 @@ class RedisQueue implements QueueInterface
      */
     public function remove()
     {
-        return $this->redis->flushDB();
+        return $this->redis->delete($this->channel);
     }
 
     /**

@@ -105,19 +105,6 @@ class Process
     }
 
     /**
-     * init process status
-     */
-    protected function initStatus()
-    {
-        $this->pid = null;
-        $this->running = null;
-        $this->term_signal = null;
-        $this->stop_signal = null;
-        $this->errno = null;
-        $this->errmsg = null;
-    }
-
-    /**
      * get pid
      *
      * @return int
@@ -243,69 +230,6 @@ class Process
     }
 
     /**
-     * register signal handler
-     */
-    public function signal()
-    {
-        pcntl_signal(SIGTERM, function () {
-            if (!array_key_exists(self::BEFORE_EXIT, $this->callbacks)) {
-                exit(0);
-            }
-
-            $result = call_user_func($this->callbacks[self::BEFORE_EXIT]);
-            if ($result === true) {
-                exit(0);
-            }
-        });
-    }
-
-    /**
-     * update the process status
-     *
-     * @param bool $block
-     */
-    public function updateStatus($block = false)
-    {
-        if ($this->running !== true) {
-            return;
-        }
-
-        if ($block) {
-            $res = pcntl_waitpid($this->pid, $status);
-        } else {
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
-        }
-
-        if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
-        } elseif ($res === 0) {
-            $this->running = true;
-        } else {
-            if (pcntl_wifsignaled($status)) {
-                $this->term_signal = pcntl_wtermsig($status);
-            }
-            if (pcntl_wifstopped($status)) {
-                $this->stop_signal = pcntl_wstopsig($status);
-            }
-            if (pcntl_wifexited($status)) {
-                $this->errno = pcntl_wexitstatus($status);
-                $this->errmsg = pcntl_strerror($this->errno);
-            } else {
-                $this->errno = pcntl_get_last_error();
-                $this->errmsg = pcntl_strerror($this->errno);
-            }
-            if (pcntl_wifsignaled($status)) {
-                $this->if_signal = true;
-            } else {
-                $this->if_signal = false;
-            }
-
-            $this->running = false;
-        }
-    }
-
-    /**
      * @param bool|true $block
      * @param int $sleep
      */
@@ -355,6 +279,69 @@ class Process
     }
 
     /**
+     * update the process status
+     *
+     * @param bool $block
+     */
+    protected function updateStatus($block = false)
+    {
+        if ($this->running !== true) {
+            return;
+        }
+
+        if ($block) {
+            $res = pcntl_waitpid($this->pid, $status);
+        } else {
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
+        }
+
+        if ($res === -1) {
+            $message = "pcntl_waitpid failed. the process maybe available";
+            throw new \RuntimeException($message);
+        } elseif ($res === 0) {
+            $this->running = true;
+        } else {
+            if (pcntl_wifsignaled($status)) {
+                $this->term_signal = pcntl_wtermsig($status);
+            }
+            if (pcntl_wifstopped($status)) {
+                $this->stop_signal = pcntl_wstopsig($status);
+            }
+            if (pcntl_wifexited($status)) {
+                $this->errno = pcntl_wexitstatus($status);
+                $this->errmsg = pcntl_strerror($this->errno);
+            } else {
+                $this->errno = pcntl_get_last_error();
+                $this->errmsg = pcntl_strerror($this->errno);
+            }
+            if (pcntl_wifsignaled($status)) {
+                $this->if_signal = true;
+            } else {
+                $this->if_signal = false;
+            }
+
+            $this->running = false;
+        }
+    }
+
+    /**
+     * register signal handler
+     */
+    protected function signal()
+    {
+        pcntl_signal(SIGTERM, function () {
+            if (!array_key_exists(self::BEFORE_EXIT, $this->callbacks)) {
+                exit(0);
+            }
+
+            $result = call_user_func($this->callbacks[self::BEFORE_EXIT]);
+            if ($result === true) {
+                exit(0);
+            }
+        });
+    }
+
+    /**
      * get sub process callback
      *
      * @return array|callable|null
@@ -371,5 +358,18 @@ class Process
         }
 
         return $callback;
+    }
+
+    /**
+     * init process status
+     */
+    protected function initStatus()
+    {
+        $this->pid = null;
+        $this->running = null;
+        $this->term_signal = null;
+        $this->stop_signal = null;
+        $this->errno = null;
+        $this->errmsg = null;
     }
 }

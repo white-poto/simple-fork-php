@@ -49,9 +49,9 @@ class SystemVMessageQueue implements QueueInterface
     protected $ipc_filename;
 
     /**
-     * @param int $channel message type
      * @param string $ipc_filename ipc file to make ipc key.
      * if it does not exists, it will try to create the file.
+     * @param int $channel message type
      * @param bool $serialize_needed serialize or not
      * @param bool $block_send if block when the queue is full
      * @param int $option_receive if the value is MSG_IPC_NOWAIT£¬it will not
@@ -60,8 +60,8 @@ class SystemVMessageQueue implements QueueInterface
      * @param int $maxsize the max size of queue
      */
     public function __construct(
-        $channel = 1,
         $ipc_filename = __FILE__,
+        $channel = 1,
         $serialize_needed = true,
         $block_send = true,
         $option_receive = MSG_IPC_NOWAIT,
@@ -116,13 +116,11 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * get message
      *
-     * @param $channel
      * @return bool|string
      * @throws \Exception
      */
-    public function get($channel)
+    public function get()
     {
-        $this->msg_type = $channel;
         $queue_status = $this->status();
         if ($queue_status['msg_qnum'] > 0) {
             if (\msg_receive(
@@ -147,14 +145,12 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * put message
      *
-     * @param $channel
      * @param $message
      * @return bool
      * @throws \Exception
      */
-    public function put($channel, $message)
+    public function put($message)
     {
-        $this->msg_type = $channel;
         if (!\msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
             throw new \RuntimeException($err);
         }
@@ -187,12 +183,10 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * get the size of queue
      *
-     * @param $channel
      * @return mixed
      */
-    public function size($channel)
+    public function size()
     {
-        $this->msg_type = $channel;
         $status = $this->status();
 
         return $status['msg_qnum'];

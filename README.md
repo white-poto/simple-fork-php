@@ -148,7 +148,7 @@ class Producer extends \Jenner\SimpleFork\Process
         //$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         for ($i = 0; $i < 10; $i++) {
             echo getmypid() . PHP_EOL;
-            $queue->put(1, $i);
+            $queue->put($i);
         }
     }
 }
@@ -161,7 +161,7 @@ class Worker extends \Jenner\SimpleFork\Process
         $queue = new \Jenner\SimpleFork\Queue\SystemVMessageQueue();
         //$queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         for ($i = 0; $i < 10; $i++) {
-            $res = $queue->get(1);
+            $res = $queue->get();
             echo getmypid() . ' = ' . $i . PHP_EOL;
             var_dump($res);
         }

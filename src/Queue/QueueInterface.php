@@ -13,27 +13,24 @@ interface QueueInterface
     /**
      * put value into the queue of channel
      *
-     * @param $channel
      * @param $value
      * @return bool
      */
-    public function put($channel, $value);
+    public function put($value);
 
     /**
      * get value from the queue of channel
      *
-     * @param $channel
      * @return bool|string
      */
-    public function get($channel);
+    public function get();
 
     /**
      * get the size of the queue of channel
      *
-     * @param $channel
      * @return int
      */
-    public function size($channel);
+    public function size();
 
     /**
      * remove the queue resource
