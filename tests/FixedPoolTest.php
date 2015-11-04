@@ -12,7 +12,7 @@ class FixedPoolTest extends PHPUnit_Framework_TestCase
         $pool = new \Jenner\SimpleFork\FixedPool(new FixedPoolTestRunnable(), 10);
         $pool->start();
         $this->assertEquals(10, $pool->aliveCount());
-        sleep(3);
+        sleep(4);
         $this->assertEquals(0, $pool->aliveCount());
         $pool->keep();
         $this->assertEquals(10, $pool->count());

@@ -240,3 +240,24 @@ $pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
 $pool->start();
 $pool->wait();
 ```
+
+**FixedPool to manage processes**
+```php
+class TestRunnable2 implements \Jenner\SimpleFork\Runnable {
+
+    /**
+     * process entry
+     *
+     * @return mixed
+     */
+    public function run()
+    {
+        echo 'sub process:' . getmypid() . PHP_EOL;
+    }
+}
+
+$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable2(), 10);
+$fixed_pool->start();
+
+$fixed_pool->keep(true);
+```
