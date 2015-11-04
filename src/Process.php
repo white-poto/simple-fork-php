@@ -189,7 +189,6 @@ class Process
         }
 
         $callback = $this->getCallback();
-        var_dump($callback);
 
         $pid = pcntl_fork();
         if ($pid < 0) {
