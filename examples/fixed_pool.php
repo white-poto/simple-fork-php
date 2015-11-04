@@ -11,7 +11,7 @@ require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_
 
 
 
-class TestRunnable implements \Jenner\SimpleFork\Runnable {
+class TestRunnable2 implements \Jenner\SimpleFork\Runnable {
 
     /**
      * process entry
@@ -24,7 +24,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable {
     }
 }
 
-$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable(), 10);
+$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable2(), 10);
 $fixed_pool->start();
 
 $fixed_pool->keep(true);
