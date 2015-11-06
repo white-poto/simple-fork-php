@@ -17,6 +17,8 @@ class RedisCache implements CacheInterface
      */
     protected $redis;
 
+    protected $prefix;
+
     /**
      * @param string $host
      * @param int $port
@@ -27,7 +29,7 @@ class RedisCache implements CacheInterface
         $host = '127.0.0.1',
         $port = 6379,
         $database = 0,
-        $prefix = "simpfor-fork-"
+        $prefix = "simple-fork"
     )
     {
         $this->redis = new \Redis();
@@ -43,12 +45,10 @@ class RedisCache implements CacheInterface
             }
         }
 
-        if (empty($prefix)) return;
-
-        $set_option_result = $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
-        if (!$set_option_result) {
-            throw new \RuntimeException("can not set the \\Redis::OPT_PREFIX Option");
+        if(empty($prefix)){
+            throw new \InvalidArgumentException("prefix can not be empty");
         }
+        $this->prefix = $prefix;
     }
 
     /**
@@ -68,7 +68,7 @@ class RedisCache implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        $result = $this->redis->get($key);
+        $result = $this->redis->hGet($this->prefix, $key);
         if ($result) return $result;
 
         return $default;
@@ -83,7 +83,7 @@ class RedisCache implements CacheInterface
      */
     public function set($key, $value)
     {
-        return $this->redis->set($key, $value);
+        return $this->redis->hSet($this->prefix, $key, $value);
     }
 
     /**
@@ -94,7 +94,7 @@ class RedisCache implements CacheInterface
      */
     public function has($key)
     {
-        return $this->redis->exists($key);
+        return $this->redis->hExists($this->prefix, $key);
     }
 
     /**
@@ -105,7 +105,7 @@ class RedisCache implements CacheInterface
      */
     public function delete($key)
     {
-        if ($this->redis->del($key) > 0) {
+        if ($this->redis->hDel($this->prefix, $key) > 0) {
             return true;
         }
         return false;
