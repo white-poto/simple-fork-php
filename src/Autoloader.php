@@ -20,7 +20,7 @@ class Autoloader
     {
         $this->path = $path;
         $this->prefix = __NAMESPACE__ . '\\';
-        $this->prefix_length = strlen($this->prefix_length);
+        $this->prefix_length = strlen($this->prefix);
     }
 
     public static function register()
