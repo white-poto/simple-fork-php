@@ -69,7 +69,7 @@ class RedisCache implements CacheInterface
     public function get($key, $default = null)
     {
         $result = $this->redis->hGet($this->prefix, $key);
-        if ($result === false) return $result;
+        if ($result !== false) return $result;
 
         return $default;
     }
@@ -83,7 +83,6 @@ class RedisCache implements CacheInterface
      */
     public function set($key, $value)
     {
-        var_dump($value);
         return $this->redis->hSet($this->prefix, $key, $value);
     }
 
