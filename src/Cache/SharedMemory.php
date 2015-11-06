@@ -54,10 +54,14 @@ class SharedMemory implements CacheInterface
      */
     public function attach($file = __FILE__)
     {
-        $file = basename($file);
-        $tmp_file = '/tmp/' . substr($file, 0, strrpos($file, '.')) . 'lock';
-        touch($tmp_file);
-        $key = ftok($tmp_file, 'a');
+        if(!file_exists($file)){
+            $touch = touch($file);
+            if(!$touch){
+                $message = "file is not exists and it can not be created. file:" . $file;
+                throw new \RuntimeException($message);
+            }
+        }
+        $key = ftok($file, 'a');
         $this->shm = shm_attach($key, $this->size); //allocate shared memory
     }
 
