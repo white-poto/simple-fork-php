@@ -11,11 +11,19 @@ namespace Jenner\SimpleFork;
 
 class Autoloader
 {
-
+    /**
+     * @var string name space prefix
+     */
     protected $prefix;
 
+    /**
+     * @var string file base path
+     */
     protected $path;
 
+    /**
+     * @param string $path
+     */
     protected function __construct($path = __DIR__)
     {
         $this->path = $path;
@@ -23,6 +31,9 @@ class Autoloader
         $this->prefix_length = strlen($this->prefix);
     }
 
+    /**
+     * register simple-fork autoload
+     */
     public static function register()
     {
         spl_autoload_register(array(new self(), 'autoload'));
@@ -33,15 +44,11 @@ class Autoloader
      */
     protected function autoload($class_name)
     {
-        echo $class_name . PHP_EOL;
         if (0 !== strpos($class_name, $this->prefix)) {
             return;
         }
         $short_name = str_replace('\\', DIRECTORY_SEPARATOR, substr($class_name, $this->prefix_length));
-        echo substr($class_name, $this->prefix_length) . PHP_EOL;
-        echo $short_name . PHP_EOL;
         $filename = $this->path . DIRECTORY_SEPARATOR . $short_name . '.php';
-        echo $filename . PHP_EOL;
         if (file_exists($filename)) {
             require $filename;
         }
