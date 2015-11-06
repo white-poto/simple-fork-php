@@ -8,12 +8,9 @@
 
 error_reporting(E_ALL);
 
-spl_autoload_register(function ($classname) {
-    $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
-    if (stristr($classname, "\\Jenner\\SimpleFork\\") == 0) {
-        $file = $dir . basename(str_replace('\\', '/', $classname));
-        if (file_exists($file)) require $file . '.php';
-    }
-});
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Autoloader.php';
 
-$pool = new \Jenner\SimpleFork\Pool();
+
+\Jenner\SimpleFork\Autoloader::register();
+
+$process = new \Jenner\SimpleFork\Process();
