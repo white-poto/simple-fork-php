@@ -38,8 +38,9 @@ class Autoloader
             return;
         }
         $short_name = str_replace('\\', DIRECTORY_SEPARATOR, substr($class_name, $this->prefix_length));
+        echo substr($class_name, $this->prefix_length) . PHP_EOL;
         echo $short_name . PHP_EOL;
-        $filename = $this->path . DIRECTORY_SEPARATOR . $short_name;
+        $filename = $this->path . DIRECTORY_SEPARATOR . $short_name . '.php';
         echo $filename . PHP_EOL;
         if (file_exists($filename)) {
             require $filename;
