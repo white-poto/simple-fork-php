@@ -33,11 +33,14 @@ class Autoloader
      */
     protected function autoload($class_name)
     {
+        echo $class_name . PHP_EOL;
         if (0 !== strpos($class_name, $this->prefix)) {
             return;
         }
         $short_name = str_replace('\\', DIRECTORY_SEPARATOR, substr($class_name, $this->prefix_length));
+        echo $short_name . PHP_EOL;
         $filename = $this->path . DIRECTORY_SEPARATOR . $short_name;
+        echo $filename . PHP_EOL;
         if (file_exists($filename)) {
             require $filename;
         }
