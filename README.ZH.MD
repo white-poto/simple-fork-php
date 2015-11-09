@@ -3,6 +3,8 @@ SimpleFork
 [英文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.MD)  
 基于PCNTL扩展的多进程控制框架，接口类似与Java的Thread和Runnable 
 
+最新版本见英文版
+
 为什么要写SimpleFork
 ------------------------
 多进程程序的编写相比较多线程编写更加复杂，需要考虑进程回收、同步、互斥、通信等问题。对于初学者来说，处理上述问题会比较困难。
@@ -15,7 +17,7 @@ SimpleFork提供一套类似于JAVA多线程的进程控制接口，提供回收、同步、互斥、通信等方
 composer require jenner/simple_fork
 ```
 ```php
-require path/to/SimpleFork/autoload.php
+\Jenner\SimpleFork\Autoloader::register();
 ```
 
 依赖
