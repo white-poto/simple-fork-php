@@ -21,6 +21,7 @@ Require
 ```bash
 composer require jenner/simple_fork
 ```
+Or
 ```php
 \Jenner\SimpleFork\Autoloader::register();
 ```
@@ -60,6 +61,15 @@ If it return false, the process will not exit.
 + Process::AFTER_FINISHED It will be called after the sub process callback is finished.
 It accept a param which is the return value of the 
 callback(`Runnable::run()`, `Process::run`, `new Process(callable)`)
+
+Process Pool
+----------------------------------
+There are two pool you can use when you have more than one process or 
+task to manage:Pool and FixedPool.
++ Pool: you can submit different processes to Pool object. and call the 
+`Pool::start` method to start them, and call the wait method to wait all
+the sub processes exit(or just do something else, but do not forget)
++ FixedPool: you 
 
 Notice
 --------------------------

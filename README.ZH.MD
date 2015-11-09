@@ -16,6 +16,7 @@ SimpleFork提供一套类似于JAVA多线程的进程控制接口，提供回收、同步、互斥、通信等方
 ```bash
 composer require jenner/simple_fork
 ```
+Or
 ```php
 \Jenner\SimpleFork\Autoloader::register();
 ```
