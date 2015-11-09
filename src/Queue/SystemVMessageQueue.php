@@ -130,7 +130,8 @@ class SystemVMessageQueue implements QueueInterface
                     $this->queue,
                     $this->msg_type,
                     $msgtype_erhalten,
-                    $this->maxsize, $data,
+                    $this->maxsize,
+                    $data,
                     $this->serialize_needed,
                     $this->option_receive,
                     $err
