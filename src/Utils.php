@@ -31,7 +31,7 @@ class Utils
 
             echo $declaring_class . PHP_EOL;
             echo $parent_class . PHP_EOL;
-            if ($declaring_class !== $parent_class) {
+            if ($declaring_class === $parent_class) {
                 $message = "you must overwrite the run method";
                 throw new \RuntimeException($message);
             }
