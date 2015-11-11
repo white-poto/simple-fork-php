@@ -88,6 +88,7 @@ class Process
     public function __construct($execution = null, $name = null)
     {
         if (!is_null($execution) && $execution instanceof Runnable) {
+            Utils::checkOverwriteRunMethod(get_class($execution));
             $this->runnable = $execution;
         } elseif (!is_null($execution) && is_callable($execution)) {
             $this->runnable = $execution;
