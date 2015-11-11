@@ -11,14 +11,9 @@ namespace Jenner\SimpleFork;
 class Process
 {
     /**
-     * @var Runnable
+     * @var Runnable|callable
      */
     protected $runnable;
-
-    /**
-     * @var callback function
-     */
-    protected $execution;
 
     /**
      * @var int
@@ -88,14 +83,17 @@ class Process
 
     /**
      * @param string $execution it can be a Runnable object, callback function or null
+     * @param null $name process name,you can manager the process by it's name.
      */
     public function __construct($execution = null, $name = null)
     {
         if (!is_null($execution) && $execution instanceof Runnable) {
             $this->runnable = $execution;
-        }
-        if (!is_null($execution) && is_callable($execution)) {
-            $this->execution = $execution;
+        } elseif (!is_null($execution) && is_callable($execution)) {
+            $this->runnable = $execution;
+        } elseif (!is_null($execution)) {
+            $message = "param execution is not a object of Runnable or callable";
+            throw new \InvalidArgumentException($message);
         }
         if (!is_null($name)) {
             $this->name = $name;
@@ -175,7 +173,7 @@ class Process
             throw new \LogicException("the process is already running");
         }
 
-        $callback = $this->getCallback();
+        $callback = $this->getCallable();
 
         $pid = pcntl_fork();
         if ($pid < 0) {
@@ -230,8 +228,11 @@ class Process
     }
 
     /**
-     * @param bool|true $block default 0.1s
-     * @param int $sleep
+     * waiting for the sub process exit
+     *
+     * @param bool|true $block if block the process
+     * @param int $sleep default 0.1s check sub process status
+     * every $sleep milliseconds.
      */
     public function wait($block = true, $sleep = 100000)
     {
@@ -262,6 +263,9 @@ class Process
     }
 
     /**
+     * register sub process signal handler,
+     * when the sub process start, the handlers will be registered
+     *
      * @param $signal
      * @param callable $handler
      */
@@ -325,7 +329,9 @@ class Process
     }
 
     /**
-     * register signal handler
+     * register signal SIGTERM handler,
+     * when the parent process call shutdown and use the default signal,
+     * this handler will be triggered
      */
     protected function signal()
     {
@@ -346,13 +352,13 @@ class Process
      *
      * @return array|callable|null
      */
-    protected function getCallback()
+    protected function getCallable()
     {
         $callback = null;
-        if (is_object($this->runnable)) {
+        if (is_object($this->runnable) && $this->runnable instanceof Runnable) {
             $callback = array($this->runnable, 'run');
-        } elseif (is_callable($this->execution)) {
-            $callback = $this->execution;
+        } elseif (is_callable($this->runnable)) {
+            $callback = $this->runnable;
         } else {
             $callback = array($this, 'run');
         }
