@@ -230,10 +230,10 @@ class Process
     }
 
     /**
-     * @param bool|true $block
+     * @param bool|true $block default 0.1s
      * @param int $sleep
      */
-    public function wait($block = true, $sleep = 100)
+    public function wait($block = true, $sleep = 100000)
     {
         while (true) {
             if ($this->isRunning() === false) {
