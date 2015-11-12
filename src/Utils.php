@@ -20,6 +20,12 @@ class Utils
         }
 
         $child = new \ReflectionClass($child_class);
+        if(empty($child->getParentClass())){
+            $message = "you should extend the `{$parent_class}`" .
+                " and overwrite the run method";
+            throw new \RuntimeException($message);
+        }
+
         $parent_methods = $child->getParentClass()->getMethods(\ReflectionMethod::IS_PUBLIC);
 
         foreach ($parent_methods as $parent_method) {
