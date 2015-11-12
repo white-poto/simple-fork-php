@@ -88,13 +88,14 @@ class Process
     public function __construct($execution = null, $name = null)
     {
         if (!is_null($execution) && $execution instanceof Runnable) {
-            Utils::checkOverwriteRunMethod(get_class($execution));
             $this->runnable = $execution;
         } elseif (!is_null($execution) && is_callable($execution)) {
             $this->runnable = $execution;
         } elseif (!is_null($execution)) {
             $message = "param execution is not a object of Runnable or callable";
             throw new \InvalidArgumentException($message);
+        }else{
+            Utils::checkOverwriteRunMethod(get_class($this));
         }
         if (!is_null($name)) {
             $this->name = $name;
