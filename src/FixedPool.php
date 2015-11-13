@@ -55,7 +55,7 @@ class FixedPool extends AbstractPool
     }
 
     /**
-     * start same number processes and kill the old sub process
+     * start the same number processes and kill the old sub process
      * just like nginx -s reload
      * this method will block until all the old process exit;
      *
