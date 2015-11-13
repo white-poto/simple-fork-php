@@ -37,7 +37,7 @@ class FixedPoolTest extends PHPUnit_Framework_TestCase
         $new_processes = $pool->getProcesses();
         foreach ($old_processes as $old_process) {
             foreach ($new_processes as $new_process) {
-                $this->assertTrue($old_process->getPid() == $new_process->getPid());
+                $this->assertTrue($old_process->getPid() != $new_process->getPid());
             }
         }
         $pool->shutdown();
