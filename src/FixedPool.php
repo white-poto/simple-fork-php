@@ -52,13 +52,28 @@ class FixedPool extends AbstractPool
                 $this->processes[$process->getPid()] = $process;
             }
         }
+    }
 
-        // recycle sub process and delete the processes
-        // which are not running from process list
-        foreach ($this->processes as $process) {
-            if (!$process->isRunning()) {
-                unset($this->processes[$process->getPid()]);
-            }
+    /**
+     * start same number processes and kill the old sub process
+     * just like nginx -s reload
+     * this method will block until all the old process exit;
+     *
+     * @param bool $block
+     */
+    public function reload($block = true)
+    {
+        $old_process = $this->processes;
+        for ($i = 0; $i < $this->processes; $i++) {
+            $process = new Process($this->runnable);
+            $process->start();
+            $this->processes[$process->getPid()] = $process;
+        }
+
+        foreach ($old_process as $process) {
+            $process->shutdown();
+            $process->wait($block);
+            unset($this->processes[$process->getPid()]);
         }
     }
 
@@ -73,6 +88,15 @@ class FixedPool extends AbstractPool
     {
         do {
             $this->start();
+
+            // recycle sub process and delete the processes
+            // which are not running from process list
+            foreach ($this->processes as $process) {
+                if (!$process->isRunning()) {
+                    unset($this->processes[$process->getPid()]);
+                }
+            }
+
             $block ? usleep($interval) : null;
         } while ($block);
     }
