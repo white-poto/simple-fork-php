@@ -64,7 +64,7 @@ class FixedPool extends AbstractPool
     public function reload($block = true)
     {
         $old_process = $this->processes;
-        for ($i = 0; $i < $this->processes; $i++) {
+        for ($i = 0; $i < $this->max; $i++) {
             $process = new Process($this->runnable);
             $process->start();
             $this->processes[$process->getPid()] = $process;
