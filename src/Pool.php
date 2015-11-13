@@ -38,23 +38,6 @@ class Pool extends AbstractPool
     }
 
     /**
-     * get process by pid
-     *
-     * @param $pid
-     * @return null|Process
-     */
-    public function getProcessByPid($pid)
-    {
-        foreach ($this->processes as $process) {
-            if ($process->getPid() == $pid) {
-                return $process;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * get process by name
      *
      * @param string $name process name

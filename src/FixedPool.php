@@ -110,4 +110,14 @@ class FixedPool extends AbstractPool
     {
         return count($this->processes);
     }
+
+    /**
+     * get all processes
+     *
+     * @return Process[]
+     */
+    public function getProcesses()
+    {
+        return $this->processes;
+    }
 }

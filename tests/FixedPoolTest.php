@@ -24,6 +24,21 @@ class FixedPoolTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('InvalidArgumentException');
         $pool = new \Jenner\SimpleFork\FixedPool('test');
     }
+
+    public function testReload(){
+        $pool = new \Jenner\SimpleFork\FixedPool(new FixedPoolTestRunnable(), 10);
+        $pool->start();
+        $this->assertEquals(10, $pool->aliveCount());
+        $old_processes = $pool->getProcesses();
+        $pool->reload();
+        $new_processes = $pool->getProcesses();
+        foreach($old_processes as $old_process){
+            foreach($new_processes as $new_process){
+                $this->assertTrue($old_process->getPid() == $new_process->getPid());
+            }
+        }
+        $pool->shutdown();
+    }
 }
 
 

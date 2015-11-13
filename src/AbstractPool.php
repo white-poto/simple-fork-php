@@ -26,6 +26,23 @@ abstract class AbstractPool
     abstract public function start();
 
     /**
+     * get process by pid
+     *
+     * @param $pid
+     * @return null|Process
+     */
+    public function getProcessByPid($pid)
+    {
+        foreach ($this->processes as $process) {
+            if ($process->getPid() == $pid) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * shutdown all process
      *
      * @param int $signal
