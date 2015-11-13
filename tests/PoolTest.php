@@ -8,8 +8,9 @@
  */
 class PoolTest extends PHPUnit_Framework_TestCase
 {
-    public function testMethods(){
-        $process = new \Jenner\SimpleFork\Process(function(){
+    public function testMethods()
+    {
+        $process = new \Jenner\SimpleFork\Process(function () {
             sleep(3);
         }, 'test');
         $pool = new \Jenner\SimpleFork\Pool();

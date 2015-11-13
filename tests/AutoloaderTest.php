@@ -8,7 +8,8 @@
  */
 class AutoloaderTest extends PHPUnit_Framework_TestCase
 {
-    public function testAutoload(){
+    public function testAutoload()
+    {
         \Jenner\SimpleFork\Autoloader::register();
         $this->assertTrue(class_exists("\\Jenner\\SimpleFork\\Lock\\FileLock"));
         $this->assertTrue(class_exists("\\Jenner\\SimpleFork\\Process"));

@@ -7,14 +7,17 @@
  */
 class UtilsTest extends PHPUnit_Framework_TestCase
 {
-    public function testCheck(){
+    public function testCheck()
+    {
         $process = new UtilsTestProcess();
         \Jenner\SimpleFork\Utils::checkOverwriteRunMethod(get_class($process));
     }
 }
 
-class UtilsTestProcess extends \Jenner\SimpleFork\Process{
-    public function run(){
+class UtilsTestProcess extends \Jenner\SimpleFork\Process
+{
+    public function run()
+    {
         echo 'run' . PHP_EOL;
     }
 }

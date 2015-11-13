@@ -32,18 +32,19 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Unknown error 255", $process->errmsg());
     }
 
-    public function testOn(){
-        $process = new \Jenner\SimpleFork\Process(function(){
+    public function testOn()
+    {
+        $process = new \Jenner\SimpleFork\Process(function () {
 
         });
 
-        $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function(){
+        $process->on(\Jenner\SimpleFork\Process::BEFORE_START, function () {
             $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
             $cache->set('test', 'test');
             return true;
         });
 
-        $process->on(\Jenner\SimpleFork\Process::BEFORE_EXIT, function(){
+        $process->on(\Jenner\SimpleFork\Process::BEFORE_EXIT, function () {
             $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
             $cache->delete('test');
             sleep(3);
@@ -51,7 +52,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         });
 
         $cache = new \Jenner\SimpleFork\Cache\SharedMemory();
-        if($cache->has('test')){
+        if ($cache->has('test')) {
             $cache->delete('test');
         }
         $process->start();
