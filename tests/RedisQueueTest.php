@@ -15,6 +15,9 @@ class RedisQueueTest extends PHPUnit_Framework_TestCase
 
     public function testAll()
     {
+        if(!extension_loaded("Redis")){
+            $this->markTestSkipped("Redis extension is not loaded");
+        }
         $this->queue = new \Jenner\SimpleFork\Queue\RedisQueue();
         $this->assertTrue($this->queue->put('test'));
         $this->assertEquals($this->queue->get(), 'test');
@@ -24,6 +27,9 @@ class RedisQueueTest extends PHPUnit_Framework_TestCase
 
     public function testCommunication()
     {
+        if(!extension_loaded("Redis")){
+            $this->markTestSkipped("Redis extension is not loaded");
+        }
         $process = new \Jenner\SimpleFork\Process(function () {
             $queue = new \Jenner\SimpleFork\Queue\RedisQueue();
             $queue->put('test');
