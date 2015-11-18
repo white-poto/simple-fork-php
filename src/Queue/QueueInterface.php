@@ -21,9 +21,10 @@ interface QueueInterface
     /**
      * get value from the queue of channel
      *
+     * @param bool $block if block when the queue is empty
      * @return bool|string
      */
-    public function get();
+    public function get($block = false);
 
     /**
      * get the size of the queue of channel

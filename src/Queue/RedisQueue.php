@@ -81,13 +81,24 @@ class RedisQueue implements QueueInterface
     /**
      * get value from the queue
      *
-     * @return string|bool
+     * @param bool $block if block when the queue is empty
+     * @return bool|string
      */
-    public function get()
+    public function get($block = false)
     {
-        if (!$this->redis->exists($this->channel)) return false;
+        if(!$block){
+            return $this->redis->rPop($this->channel);
+        }else{
+            while(true){
+                $record = $this->redis->rPop($this->channel);
+                if($record === false){
+                    usleep(1000);
+                    continue;
+                }
 
-        return $this->redis->rPop($this->channel);
+                return $record;
+            }
+        }
     }
 
     /**

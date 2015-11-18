@@ -10,6 +10,11 @@ namespace Jenner\SimpleFork;
 
 class Utils
 {
+    /**
+     * check if the sub class of Process has overwrite the run method
+     *
+     * @param $child_class
+     */
     public static function checkOverwriteRunMethod($child_class)
     {
         $parent_class = '\\Jenner\\SimpleFork\\Process';

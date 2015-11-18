@@ -119,13 +119,14 @@ class SystemVMessageQueue implements QueueInterface
     /**
      * get message
      *
+     * @param bool $block if block when the queue is empty
      * @return bool|string
-     * @throws \Exception
      */
-    public function get()
+    public function get($block = false)
     {
         $queue_status = $this->status();
         if ($queue_status['msg_qnum'] > 0) {
+            $option_receive = $block ? 0 : $this->option_receive;
             if (\msg_receive(
                     $this->queue,
                     $this->msg_type,
@@ -133,7 +134,7 @@ class SystemVMessageQueue implements QueueInterface
                     $this->maxsize,
                     $data,
                     $this->serialize_needed,
-                    $this->option_receive,
+                    $option_receive,
                     $err
                 ) === true
             ) {
