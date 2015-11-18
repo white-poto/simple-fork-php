@@ -64,7 +64,7 @@ class Semaphore implements LockInterface
      * @param bool $blocking
      * @return bool
      */
-    public function acquire($blocking = true)
+    public function acquire($blocking = false)
     {
         if ($this->locked) {
             throw new \RuntimeException("already lock by yourself");
