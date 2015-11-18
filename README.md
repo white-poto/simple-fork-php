@@ -39,7 +39,7 @@ optional
 
 Property
 ---------------------------
-+ Process Pool
++ Process Pool and Fixed Pool
 + Recover zombie process automatically
 + shared memory, system v message queue, semaphore lock. redis cache, redis queue
 + Two ways to make Process: extends Process or implements Runnable
@@ -69,7 +69,9 @@ task to manage:Pool and FixedPool.
 + Pool: you can submit different processes to Pool object. and call the 
 `Pool::start` method to start them, and call the wait method to wait all
 the sub processes exit(or just do something else, but do not forget)
-+ FixedPool: you 
++ FixedPool: it will keep the sub processes count, you should not init any
+socket connection before the FixedPool start(share socket connection is dangerous
+in multi processes).
 
 Notice
 --------------------------
