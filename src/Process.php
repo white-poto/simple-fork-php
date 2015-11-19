@@ -26,9 +26,14 @@ class Process
     protected $name = null;
 
     /**
+     * @var bool if the process is started
+     */
+    protected $started = false;
+
+    /**
      * @var bool
      */
-    protected $running = null;
+    protected $running = false;
 
     /**
      * @var int the signal which made the process terminate
@@ -51,7 +56,7 @@ class Process
     protected $errmsg = null;
 
     /**
-     * @var null
+     * @var bool
      */
     protected $if_signal = false;
 
@@ -161,11 +166,7 @@ class Process
      */
     public function hasStarted()
     {
-        if (is_null($this->running)) {
-            return false;
-        }
-
-        return true;
+        return $this->started;
     }
 
     /**
@@ -213,6 +214,7 @@ class Process
         } elseif ($pid > 0) {
             $this->pid = $pid;
             $this->running = true;
+            $this->started = true;
         } else {
             $this->pid = getmypid();
             $this->signal();
