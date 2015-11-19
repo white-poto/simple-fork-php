@@ -14,8 +14,7 @@ class PoolTest extends PHPUnit_Framework_TestCase
             sleep(3);
         }, 'test');
         $pool = new \Jenner\SimpleFork\Pool();
-        $pool->submit($process);
-        $pool->start();
+        $pool->execute($process);
         $this->assertEquals(1, $pool->aliveCount());
         $this->assertEquals($process, $pool->getProcessByPid($process->getPid()));
         $this->assertEquals($process, $pool->getProcessByName('test'));
@@ -28,10 +27,9 @@ class PoolTest extends PHPUnit_Framework_TestCase
             $process = new \Jenner\SimpleFork\Process(function () {
                 sleep(3);
             });
-            $pool->submit($process);
+            $pool->execute($process);
         }
         $start = time();
-        $pool->start();
         $this->assertEquals(10, $pool->aliveCount());
         $pool->wait();
         $time = time() - $start;
@@ -46,10 +44,9 @@ class PoolTest extends PHPUnit_Framework_TestCase
             $process = new \Jenner\SimpleFork\Process(function () {
                 sleep(3);
             });
-            $pool->submit($process);
+            $pool->execute($process);
         }
         $start = time();
-        $pool->start();
         $pool->shutdown();
         $time = time() - $start;
         $this->assertTrue($time < 3);
@@ -63,10 +60,9 @@ class PoolTest extends PHPUnit_Framework_TestCase
             $process = new \Jenner\SimpleFork\Process(function () {
                 sleep(3);
             });
-            $pool->submit($process);
+            $pool->execute($process);
         }
         $start = time();
-        $pool->start();
         $pool->shutdownForce();
         $time = time() - $start;
         $this->assertTrue($time < 3);
