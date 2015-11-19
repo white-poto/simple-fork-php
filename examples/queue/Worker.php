@@ -33,8 +33,7 @@ $worker_1 = new Worker();
 $worker_2 = new Worker();
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit($worker_1);
-$pool->submit($worker_2);
+$pool->execute($worker_1);
+$pool->execute($worker_2);
 
-$pool->start();
 $pool->wait();

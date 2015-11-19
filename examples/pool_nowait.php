@@ -23,11 +23,10 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 }
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
-$pool->start();
 
 
 while ($pool->aliveCount() > 0) {
