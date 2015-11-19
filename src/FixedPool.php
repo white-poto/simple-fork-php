@@ -19,7 +19,7 @@ class FixedPool extends AbstractPool
     /**
      * @param int $max
      */
-    public function __construct($max = 10)
+    public function __construct($max = 4)
     {
         $this->max = $max;
     }

@@ -25,7 +25,7 @@ class ParallelPool extends AbstractPool
      * @param callable|Runnable $callback
      * @param int $max
      */
-    public function __construct($callback, $max = 10)
+    public function __construct($callback, $max = 4)
     {
         if (!is_callable($callback) && !($callback instanceof Runnable)) {
             $message = "callback must be a callback function or a object of Runnalbe";
