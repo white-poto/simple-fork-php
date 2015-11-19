@@ -69,9 +69,16 @@ task to manage:Pool and FixedPool.
 + Pool: you can submit different processes to Pool object. and call the 
 `Pool::start` method to start them, and call the wait method to wait all
 the sub processes exit(or just do something else, but do not forget)
-+ FixedPool: it will keep the sub processes count, you should not init any
++ ParallelPool: it will keep the sub processes count, you should not init any
 socket connection before the FixedPool start(share socket connection is dangerous
-in multi processes).
+in multi processes).This class has a method `reload` which can reload the process.
+When you call `reload` method, the master will start new N porcesses and shutdown 
+the old ones.
++ SinglePool: no matter how many process you submit, it will always keep one
+process starting and start another after it stopped.
++ FixedPool: no matter how many process you submit, it will always keep N
+processes starting and start another after it stopped. the active processes
+count is less then N forever.
 
 Notice
 --------------------------
@@ -234,45 +241,37 @@ $pool->wait();
 
 **Process pool to manage processes**
 ```php
-class TestRunnable implements \Jenner\SimpleFork\Runnable
-{
-
-    /**
-     * @return mixed
-     */
-    public function run()
-    {
-        sleep(10);
-        echo getmypid() . ':done' . PHP_EOL;
-    }
-}
-
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
-$pool->start();
 $pool->wait();
+```
+
+**ParallelPool to manage processes**
+```php
+$fixed_pool = new \Jenner\SimpleFork\ParallelPool(new TestRunnable(), 10);
+$fixed_pool->start();
+$fixed_pool->keep(true);
 ```
 
 **FixedPool to manage processes**
 ```php
-class TestRunnable2 implements \Jenner\SimpleFork\Runnable {
+$pool = new \Jenner\SimpleFork\FixedPool(2);
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
-    /**
-     * process entry
-     *
-     * @return mixed
-     */
-    public function run()
-    {
-        echo 'sub process:' . getmypid() . PHP_EOL;
-    }
-}
+$pool->wait();
+```
 
-$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable2(), 10);
-$fixed_pool->start();
+**SinglePool to manage processes**
+```php
+$pool = new \Jenner\SimpleFork\SinglePool();
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
-$fixed_pool->keep(true);
+$pool->wait();
 ```
