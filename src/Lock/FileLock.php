@@ -28,8 +28,9 @@ class FileLock implements LockInterface
 
     /**
      * create a file lock instance
+     * if the file is not exists, it will be created
      *
-     * @param $file
+     * @param string $file lock file
      * @return FileLock
      */
     public static function create($file)
