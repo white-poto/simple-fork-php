@@ -19,22 +19,14 @@ class Pool extends AbstractPool
      * @param null|string $name process name
      * @return int
      */
-    public function submit(Process $process, $name = null)
+    public function execute(Process $process, $name = null)
     {
         if (!is_null($name)) {
             $process->name($name);
         }
-        return array_push($this->processes, $process);
-    }
+        $process->start();
 
-    /**
-     * start all processes
-     */
-    public function start()
-    {
-        foreach ($this->processes as $process) {
-            $process->start();
-        }
+        return array_push($this->processes, $process);
     }
 
     /**

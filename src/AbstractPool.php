@@ -19,13 +19,6 @@ abstract class AbstractPool
     protected $processes = array();
 
     /**
-     * start the processes in the pool
-     *
-     * @return mixed
-     */
-    abstract public function start();
-
-    /**
      * get process by pid
      *
      * @param $pid

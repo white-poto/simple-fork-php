@@ -94,7 +94,7 @@ class Process
         } elseif (!is_null($execution)) {
             $message = "param execution is not a object of Runnable or callable";
             throw new \InvalidArgumentException($message);
-        }else{
+        } else {
             Utils::checkOverwriteRunMethod(get_class($this));
         }
         if (!is_null($name)) {
@@ -130,12 +130,42 @@ class Process
     }
 
     /**
+     * if the process is running
+     *
      * @return bool
      */
     public function isRunning()
     {
         $this->updateStatus();
         return $this->running;
+    }
+
+    /**
+     * if the process is stopped
+     *
+     * @return bool
+     */
+    public function isStopped()
+    {
+        if (is_null($this->errno)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * if the process is started
+     *
+     * @return bool
+     */
+    public function hasStarted()
+    {
+        if (is_null($this->running)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -24,7 +24,7 @@ class TestRunnable2 implements \Jenner\SimpleFork\Runnable {
     }
 }
 
-$fixed_pool = new \Jenner\SimpleFork\FixedPool(new TestRunnable2(), 10);
+$fixed_pool = new \Jenner\SimpleFork\ParallelPool(new TestRunnable2(), 10);
 $fixed_pool->start();
 
 $fixed_pool->keep(true);
