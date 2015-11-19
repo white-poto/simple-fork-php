@@ -6,7 +6,7 @@
  * Date: 2015/11/2
  * Time: 18:06
  */
-class FixedPoolTest extends PHPUnit_Framework_TestCase
+class ParallelPoolTest extends PHPUnit_Framework_TestCase
 {
     public function testAll()
     {
@@ -24,7 +24,7 @@ class FixedPoolTest extends PHPUnit_Framework_TestCase
     public function testException()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $pool = new \Jenner\SimpleFork\FixedPool('test');
+        $pool = new \Jenner\SimpleFork\ParallelPool('test');
     }
 
     public function testReload()
