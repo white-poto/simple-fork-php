@@ -21,8 +21,6 @@ class Pool extends AbstractPool
      */
     public function execute(Process $process, $name = null)
     {
-        Utils::checkOverwriteRunMethod(get_class($process));
-
         if (!is_null($name)) {
             $process->name($name);
         }
