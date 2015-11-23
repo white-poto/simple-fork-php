@@ -10,7 +10,7 @@ class ParallelPoolTest extends PHPUnit_Framework_TestCase
 {
     public function testAll()
     {
-        $pool = new \Jenner\SimpleFork\ParallelPool(new FixedPoolTestRunnable(), 10);
+        $pool = new \Jenner\SimpleFork\ParallelPool(new ParallelPoolTestRunnable(), 10);
         $pool->start();
         $this->assertEquals(10, $pool->aliveCount());
         sleep(4);
@@ -29,7 +29,7 @@ class ParallelPoolTest extends PHPUnit_Framework_TestCase
 
     public function testReload()
     {
-        $pool = new \Jenner\SimpleFork\ParallelPool(new FixedPoolTestRunnable(), 10);
+        $pool = new \Jenner\SimpleFork\ParallelPool(new ParallelPoolTestRunnable(), 10);
         $pool->start();
         $this->assertEquals(10, $pool->aliveCount());
         $old_processes = $pool->getProcesses();
@@ -45,7 +45,7 @@ class ParallelPoolTest extends PHPUnit_Framework_TestCase
 }
 
 
-class FixedPoolTestRunnable implements \Jenner\SimpleFork\Runnable
+class ParallelPoolTestRunnable implements \Jenner\SimpleFork\Runnable
 {
 
     /**
