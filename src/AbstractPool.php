@@ -76,6 +76,21 @@ abstract class AbstractPool
     }
 
     /**
+     * if all processes are stopped
+     *
+     * @return bool
+     */
+    public function isFinished()
+    {
+        foreach ($this->processes as $process) {
+            if (!$process->isStopped()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * waiting for the sub processes to exit
      *
      * @param bool|true $block if true the parent process will be blocked until all

@@ -44,6 +44,9 @@ class FixedPool extends AbstractPool
     public function wait($block = false, $interval = 100)
     {
         do {
+            if ($this->isFinished()) {
+                return;
+            }
             parent::wait(false);
             if ($this->aliveCount() < $this->max) {
                 foreach ($this->processes as $process) {
