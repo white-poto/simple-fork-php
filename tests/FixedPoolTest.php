@@ -8,7 +8,7 @@
 
 class FixedPoolTest extends PHPUnit_Framework_TestCase
 {
-    public function setAliveCount(){
+    public function testAliveCount(){
         $pool = \Jenner\SimpleFork\PoolFactory::newFixedPool(4);
         $pool->execute(new FixedPoolTestProcess());
         $pool->execute(new FixedPoolTestProcess());
