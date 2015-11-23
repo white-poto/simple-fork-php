@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Lock;
 
 
+/**
+ * file lock
+ *
+ * @package Jenner\SimpleFork\Lock
+ */
 class FileLock implements LockInterface
 {
     /**

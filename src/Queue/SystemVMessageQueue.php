@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Queue;
 
 
+/**
+ * system v message queue
+ *
+ * @package Jenner\SimpleFork\Queue
+ */
 class SystemVMessageQueue implements QueueInterface
 {
     /**

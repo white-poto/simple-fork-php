@@ -8,6 +8,11 @@
 
 namespace Jenner\SimpleFork\Cache;
 
+/**
+ * cache for processes shared variables
+ *
+ * @package Jenner\SimpleFork\Cache
+ */
 interface CacheInterface
 {
 

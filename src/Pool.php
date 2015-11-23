@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork;
 
 
+/**
+ * pool
+ *
+ * @package Jenner\SimpleFork
+ */
 class Pool extends AbstractPool
 {
 

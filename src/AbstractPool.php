@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork;
 
 
+/**
+ * processes' pool
+ *
+ * @package Jenner\SimpleFork
+ */
 abstract class AbstractPool
 {
     /**

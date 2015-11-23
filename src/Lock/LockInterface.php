@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Lock;
 
 
+/**
+ * lock for processes to mutual exclusion
+ *
+ * @package Jenner\SimpleFork\Lock
+ */
 interface LockInterface
 {
     /**

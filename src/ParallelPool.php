@@ -8,6 +8,11 @@
 
 namespace Jenner\SimpleFork;
 
+/**
+ * parallel pool
+ *
+ * @package Jenner\SimpleFork
+ */
 class ParallelPool extends AbstractPool
 {
 

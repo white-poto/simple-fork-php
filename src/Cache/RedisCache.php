@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Cache;
 
 
+/**
+ * redis cache
+ *
+ * @package Jenner\SimpleFork\Cache
+ */
 class RedisCache implements CacheInterface
 {
 

@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Lock;
 
 
+/**
+ * sem lock
+ *
+ * @package Jenner\SimpleFork\Lock
+ */
 class Semaphore implements LockInterface
 {
     /**

@@ -8,6 +8,11 @@
 
 namespace Jenner\SimpleFork\Queue;
 
+/**
+ * redis queue
+ *
+ * @package Jenner\SimpleFork\Queue
+ */
 class RedisQueue implements QueueInterface
 {
     /**

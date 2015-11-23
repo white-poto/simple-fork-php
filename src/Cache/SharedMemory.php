@@ -9,6 +9,11 @@
 namespace Jenner\SimpleFork\Cache;
 
 
+/**
+ * shared memory cache
+ *
+ * @package Jenner\SimpleFork\Cache
+ */
 class SharedMemory implements CacheInterface
 {
     /**

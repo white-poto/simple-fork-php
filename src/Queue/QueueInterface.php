@@ -8,6 +8,12 @@
 
 namespace Jenner\SimpleFork\Queue;
 
+
+/**
+ * queue for processes to transfer data
+ *
+ * @package Jenner\SimpleFork\Queue
+ */
 interface QueueInterface
 {
     /**
