@@ -18,6 +18,7 @@ class PipeTest extends PHPUnit_Framework_TestCase
             $pipe->close();
         });
         $process->start();
+        sleep(1);
 //        $pipe = new \Jenner\SimpleFork\Pipe();
         $this->assertEquals('test', $pipe->read());
         $process->wait(true);
