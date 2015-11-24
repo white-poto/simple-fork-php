@@ -74,10 +74,12 @@ class PipeQueue implements QueueInterface
         $value = '';
         while (true) {
             $temp = $this->pipe->read($len);
+            echo $temp . PHP_EOL;
             if (strlen($temp) == $len) {
                 return $temp;
             }
             $value .= $temp;
+            echo $value . PHP_EOL;
             $len -= strlen($temp);
             if ($len == 0) {
                 return $value;

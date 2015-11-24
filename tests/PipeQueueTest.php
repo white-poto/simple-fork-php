@@ -8,7 +8,8 @@
  */
 class PipeQueueTest extends PHPUnit_Framework_TestCase
 {
-    public function testAll(){
+    public function testAll()
+    {
         $queue = new \Jenner\SimpleFork\Queue\PipeQueue();
         $this->assertTrue($queue->put('test'));
         $this->assertEquals($queue->get(), 'test');
