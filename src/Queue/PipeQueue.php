@@ -49,6 +49,7 @@ class PipeQueue implements QueueInterface
 
         $write_len = $this->pipe->write($raw);
         echo $raw . PHP_EOL;
+        echo strlen($raw) . PHP_EOL;
 
         return $write_len == strlen($raw);
     }
