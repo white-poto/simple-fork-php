@@ -65,7 +65,7 @@ class PipeQueue implements QueueInterface
             $this->pipe->setBlock($block);
             $this->block = $block;
         }
-        $len = $this->pipe->read(4);
+        $len = $this->pipe->read(1);
         if ($len === false) {
             throw new \RuntimeException("read pipe failed");
         }
