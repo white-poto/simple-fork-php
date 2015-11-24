@@ -12,14 +12,14 @@ class PipeTest extends PHPUnit_Framework_TestCase
     {
 
         $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
+            $pipe = new \Jenner\SimpleFork\Queue\Pipe();
             $pipe->write('test');
             sleep(2);
             $pipe->close();
         });
         $process->start();
         sleep(1);
-        $pipe = new \Jenner\SimpleFork\Pipe();
+        $pipe = new \Jenner\SimpleFork\Queue\Pipe();
         $this->assertEquals('test', $pipe->read());
         $process->wait(true);
         $pipe->close();
@@ -27,11 +27,11 @@ class PipeTest extends PHPUnit_Framework_TestCase
 
     public function testWrite()
     {
-        $pipe = new \Jenner\SimpleFork\Pipe();
+        $pipe = new \Jenner\SimpleFork\Queue\Pipe();
         $this->assertEquals(4, $pipe->write('test'));
 
         $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
+            $pipe = new \Jenner\SimpleFork\Queue\Pipe();
             $pipe->read();
             $pipe->close();
         });
@@ -42,10 +42,10 @@ class PipeTest extends PHPUnit_Framework_TestCase
 
     public function testBlock()
     {
-        $pipe = new \Jenner\SimpleFork\Pipe();
+        $pipe = new \Jenner\SimpleFork\Queue\Pipe();
         $pipe->setBlock(true);
         $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
+            $pipe = new \Jenner\SimpleFork\Queue\Pipe();
             sleep(2);
             $pipe->write('test');
             $pipe->close();
