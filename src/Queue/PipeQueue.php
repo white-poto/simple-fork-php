@@ -75,10 +75,11 @@ class PipeQueue implements QueueInterface
         if(empty($len) || !array_key_exists(1, $len) || empty($len[1])){
             throw new \RuntimeException("data protocol error");
         }
+        $len = intval($len[1]);
 
         $value = '';
         while (true) {
-            $temp = $this->pipe->read(intval($len[1]));
+            $temp = $this->pipe->read($len);
             if (strlen($temp) == $len) {
                 return $temp;
             }
