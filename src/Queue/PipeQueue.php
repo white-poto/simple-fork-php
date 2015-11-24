@@ -72,7 +72,7 @@ class PipeQueue implements QueueInterface
         if (strlen($len) === 0) {
             return null;
         }
-        $len = unpack('N', $len);
+        $len = intval(unpack('N', $len));
         if(empty($len)){
             throw new \RuntimeException("data protocol error");
         }
