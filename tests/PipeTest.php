@@ -8,37 +8,37 @@
  */
 class PipeTest extends PHPUnit_Framework_TestCase
 {
-    public function testRead()
-    {
-        $pipe = new \Jenner\SimpleFork\Pipe();
-        $process = new \Jenner\SimpleFork\Process(function () use($pipe) {
-
-            $pipe->write('test');
-            sleep(2);
-            $pipe->close();
-        });
-        $process->start();
-        sleep(1);
-//        $pipe = new \Jenner\SimpleFork\Pipe();
-        $this->assertEquals('test', $pipe->read());
-        $process->wait(true);
-        $pipe->close();
-    }
-//
-//    public function testWrite()
+//    public function testRead()
 //    {
-//        $pipe = new \Jenner\SimpleFork\Pipe();
-//        $this->assertEquals(4, $pipe->write('test'));
 //
 //        $process = new \Jenner\SimpleFork\Process(function () {
 //            $pipe = new \Jenner\SimpleFork\Pipe();
-//            $pipe->read();
+//            $pipe->write('test');
+//            sleep(2);
 //            $pipe->close();
 //        });
 //        $process->start();
+//        sleep(1);
+//        $pipe = new \Jenner\SimpleFork\Pipe();
+//        $this->assertEquals('test', $pipe->read());
 //        $process->wait(true);
 //        $pipe->close();
 //    }
+
+    public function testWrite()
+    {
+        $pipe = new \Jenner\SimpleFork\Pipe();
+        $this->assertEquals(4, $pipe->write('test'));
+
+        $process = new \Jenner\SimpleFork\Process(function () {
+            $pipe = new \Jenner\SimpleFork\Pipe();
+            $pipe->read();
+            $pipe->close();
+        });
+        $process->start();
+        $process->wait(true);
+        $pipe->close();
+    }
 //
 //    public function testBlock()
 //    {
