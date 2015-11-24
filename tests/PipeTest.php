@@ -10,14 +10,15 @@ class PipeTest extends PHPUnit_Framework_TestCase
 {
     public function testRead()
     {
-        $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
+        $pipe = new \Jenner\SimpleFork\Pipe();
+        $process = new \Jenner\SimpleFork\Process(function () use($pipe) {
+
             $pipe->write('test');
             sleep(2);
             $pipe->close();
         });
         $process->start();
-        $pipe = new \Jenner\SimpleFork\Pipe();
+//        $pipe = new \Jenner\SimpleFork\Pipe();
         $this->assertEquals('test', $pipe->read());
         $process->wait(true);
         $pipe->close();
