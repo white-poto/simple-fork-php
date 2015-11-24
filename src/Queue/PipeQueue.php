@@ -48,8 +48,6 @@ class PipeQueue implements QueueInterface
         $raw = pack('N', $len) . $value;
 
         $write_len = $this->pipe->write($raw);
-        echo $raw . PHP_EOL;
-        echo strlen($raw) . PHP_EOL;
 
         return $write_len == strlen($raw);
     }
@@ -66,7 +64,7 @@ class PipeQueue implements QueueInterface
             $this->pipe->setBlock($block);
             $this->block = $block;
         }
-        $len = $this->pipe->read(1);
+        $len = $this->pipe->read(4);
         if ($len === false) {
             throw new \RuntimeException("read pipe failed");
         }
@@ -74,7 +72,9 @@ class PipeQueue implements QueueInterface
         if (strlen($len) === 0) {
             return null;
         }
+        var_dump(unpack('N', $len));
         $len = intval(unpack('N', $len));
+        var_dump($len);
         if(empty($len)){
             throw new \RuntimeException("data protocol error");
         }
