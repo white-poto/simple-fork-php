@@ -6,7 +6,7 @@
  * @datetime: 2015/11/24 16:29
  */
 
-namespace Jenner\SimpleFork;
+namespace Jenner\SimpleFork\Queue;
 
 
 class Pipe

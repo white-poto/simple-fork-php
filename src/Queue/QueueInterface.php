@@ -31,18 +31,4 @@ interface QueueInterface
      * @return bool|string
      */
     public function get($block = false);
-
-    /**
-     * get the size of the queue of channel
-     *
-     * @return int
-     */
-    public function size();
-
-    /**
-     * remove the queue resource
-     *
-     * @return bool
-     */
-    public function remove();
 }
