@@ -53,5 +53,6 @@ class PipeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $pipe->read());
         $end = time();
         $this->assertTrue(($end - $start) >= 2);
+        $process->wait(true);
     }
 }
