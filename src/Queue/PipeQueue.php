@@ -72,16 +72,14 @@ class PipeQueue implements QueueInterface
         if (strlen($len) === 0) {
             return null;
         }
-        var_dump(unpack('N', $len));
-        $len = intval(unpack('N', $len));
-        var_dump($len);
-        if(empty($len)){
+        $len = unpack('N', $len);
+        if(empty($len) || !array_key_exists(1, $len) || empty($len[1])){
             throw new \RuntimeException("data protocol error");
         }
 
         $value = '';
         while (true) {
-            $temp = $this->pipe->read($len);
+            $temp = $this->pipe->read(intval($len[1]));
             echo $temp . PHP_EOL;
             if (strlen($temp) == $len) {
                 return $temp;
