@@ -46,7 +46,6 @@ class PipeQueue implements QueueInterface
             throw new \RuntimeException("value is too long");
         }
         $raw = pack('N', $len) . $value;
-
         $write_len = $this->pipe->write($raw);
 
         return $write_len == strlen($raw);
@@ -80,12 +79,10 @@ class PipeQueue implements QueueInterface
         $value = '';
         while (true) {
             $temp = $this->pipe->read(intval($len[1]));
-            echo $temp . PHP_EOL;
             if (strlen($temp) == $len) {
                 return $temp;
             }
             $value .= $temp;
-            echo $value . PHP_EOL;
             $len -= strlen($temp);
             if ($len == 0) {
                 return $value;
