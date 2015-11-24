@@ -22,37 +22,37 @@ class PipeTest extends PHPUnit_Framework_TestCase
         $process->wait(true);
         $pipe->close();
     }
-
-    public function testWrite()
-    {
-        $pipe = new \Jenner\SimpleFork\Pipe();
-        $this->assertEquals(4, $pipe->write('test'));
-
-        $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
-            $pipe->read();
-            $pipe->close();
-        });
-        $process->start();
-        $process->wait(true);
-        $pipe->close();
-    }
-
-    public function testBlock()
-    {
-        $pipe = new \Jenner\SimpleFork\Pipe();
-        $pipe->setBlock(true);
-        $process = new \Jenner\SimpleFork\Process(function () {
-            $pipe = new \Jenner\SimpleFork\Pipe();
-            sleep(2);
-            $pipe->write('test');
-            $pipe->close();
-        });
-        $start = time();
-        $process->start();
-        $this->assertEquals('test', $pipe->read());
-        $end = time();
-        $this->assertTrue(($end - $start) >= 2);
-        $process->wait(true);
-    }
+//
+//    public function testWrite()
+//    {
+//        $pipe = new \Jenner\SimpleFork\Pipe();
+//        $this->assertEquals(4, $pipe->write('test'));
+//
+//        $process = new \Jenner\SimpleFork\Process(function () {
+//            $pipe = new \Jenner\SimpleFork\Pipe();
+//            $pipe->read();
+//            $pipe->close();
+//        });
+//        $process->start();
+//        $process->wait(true);
+//        $pipe->close();
+//    }
+//
+//    public function testBlock()
+//    {
+//        $pipe = new \Jenner\SimpleFork\Pipe();
+//        $pipe->setBlock(true);
+//        $process = new \Jenner\SimpleFork\Process(function () {
+//            $pipe = new \Jenner\SimpleFork\Pipe();
+//            sleep(2);
+//            $pipe->write('test');
+//            $pipe->close();
+//        });
+//        $start = time();
+//        $process->start();
+//        $this->assertEquals('test', $pipe->read());
+//        $end = time();
+//        $this->assertTrue(($end - $start) >= 2);
+//        $process->wait(true);
+//    }
 }
