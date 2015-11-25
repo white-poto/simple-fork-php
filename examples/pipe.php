@@ -19,6 +19,6 @@ if($pid == 0){
 }else{
     $pipe = new \Jenner\SimpleFork\Queue\Pipe();
     $pipe->setBlock(true);
-    $result = $pipe->read();
+    $result = $pipe->read(4);
     echo $result . PHP_EOL;
 }
