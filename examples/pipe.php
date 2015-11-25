@@ -15,6 +15,7 @@ if($pid == 0){
     $pipe = new \Jenner\SimpleFork\Queue\Pipe();
     sleep(1);
     $pipe->write("test");
+    sleep(1);
 }else{
     $pipe = new \Jenner\SimpleFork\Queue\Pipe();
     $pipe->setBlock(true);
