@@ -10,7 +10,6 @@ spl_autoload_register(function ($classname) {
     $dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
     if (stristr($classname, "\\Jenner\\SimpleFork\\") == 0) {
         $file = $dir . basename(str_replace('\\', '/', $classname));
-        echo $file . PHP_EOL;
         if (file_exists($file)) require $file . '.php';
     }
 });
