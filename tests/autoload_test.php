@@ -8,9 +8,6 @@
 
 error_reporting(E_ALL);
 
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Autoloader.php';
+require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'autoload.php';
 
-
-\Jenner\SimpleFork\Autoloader::register();
-
-$process = new \Jenner\SimpleFork\Process();
+var_dump(class_exists('\\Jenner\\SimpleFork\\Process'));
