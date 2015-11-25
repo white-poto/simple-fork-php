@@ -8,6 +8,6 @@
 
 error_reporting(E_ALL);
 
-require dirname(__DIR__) . DIRECTORY_SEPARATOR . 'autoload.php';
+echo dirname(__DIR__) . DIRECTORY_SEPARATOR . 'autoload.php';
 
 var_dump(class_exists('\\Jenner\\SimpleFork\\Process'));
