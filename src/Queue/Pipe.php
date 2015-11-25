@@ -69,6 +69,9 @@ class Pipe
     }
 
     /**
+     * if the stream is blocking, you would better set the value of size,
+     * it will not return until the data size is equal to the value of param size
+     *
      * @param int $size
      * @return string
      */
