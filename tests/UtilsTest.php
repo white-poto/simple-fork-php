@@ -12,6 +12,11 @@ class UtilsTest extends PHPUnit_Framework_TestCase
         $process = new UtilsTestProcess();
         \Jenner\SimpleFork\Utils::checkOverwriteRunMethod(get_class($process));
     }
+
+    public function testError(){
+        $this->setExpectedException("RuntimeException");
+        \Jenner\SimpleFork\Utils::checkOverwriteRunMethod(get_class(new \Jenner\SimpleFork\Process()));
+    }
 }
 
 class UtilsTestProcess extends \Jenner\SimpleFork\Process
