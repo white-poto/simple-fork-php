@@ -14,7 +14,6 @@ for ($i = 0; $i < 100; $i++) {
         sleep(30);
         echo getmypid() . PHP_EOL;
     });
-    $pool->submit($process);
+    $pool->execute($process);
 }
-$pool->start();
 $pool->wait();
