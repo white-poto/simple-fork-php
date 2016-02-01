@@ -164,7 +164,7 @@ class Process
      *
      * @return bool
      */
-    public function hasStarted()
+    public function isStarted()
     {
         return $this->started;
     }

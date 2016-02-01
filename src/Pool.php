@@ -29,7 +29,9 @@ class Pool extends AbstractPool
         if (!is_null($name)) {
             $process->name($name);
         }
-        $process->start();
+        if (!$process->isStarted()) {
+            $process->start();
+        }
 
         return array_push($this->processes, $process);
     }
