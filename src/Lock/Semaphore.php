@@ -43,9 +43,9 @@ class Semaphore implements LockInterface
      * @param $key
      * @throws \RuntimeException
      */
-    private function __construct($key)
+    private function __construct($key, $count = 1)
     {
-        if (($this->lock_id = sem_get($this->_stringToSemKey($key))) === false) {
+        if (($this->lock_id = sem_get($this->_stringToSemKey($key), $count)) === false) {
             throw new \RuntimeException('Cannot create semaphore for key: ' . $key);
         }
     }
