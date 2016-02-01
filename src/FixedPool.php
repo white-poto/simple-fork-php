@@ -55,7 +55,7 @@ class FixedPool extends AbstractPool
             parent::wait(false);
             if ($this->aliveCount() < $this->max) {
                 foreach ($this->processes as $process) {
-                    if ($process->hasStarted()) continue;
+                    if ($process->isStarted()) continue;
                     $process->start();
                     if ($this->aliveCount() >= $this->max) break;
                 }
