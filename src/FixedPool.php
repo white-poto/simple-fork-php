@@ -33,7 +33,7 @@ class FixedPool extends AbstractPool
     {
         Utils::checkOverwriteRunMethod(get_class($process));
 
-        if ($this->aliveCount() < $this->max) {
+        if ($this->aliveCount() < $this->max && !$process->isStarted()) {
             $process->start();
         }
         array_push($this->processes, $process);
