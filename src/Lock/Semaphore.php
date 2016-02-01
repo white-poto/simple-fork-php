@@ -41,6 +41,7 @@ class Semaphore implements LockInterface
      * init a lock
      *
      * @param $key
+     * @param $count
      * @throws \RuntimeException
      */
     private function __construct($key, $count = 1)
