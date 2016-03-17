@@ -11,7 +11,7 @@ require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . D
 
 class Producer extends \Jenner\SimpleFork\Process {
     public function run() {
-        $queue = new \Jenner\SimpleFork\Queue\RedisQueue('127.0.0.1', 6379);
+        $queue = new \Jenner\SimpleFork\Queue\RedisQueue('127.0.0.1', 6379, 1);
         for($i=0; $i<1000; $i++) {
             $queue->put(getmypid() . '-' . mt_rand(0, 1000));
         }

@@ -9,7 +9,7 @@
 declare(ticks = 1);
 require dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
-class Worker extends \Jenner\SimpleFork\Process
+class Consumer extends \Jenner\SimpleFork\Process
 {
     public function run()
     {
@@ -23,4 +23,9 @@ class Worker extends \Jenner\SimpleFork\Process
         }
     }
 }
+
+$consumer = new Consumer();
+$consumer->start();
+$consumer->wait();
+
 
