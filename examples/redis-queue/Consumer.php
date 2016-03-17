@@ -16,6 +16,7 @@ class Consumer extends \Jenner\SimpleFork\Process
         $queue = new \Jenner\SimpleFork\Queue\RedisQueue('127.0.0.1', 6379, 1);
         while (true) {
             $res = $queue->get();
+            var_dump($res);
             if ($res !== false) {
                 echo $res . PHP_EOL;
             }
