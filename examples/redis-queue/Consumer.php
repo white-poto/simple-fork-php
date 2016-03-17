@@ -25,8 +25,12 @@ class Consumer extends \Jenner\SimpleFork\Process
     }
 }
 
-$consumer = new Consumer();
-$consumer->start();
-$consumer->wait();
+$pool = new \Jenner\SimpleFork\Pool();
+for($i = 0; $i< 10; $i++) {
+    $consumer = new Consumer();
+    $pool->execute($consumer);
+}
+$pool->wait(true);
+
 
 
