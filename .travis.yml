@@ -15,7 +15,7 @@ before_script:
  - composer update
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit -v --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
