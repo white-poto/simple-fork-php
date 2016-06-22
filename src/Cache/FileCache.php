@@ -230,18 +230,19 @@ class FileCache implements CacheInterface
             return false;
         }
 
-        $cache_data = file_get_contents($cache_file);
-        if (empty($cache_data)) return false;
-        $cache_data = unserialize($cache_data);
-        if ($cache_data) {
-            $check_expire = $this->checkExpire($cache_data);
-            if ($check_expire === false) {
-                $this->delete($key);
-                return false;
-            }
+        $data = file_get_contents($cache_file);
+        if (empty($data)) return false;
+        $cache_data = unserialize($data);
+
+        if ($cache_data === false) {
+            return false;
         }
 
-        return $cache_data;
+        $check_expire = $this->checkExpire($cache_data);
+        if ($check_expire === false) {
+            $this->delete($key);
+            return false;
+        }
     }
 
     /**
