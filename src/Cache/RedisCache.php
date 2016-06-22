@@ -50,7 +50,7 @@ class RedisCache implements CacheInterface
             }
         }
 
-        if(empty($prefix)){
+        if (empty($prefix)) {
             throw new \InvalidArgumentException("prefix can not be empty");
         }
         $this->prefix = $prefix;

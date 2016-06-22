@@ -59,7 +59,7 @@ class RedisQueue implements QueueInterface
 
         $this->channel = $channel;
 
-        if(empty($prefix)) return;
+        if (empty($prefix)) return;
 
         $set_option_result = $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
         if (!$set_option_result) {
@@ -91,12 +91,12 @@ class RedisQueue implements QueueInterface
      */
     public function get($block = false)
     {
-        if(!$block){
+        if (!$block) {
             return $this->redis->rPop($this->channel);
-        }else{
-            while(true){
+        } else {
+            while (true) {
                 $record = $this->redis->rPop($this->channel);
-                if($record === false){
+                if ($record === false) {
                     usleep(1000);
                     continue;
                 }

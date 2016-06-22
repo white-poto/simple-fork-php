@@ -25,7 +25,7 @@ class Utils
         }
 
         $child = new \ReflectionClass($child_class);
-        if($child->getParentClass() === false){
+        if ($child->getParentClass() === false) {
             $message = "you should extend the `{$parent_class}`" .
                 " and overwrite the run method";
             throw new \RuntimeException($message);

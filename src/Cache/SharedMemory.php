@@ -59,9 +59,9 @@ class SharedMemory implements CacheInterface
      */
     public function attach($file = __FILE__)
     {
-        if(!file_exists($file)){
+        if (!file_exists($file)) {
             $touch = touch($file);
-            if(!$touch){
+            if (!$touch) {
                 $message = "file is not exists and it can not be created. file:" . $file;
                 throw new \RuntimeException($message);
             }
