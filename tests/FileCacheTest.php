@@ -30,7 +30,7 @@ class FileCacheTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($path));
         $this->assertTrue($cache->set($key, $value, 1));
         $this->assertEquals($cache->get($key), $value);
-        sleep(1);
+        sleep(2);
         $this->assertNull($cache->get($key));
         $this->assertTrue($cache->set($key, $value));
         $this->assertTrue($cache->delete($key));
