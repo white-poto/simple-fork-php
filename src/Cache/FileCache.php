@@ -72,7 +72,7 @@ class FileCache implements CacheInterface
         if ($cache_file === false) return false;
 
         $cache_data = array('data' => $value, 'time' => $time, 'expire' => $expire);
-        $cache_data = json_encode($cache_data);
+        $cache_data = serialize($cache_data);
 
         $put_result = file_put_contents($cache_file, $cache_data);
         if ($put_result === false) return false;
@@ -232,7 +232,7 @@ class FileCache implements CacheInterface
 
         $cache_data = file_get_contents($cache_file);
         if (empty($cache_data)) return false;
-        $cache_data = json_decode($cache_data, true);
+        $cache_data = unserialize($cache_data);
         if ($cache_data) {
             $check_expire = $this->checkExpire($cache_data);
             if ($check_expire === false) {
