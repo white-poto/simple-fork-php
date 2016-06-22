@@ -11,12 +11,12 @@ class FileCacheTest extends PHPUnit_Framework_TestCase
 
     public function additionProvider()
     {
-        return [
-            ["/tmp/cache1", "key1", "value1"],
-            ["/tmp/cache2", "key2", "value2"],
-            ["/tmp/cache3", "key3", "value3"],
-            ["/tmp/cache4", "key4", "value4"]
-        ];
+        return array(
+            array("/tmp/cache1", "key1", "value1"),
+            array("/tmp/cache2", "key2", "value2"),
+            array("/tmp/cache3", "key3", "value3"),
+            array("/tmp/cache4", "key4", "value4")
+        );
     }
 
     public function testCache($path, $key, $value) {
