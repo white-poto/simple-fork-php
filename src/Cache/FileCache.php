@@ -170,7 +170,7 @@ class FileCache implements CacheInterface
     /**
      * 删除一个key，同事会删除缓存文件
      * @param $key
-     * @return mixed
+     * @return boolean
      */
     public function delete($key)
     {
