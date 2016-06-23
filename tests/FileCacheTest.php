@@ -29,7 +29,6 @@ class FileCacheTest extends PHPUnit_Framework_TestCase
         $cache = new \Jenner\SimpleFork\Cache\FileCache($path);
         $this->assertTrue(file_exists($path));
         $this->assertTrue($cache->set($key, $value, 2));
-        var_dump($cache->get($key), $value);
         $this->assertEquals($cache->get($key), $value);
         sleep(4);
         $this->assertNull($cache->get($key));
