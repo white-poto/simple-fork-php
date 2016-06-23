@@ -13,8 +13,8 @@ Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnabl
 
 Why SimpleFork
 ------------------------
-Writing Multi-Process program is hard for freshman. You must consider that how to recover zombie process, interprocess communication, especially handle the process signal.
-SimpleFork framework provide several interfaces which like Java and solutions in process pool, sync and IPC. You do not need to care about how to control multi-process.
+Writing Multi-Processes programs are hard for freshman. You must consider that how to recover zombie processes, interprocess communication, especially handle the process signal.
+SimpleFork framework provide several interfaces which like Java Thread and solutions in process pool, sync and IPC. You do not need to care about how to control multi-processes.
 
 Require
 ---------------------
@@ -41,26 +41,14 @@ Property
 ---------------------------
 + Process Pool and Fixed Pool
 + Recover zombie process automatically
-+ shared memory, system v message queue, semaphore lock. redis cache, redis queue
-+ Two ways to make Process: extends Process or implements Runnable
++ shared memory, system v message queue, semaphore lock, file lock, 
+redis cache, redis queue
++ Three ways to make Process: extends Process, implements Runnable or 
+create a process object with a callback function
 + You can get the status of sub process
-+ You can stop any process if you want, or just shutdown all process.
-+ You can register Process::BEFORE_EXIT and Process::BEFORE_START 
-callback functions by Process::on(). 
-If the callback function return true, the process will exit, else it will continue to run.
++ You can stop any processes if you want, or just shutdown all processes
 + You can reload the processes by reload() method, then the processes 
-will exit and start new process instead.
-
-Callback functions
--------------------------------
-Use Process::on($event, $callback) method to register callback functions  
-+ Process::BEFORE_START It will be called when the process start. 
-If it return false, the process will not start and exit with status 0.
-+ Process::BEFORE_EXIT It will be called when the main process call stop() method. 
-If it return false, the process will not exit.
-+ Process::AFTER_FINISHED It will be called after the sub process callback is finished.
-It accept a param which is the return value of the 
-callback(`Runnable::run()`, `Process::run`, `new Process(callable)`)
+will exit and start new processes instead.
 
 Process Pool
 ----------------------------------
@@ -71,24 +59,26 @@ task to manage:Pool and FixedPool.
 the sub processes exit(or just do something else, but do not forget)
 + ParallelPool: it will keep the sub processes count, you should not init any
 socket connection before the FixedPool start(share socket connection is dangerous
-in multi processes).This class has a method `reload` which can reload the process.
-When you call `reload` method, the master will start new N porcesses and shutdown 
-the old ones.
-+ SinglePool: no matter how many process you submit, it will always keep one
+in multi processes).This class has a method `reload` which can reload 
+all the sub processes. When you call `reload` method, the master will 
+start new N processes and shutdown the old ones.
++ SinglePool: no matter how many processes you submit, it will always keep one
 process starting and start another after it stopped.
-+ FixedPool: no matter how many process you submit, it will always keep N
-processes starting and start another after it stopped. the active processes
-count is less then N forever.
++ FixedPool: no matter how many processes you submit, it will always keep N
+processes starting and start another after it stopped. the active processes'
+count is less then N+1 forever.
 
 Notice
 --------------------------
-Remeber that you must add `declare(ticks=n);` at the start of program.
+Remember that you must add `declare(ticks=n);` at the start of program.
 If the sub processes exit continually and quickly, you should set `n` to 
 a small integer, else set a big one to save the CPU time.
-If you want to register signal handler in the master process, the child will inherit the handler.
-If you want to register signal handler in child process but before it start, 
-you can call the `Process::registerSignalHandler` method. After the child process
-start, it will register the signal handler automatically.
+If you want to register signal handler in the master process, the child 
+will inherit the handler.
+If you want to register signal handler in the child process before it start, 
+you can call the `Process::registerSignalHandler` method. `start` 
+method of the sub process is called, it will register the signal 
+handler automatically.
 
 Examples
 -------------------------
