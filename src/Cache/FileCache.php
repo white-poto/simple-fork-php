@@ -243,6 +243,8 @@ class FileCache implements CacheInterface
             $this->delete($key);
             return false;
         }
+
+        return $cache_data;
     }
 
     /**
