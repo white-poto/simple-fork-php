@@ -24,7 +24,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     public function testFailed()
     {
         $process = new \Jenner\SimpleFork\Process(function () {
-            function_not_exists();
+            exit(255);
         });
         $process->start();
         $process->wait();
