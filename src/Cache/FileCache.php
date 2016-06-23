@@ -19,7 +19,7 @@ class FileCache implements CacheInterface
     private $cache_dir;
 
     /**
-     * @param $cache_dir
+     * @param string $cache_dir
      * @throws \Exception
      */
     public function __construct($cache_dir)
@@ -33,8 +33,8 @@ class FileCache implements CacheInterface
 
 
     /**
-     * 根据key获取值，会判断是否过期
-     * @param $key
+     * get value by key, and check if it is expired
+     * @param string $key
      * @param string $default
      * @return mixed
      */
@@ -48,9 +48,9 @@ class FileCache implements CacheInterface
 
     /**
      * 添加或覆盖一个key
-     * @param $key
-     * @param $value
-     * @param $expire
+     * @param string $key
+     * @param mixed $value
+     * @param int $expire expire time in seconds
      * @return mixed
      */
     public function set($key, $value, $expire = 0)
