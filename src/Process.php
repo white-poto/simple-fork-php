@@ -70,21 +70,6 @@ class Process
      */
     protected $signal_handlers = array();
 
-    /**
-     * event name of before process start
-     */
-    const BEFORE_START = 'beforeStart';
-
-    /**
-     * event name of before process exit
-     */
-    const BEFORE_EXIT = 'beforeExit';
-
-    /**
-     * event name of after process exit
-     */
-    const AFTER_FINISHED = 'afterFinished';
-
 
     /**
      * @param string $execution it can be a Runnable object, callback function or null
@@ -221,20 +206,7 @@ class Process
             foreach ($this->signal_handlers as $signal => $handler) {
                 pcntl_signal($signal, $handler);
             }
-
-            if (array_key_exists(self::BEFORE_START, $this->callbacks)) {
-                $result = call_user_func($this->callbacks[self::BEFORE_START]);
-                if ($result !== true) {
-                    exit(0);
-                }
-            }
-
-            $result = call_user_func($callback);
-
-            if (array_key_exists(self::AFTER_FINISHED, $this->callbacks)) {
-                call_user_func($this->callbacks[self::AFTER_FINISHED], $result);
-            }
-
+            call_user_func($callback);
             exit(0);
         }
     }
@@ -279,21 +251,6 @@ class Process
             }
             usleep($sleep);
         }
-    }
-
-    /**
-     * register callback functions
-     *
-     * @param $event
-     * @param $function
-     */
-    public function on($event, $function)
-    {
-        if (!is_callable($function)) {
-            throw new \LogicException("the callback function is not callable");
-        }
-
-        $this->callbacks[$event] = $function;
     }
 
     /**
@@ -370,14 +327,7 @@ class Process
     protected function signal()
     {
         pcntl_signal(SIGTERM, function () {
-            if (!array_key_exists(self::BEFORE_EXIT, $this->callbacks)) {
-                exit(0);
-            }
-
-            $result = call_user_func($this->callbacks[self::BEFORE_EXIT]);
-            if ($result === true) {
-                exit(0);
-            }
+            exit(0);
         });
     }
 
