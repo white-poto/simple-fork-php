@@ -23,7 +23,7 @@ composer require jenner/simple_fork
 ```
 Or
 ```php
-\Jenner\SimpleFork\Autoloader::register();
+require '/path/to/simple-fork-php/autoload.php'
 ```
 
 Dependencies
