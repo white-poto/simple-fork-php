@@ -70,12 +70,12 @@ count is less then N+1 forever.
 
 Notice
 --------------------------
-Remember that you must add `declare(ticks=n);` at the start of program.
-If the sub processes exit continually and quickly, you should set `n` to 
++ Remember that you must add `declare(ticks=n);` at the start of program.
++ If the sub processes exit continually and quickly, you should set `n` to 
 a small integer, else set a big one to save the CPU time.
-If you want to register signal handler in the master process, the child 
++ If you want to register signal handler in the master process, the child 
 will inherit the handler.
-If you want to register signal handler in the child process before it start, 
++ If you want to register signal handler in the child process before it start, 
 you can call the `Process::registerSignalHandler` method. `start` 
 method of the sub process is called, it will register the signal 
 handler automatically.
