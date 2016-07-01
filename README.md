@@ -9,12 +9,12 @@ SimpleFork
 [![Code Coverage](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/huyanping/simple-fork-php/?branch=master)
 
 [中文README.MD](https://github.com/huyanping/simple-fork-php/blob/master/README.ZH.MD)  
-Simple Fork Framework based on PCNTL, the interfaces are like Thread and Runnable in Java.
+Simple Fork Framework is based on PCNTL extension, the interfaces are like `Thread` and `Runnable` in Java.
 
 Why SimpleFork
 ------------------------
 Writing Multi-Processes programs are hard for freshman. You must consider that how to recover zombie processes, interprocess communication, especially handle the process signal.
-SimpleFork framework provide several interfaces which like Java Thread and solutions in process pool, sync and IPC. You do not need to care about how to control multi-processes.
+SimpleFork framework provide several interfaces which like Java `Thread` and solutions in process pool, sync and IPC. You do not need to care about how to control multi-processes.
 
 Require
 ---------------------
