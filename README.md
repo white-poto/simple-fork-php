@@ -1,5 +1,7 @@
 SimpleFork
 ===================
+
+[![Join the chat at https://gitter.im/huyanping/simple-fork-php](https://badges.gitter.im/huyanping/simple-fork-php.svg)](https://gitter.im/huyanping/simple-fork-php?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Latest Stable Version](https://poser.pugx.org/jenner/simple_fork/v/stable)](https://packagist.org/packages/jenner/simple_fork) 
 [![Total Downloads](https://poser.pugx.org/jenner/simple_fork/downloads)](https://packagist.org/packages/jenner/simple_fork) 
 [![Latest Unstable Version](https://poser.pugx.org/jenner/simple_fork/v/unstable)](https://packagist.org/packages/jenner/simple_fork) 
