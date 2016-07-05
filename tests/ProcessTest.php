@@ -15,7 +15,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     /**
      * @var \Jenner\SimpleFork\Process
      */
-    protected $process_runable;
+    protected $process_runnable;
     /**
      * @var \Jenner\SimpleFork\Process
      */
@@ -62,9 +62,9 @@ class ProcessTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->process_thread->errmsg(), 'Success');
         $this->assertEquals($this->process_thread->isRunning(), false);
 
-        $this->process_runable->start();
-        $this->process_runable->wait();
-        $this->assertEquals(0, $this->process_runable->errno());
+        $this->process_runnable->start();
+        $this->process_runnable->wait();
+        $this->assertEquals(0, $this->process_runnable->errno());
 
         $this->process_callback->start();
         $this->process_callback->wait();
