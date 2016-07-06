@@ -49,7 +49,7 @@ class ProcessTest extends PHPUnit_Framework_TestCase
     public function testWait()
     {
         $this->process_thread = new MyThread();
-        $this->process_runable = new \Jenner\SimpleFork\Process(new MyRunnable());
+        $this->process_runnable = new \Jenner\SimpleFork\Process(new MyRunnable());
         $this->process_callback = new \Jenner\SimpleFork\Process(function () {
             for ($i = 0; $i < 3; $i++) {
 //                echo "callback pid:" . getmypid() . PHP_EOL;
