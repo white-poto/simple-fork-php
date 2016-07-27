@@ -95,6 +95,19 @@ class Process
     }
 
     /**
+     * init process status
+     */
+    protected function initStatus()
+    {
+        $this->pid = null;
+        $this->running = null;
+        $this->term_signal = null;
+        $this->stop_signal = null;
+        $this->errno = null;
+        $this->errmsg = null;
+    }
+
+    /**
      * get pid
      *
      * @return int
@@ -120,6 +133,16 @@ class Process
     }
 
     /**
+     * if the process is stopped
+     *
+     * @return bool
+     */
+    public function isStopped()
+    {
+        return !$this->isRunning();
+    }
+
+    /**
      * if the process is running
      *
      * @return bool
@@ -131,17 +154,49 @@ class Process
     }
 
     /**
-     * if the process is stopped
+     * update the process status
      *
-     * @return bool
+     * @param bool $block
      */
-    public function isStopped()
+    protected function updateStatus($block = false)
     {
-        if (is_null($this->errno)) {
-            return false;
+        if ($this->running !== true) {
+            return;
         }
 
-        return true;
+        if ($block) {
+            $res = pcntl_waitpid($this->pid, $status);
+        } else {
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
+        }
+
+        if ($res === -1) {
+            $message = "pcntl_waitpid failed. the process maybe available";
+            throw new \RuntimeException($message);
+        } elseif ($res === 0) {
+            $this->running = true;
+        } else {
+            if (pcntl_wifsignaled($status)) {
+                $this->term_signal = pcntl_wtermsig($status);
+            }
+            if (pcntl_wifstopped($status)) {
+                $this->stop_signal = pcntl_wstopsig($status);
+            }
+            if (pcntl_wifexited($status)) {
+                $this->errno = pcntl_wexitstatus($status);
+                $this->errmsg = pcntl_strerror($this->errno);
+            } else {
+                $this->errno = pcntl_get_last_error();
+                $this->errmsg = pcntl_strerror($this->errno);
+            }
+            if (pcntl_wifsignaled($status)) {
+                $this->if_signal = true;
+            } else {
+                $this->if_signal = false;
+            }
+
+            $this->running = false;
+        }
     }
 
     /**
@@ -212,6 +267,37 @@ class Process
     }
 
     /**
+     * get sub process callback
+     *
+     * @return array|callable|null
+     */
+    protected function getCallable()
+    {
+        $callback = null;
+        if (is_object($this->runnable) && $this->runnable instanceof Runnable) {
+            $callback = array($this->runnable, 'run');
+        } elseif (is_callable($this->runnable)) {
+            $callback = $this->runnable;
+        } else {
+            $callback = array($this, 'run');
+        }
+
+        return $callback;
+    }
+
+    /**
+     * register signal SIGTERM handler,
+     * when the parent process call shutdown and use the default signal,
+     * this handler will be triggered
+     */
+    protected function signal()
+    {
+        pcntl_signal(SIGTERM, function () {
+            exit(0);
+        });
+    }
+
+    /**
      * kill self
      *
      * @param bool|true $block
@@ -271,95 +357,5 @@ class Process
      */
     public function run()
     {
-    }
-
-    /**
-     * update the process status
-     *
-     * @param bool $block
-     */
-    protected function updateStatus($block = false)
-    {
-        if ($this->running !== true) {
-            return;
-        }
-
-        if ($block) {
-            $res = pcntl_waitpid($this->pid, $status);
-        } else {
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
-        }
-
-        if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
-        } elseif ($res === 0) {
-            $this->running = true;
-        } else {
-            if (pcntl_wifsignaled($status)) {
-                $this->term_signal = pcntl_wtermsig($status);
-            }
-            if (pcntl_wifstopped($status)) {
-                $this->stop_signal = pcntl_wstopsig($status);
-            }
-            if (pcntl_wifexited($status)) {
-                $this->errno = pcntl_wexitstatus($status);
-                $this->errmsg = pcntl_strerror($this->errno);
-            } else {
-                $this->errno = pcntl_get_last_error();
-                $this->errmsg = pcntl_strerror($this->errno);
-            }
-            if (pcntl_wifsignaled($status)) {
-                $this->if_signal = true;
-            } else {
-                $this->if_signal = false;
-            }
-
-            $this->running = false;
-        }
-    }
-
-    /**
-     * register signal SIGTERM handler,
-     * when the parent process call shutdown and use the default signal,
-     * this handler will be triggered
-     */
-    protected function signal()
-    {
-        pcntl_signal(SIGTERM, function () {
-            exit(0);
-        });
-    }
-
-    /**
-     * get sub process callback
-     *
-     * @return array|callable|null
-     */
-    protected function getCallable()
-    {
-        $callback = null;
-        if (is_object($this->runnable) && $this->runnable instanceof Runnable) {
-            $callback = array($this->runnable, 'run');
-        } elseif (is_callable($this->runnable)) {
-            $callback = $this->runnable;
-        } else {
-            $callback = array($this, 'run');
-        }
-
-        return $callback;
-    }
-
-    /**
-     * init process status
-     */
-    protected function initStatus()
-    {
-        $this->pid = null;
-        $this->running = null;
-        $this->term_signal = null;
-        $this->stop_signal = null;
-        $this->errno = null;
-        $this->errmsg = null;
     }
 }
