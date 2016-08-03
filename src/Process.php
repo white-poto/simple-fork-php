@@ -139,11 +139,64 @@ class Process
      */
     public function isStopped()
     {
-        if (is_null($this->errno)) {
-            return false;
+        return !$this->isRunning();
+    }
+
+    /**
+     * if the process is running
+     *
+     * @return bool
+     */
+    public function isRunning()
+    {
+        $this->updateStatus();
+        return $this->running;
+    }
+
+    /**
+     * update the process status
+     *
+     * @param bool $block
+     */
+    protected function updateStatus($block = false)
+    {
+        if ($this->running !== true) {
+            return;
         }
 
-        return true;
+        if ($block) {
+            $res = pcntl_waitpid($this->pid, $status);
+        } else {
+            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
+        }
+
+        if ($res === -1) {
+            $message = "pcntl_waitpid failed. the process maybe available";
+            throw new \RuntimeException($message);
+        } elseif ($res === 0) {
+            $this->running = true;
+        } else {
+            if (pcntl_wifsignaled($status)) {
+                $this->term_signal = pcntl_wtermsig($status);
+            }
+            if (pcntl_wifstopped($status)) {
+                $this->stop_signal = pcntl_wstopsig($status);
+            }
+            if (pcntl_wifexited($status)) {
+                $this->errno = pcntl_wexitstatus($status);
+                $this->errmsg = pcntl_strerror($this->errno);
+            } else {
+                $this->errno = pcntl_get_last_error();
+                $this->errmsg = pcntl_strerror($this->errno);
+            }
+            if (pcntl_wifsignaled($status)) {
+                $this->if_signal = true;
+            } else {
+                $this->if_signal = false;
+            }
+
+            $this->running = false;
+        }
     }
 
     /**
@@ -210,63 +263,6 @@ class Process
             }
             call_user_func($callback);
             exit(0);
-        }
-    }
-
-    /**
-     * if the process is running
-     *
-     * @return bool
-     */
-    public function isRunning()
-    {
-        $this->updateStatus();
-        return $this->running;
-    }
-
-    /**
-     * update the process status
-     *
-     * @param bool $block
-     */
-    protected function updateStatus($block = false)
-    {
-        if ($this->running !== true) {
-            return;
-        }
-
-        if ($block) {
-            $res = pcntl_waitpid($this->pid, $status);
-        } else {
-            $res = pcntl_waitpid($this->pid, $status, WNOHANG | WUNTRACED);
-        }
-
-        if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
-        } elseif ($res === 0) {
-            $this->running = true;
-        } else {
-            if (pcntl_wifsignaled($status)) {
-                $this->term_signal = pcntl_wtermsig($status);
-            }
-            if (pcntl_wifstopped($status)) {
-                $this->stop_signal = pcntl_wstopsig($status);
-            }
-            if (pcntl_wifexited($status)) {
-                $this->errno = pcntl_wexitstatus($status);
-                $this->errmsg = pcntl_strerror($this->errno);
-            } else {
-                $this->errno = pcntl_get_last_error();
-                $this->errmsg = pcntl_strerror($this->errno);
-            }
-            if (pcntl_wifsignaled($status)) {
-                $this->if_signal = true;
-            } else {
-                $this->if_signal = false;
-            }
-
-            $this->running = false;
         }
     }
 
