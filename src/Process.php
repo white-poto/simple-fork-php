@@ -82,8 +82,7 @@ class Process
         } elseif (!is_null($execution) && is_callable($execution)) {
             $this->runnable = $execution;
         } elseif (!is_null($execution)) {
-            $message = "param execution is not a object of Runnable or callable";
-            throw new \InvalidArgumentException($message);
+            throw new \InvalidArgumentException('param execution is not an object of Runnable or callable');
         } else {
             Utils::checkOverwriteRunMethod(get_class($this));
         }
@@ -190,19 +189,20 @@ class Process
     public function start()
     {
         if (!empty($this->pid) && $this->isRunning()) {
-            throw new \LogicException("the process is already running");
+            throw new \LogicException('the process is already running');
         }
 
         $callback = $this->getCallable();
 
         $pid = pcntl_fork();
         if ($pid < 0) {
-            throw new \RuntimeException("fork error");
+            throw new \RuntimeException('fork error');
         } elseif ($pid > 0) {
             $this->pid = $pid;
             $this->running = true;
             $this->started = true;
         } else {
+            $this->name and cli_set_process_title($this->name);
             $this->pid = getmypid();
             $this->signal();
             foreach ($this->signal_handlers as $signal => $handler) {
@@ -242,8 +242,7 @@ class Process
         }
 
         if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
+            throw new \RuntimeException('pcntl_waitpid failed. the process maybe available');
         } elseif ($res === 0) {
             $this->running = true;
         } else {
@@ -310,14 +309,13 @@ class Process
     public function shutdown($block = true, $signal = SIGTERM)
     {
         if (empty($this->pid)) {
-            $message = "the process pid is null, so maybe the process is not started";
-            throw new \LogicException($message);
+            throw new \LogicException('the process pid is null, so maybe the process is not started');
         }
         if (!$this->isRunning()) {
-            throw new \LogicException("the process is not running");
+            throw new \LogicException('the process is not running');
         }
         if (!posix_kill($this->pid, $signal)) {
-            throw new \RuntimeException("kill son process failed");
+            throw new \RuntimeException('kill son process failed');
         }
 
         $this->updateStatus($block);
