@@ -51,7 +51,7 @@ class FileLock implements LockInterface
         if (!file_exists($file) || !is_readable($file)) {
             throw new \RuntimeException("{$file} is not exists or not readable");
         }
-        $this->fp = fopen($file, "r+");
+        $this->fp = fopen($file, 'r+');
         if (!is_resource($this->fp)) {
             throw new \RuntimeException("open {$file} failed");
         }
@@ -66,7 +66,7 @@ class FileLock implements LockInterface
     public function acquire($blocking = true)
     {
         if ($this->locked) {
-            throw new \RuntimeException("already lock by yourself");
+            throw new \RuntimeException('already lock by yourself');
         }
 
         if ($blocking) {
@@ -76,6 +76,8 @@ class FileLock implements LockInterface
         }
 
         if ($locked !== true) {
+            fclose($this->fp);
+            $this->fp = null;
             return false;
         }
         $this->locked = true;
@@ -91,13 +93,15 @@ class FileLock implements LockInterface
     public function release()
     {
         if (!$this->locked) {
-            throw new \RuntimeException("release a non lock");
+            throw new \RuntimeException('release a non lock');
         }
 
         $unlock = flock($this->fp, LOCK_UN);
         if ($unlock !== true) {
             return false;
         }
+        fclose($this->fp);
+        $this->fp = null;
         $this->locked = false;
 
         return true;
@@ -110,7 +114,7 @@ class FileLock implements LockInterface
      */
     public function isLocked()
     {
-        return $this->locked === true ? true : false;
+        return $this->locked === true;
     }
 
     /**
