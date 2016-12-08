@@ -32,18 +32,6 @@ class FileLock implements LockInterface
     protected $locked = false;
 
     /**
-     * create a file lock instance
-     * if the file is not exists, it will be created
-     *
-     * @param string $file lock file
-     * @return FileLock
-     */
-    public static function create($file)
-    {
-        return new FileLock($file);
-    }
-
-    /**
      * @param $file
      */
     private function __construct($file)
@@ -55,6 +43,18 @@ class FileLock implements LockInterface
         if (!is_resource($this->fp)) {
             throw new \RuntimeException("open {$file} failed");
         }
+    }
+
+    /**
+     * create a file lock instance
+     * if the file is not exists, it will be created
+     *
+     * @param string $file lock file
+     * @return FileLock
+     */
+    public static function create($file)
+    {
+        return new FileLock($file);
     }
 
     /**
@@ -84,26 +84,6 @@ class FileLock implements LockInterface
     }
 
     /**
-     * release lock
-     *
-     * @return mixed
-     */
-    public function release()
-    {
-        if (!$this->locked) {
-            throw new \RuntimeException("release a non lock");
-        }
-
-        $unlock = flock($this->fp, LOCK_UN);
-        if ($unlock !== true) {
-            return false;
-        }
-        $this->locked = false;
-
-        return true;
-    }
-
-    /**
      * is locked
      *
      * @return mixed
@@ -121,5 +101,26 @@ class FileLock implements LockInterface
         if ($this->locked) {
             $this->release();
         }
+    }
+
+    /**
+     * release lock
+     *
+     * @return mixed
+     */
+    public function release()
+    {
+        if (!$this->locked) {
+            throw new \RuntimeException("release a non lock");
+        }
+
+        $unlock = flock($this->fp, LOCK_UN);
+        fclose($this->fp);
+        if ($unlock !== true) {
+            return false;
+        }
+        $this->locked = false;
+
+        return true;
     }
 }
