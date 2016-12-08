@@ -33,29 +33,11 @@ class ParallelPool extends AbstractPool
     public function __construct($callback, $max = 4)
     {
         if (!is_callable($callback) && !($callback instanceof Runnable)) {
-            $message = "callback must be a callback function or a object of Runnalbe";
-            throw new \InvalidArgumentException($message);
+            throw new \InvalidArgumentException('callback must be a callback function or a object of Runnalbe');
         }
 
         $this->runnable = $callback;
         $this->max = $max;
-    }
-
-    /**
-     * start the pool
-     */
-    public function start()
-    {
-        $alive_count = $this->aliveCount();
-        // create sub process and run
-        if ($alive_count < $this->max) {
-            $need = $this->max - $alive_count;
-            for ($i = 0; $i < $need; $i++) {
-                $process = new Process($this->runnable);
-                $process->start();
-                $this->processes[$process->getPid()] = $process;
-            }
-        }
     }
 
     /**
@@ -103,6 +85,23 @@ class ParallelPool extends AbstractPool
 
             $block ? usleep($interval) : null;
         } while ($block);
+    }
+
+    /**
+     * start the pool
+     */
+    public function start()
+    {
+        $alive_count = $this->aliveCount();
+        // create sub process and run
+        if ($alive_count < $this->max) {
+            $need = $this->max - $alive_count;
+            for ($i = 0; $i < $need; $i++) {
+                $process = new Process($this->runnable);
+                $process->start();
+                $this->processes[$process->getPid()] = $process;
+            }
+        }
     }
 
     /**

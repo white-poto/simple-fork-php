@@ -36,25 +36,25 @@ class RedisQueue implements QueueInterface
         $host = '127.0.0.1',
         $port = 6379,
         $database = 0,
-        $channel = "cache",
-        $prefix = "simple-fork-"
+        $channel = 'cache',
+        $prefix = 'simple-fork-'
     )
     {
         $this->redis = new \Redis();
         $connection_result = $this->redis->connect($host, $port);
         if (!$connection_result) {
-            throw new \RuntimeException("can not connect to the redis server");
+            throw new \RuntimeException('can not connect to the redis server');
         }
 
         if ($database != 0) {
             $select_result = $this->redis->select($database);
             if (!$select_result) {
-                throw new \RuntimeException("can not select the database");
+                throw new \RuntimeException('can not select the database');
             }
         }
 
         if (empty($channel)) {
-            throw new \InvalidArgumentException("channel can not be empty");
+            throw new \InvalidArgumentException('channel can not be empty');
         }
 
         $this->channel = $channel;
@@ -63,7 +63,7 @@ class RedisQueue implements QueueInterface
 
         $set_option_result = $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
         if (!$set_option_result) {
-            throw new \RuntimeException("can not set the \\Redis::OPT_PREFIX Option");
+            throw new \RuntimeException('can not set the \Redis::OPT_PREFIX Option');
         }
     }
 
@@ -129,16 +129,16 @@ class RedisQueue implements QueueInterface
     /**
      * close the connection
      */
-    public function close()
+    public function __destruct()
     {
-        $this->redis->close();
+        $this->close();
     }
 
     /**
      * close the connection
      */
-    public function __destruct()
+    public function close()
     {
-        $this->close();
+        $this->redis->close();
     }
 }

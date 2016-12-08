@@ -34,24 +34,24 @@ class RedisCache implements CacheInterface
         $host = '127.0.0.1',
         $port = 6379,
         $database = 0,
-        $prefix = "simple-fork"
+        $prefix = 'simple-fork'
     )
     {
         $this->redis = new \Redis();
         $connection_result = $this->redis->connect($host, $port);
         if (!$connection_result) {
-            throw new \RuntimeException("can not connect to the redis server");
+            throw new \RuntimeException('can not connect to the redis server');
         }
 
         if ($database != 0) {
             $select_result = $this->redis->select($database);
             if (!$select_result) {
-                throw new \RuntimeException("can not select the database");
+                throw new \RuntimeException('can not select the database');
             }
         }
 
         if (empty($prefix)) {
-            throw new \InvalidArgumentException("prefix can not be empty");
+            throw new \InvalidArgumentException('prefix can not be empty');
         }
         $this->prefix = $prefix;
     }
@@ -62,6 +62,14 @@ class RedisCache implements CacheInterface
     public function __destruct()
     {
         $this->close();
+    }
+
+    /**
+     * close the connection
+     */
+    public function close()
+    {
+        $this->redis->close();
     }
 
     /**
@@ -114,13 +122,5 @@ class RedisCache implements CacheInterface
             return true;
         }
         return false;
-    }
-
-    /**
-     * close the connection
-     */
-    public function close()
-    {
-        $this->redis->close();
     }
 }

@@ -41,6 +41,15 @@ abstract class AbstractPool
     }
 
     /**
+     * shutdown sub process and no wait. it is dangerous,
+     * maybe the sub process is working.
+     */
+    public function shutdownForce()
+    {
+        $this->shutdown(SIGKILL);
+    }
+
+    /**
      * shutdown all process
      *
      * @param int $signal
@@ -52,32 +61,6 @@ abstract class AbstractPool
                 $process->shutdown(true, $signal);
             }
         }
-    }
-
-    /**
-     * shutdown sub process and no wait. it is dangerous,
-     * maybe the sub process is working.
-     */
-    public function shutdownForce()
-    {
-        $this->shutdown(SIGKILL);
-    }
-
-    /**
-     * get the count of running processes
-     *
-     * @return int
-     */
-    public function aliveCount()
-    {
-        $count = 0;
-        foreach ($this->processes as $process) {
-            if ($process->isRunning()) {
-                $count++;
-            }
-        }
-
-        return $count;
     }
 
     /**
@@ -99,7 +82,7 @@ abstract class AbstractPool
      * waiting for the sub processes to exit
      *
      * @param bool|true $block if true the parent process will be blocked until all
-     * sub processes exit. else it will check if thers are processes that had been exited once and return.
+     * sub processes exit. else it will check if there are processes that had been exited once and return.
      * @param int $sleep when $block is true, it will check sub processes every $sleep minute
      */
     public function wait($block = true, $sleep = 100)
@@ -112,5 +95,22 @@ abstract class AbstractPool
             }
             usleep($sleep);
         } while ($block && $this->aliveCount() > 0);
+    }
+
+    /**
+     * get the count of running processes
+     *
+     * @return int
+     */
+    public function aliveCount()
+    {
+        $count = 0;
+        foreach ($this->processes as $process) {
+            if ($process->isRunning()) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 }

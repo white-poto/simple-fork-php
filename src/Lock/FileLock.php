@@ -66,7 +66,7 @@ class FileLock implements LockInterface
     public function acquire($blocking = true)
     {
         if ($this->locked) {
-            throw new \RuntimeException("already lock by yourself");
+            throw new \RuntimeException('already lock by yourself');
         }
 
         if ($blocking) {
@@ -111,7 +111,7 @@ class FileLock implements LockInterface
     public function release()
     {
         if (!$this->locked) {
-            throw new \RuntimeException("release a non lock");
+            throw new \RuntimeException('release a non lock');
         }
 
         $unlock = flock($this->fp, LOCK_UN);

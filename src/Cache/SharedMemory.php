@@ -62,20 +62,11 @@ class SharedMemory implements CacheInterface
         if (!file_exists($file)) {
             $touch = touch($file);
             if (!$touch) {
-                $message = "file is not exists and it can not be created. file:" . $file;
-                throw new \RuntimeException($message);
+                throw new \RuntimeException("file is not exists and it can not be created. file: {$file}");
             }
         }
         $key = ftok($file, 'a');
         $this->shm = shm_attach($key, $this->size); //allocate shared memory
-    }
-
-    /**
-     * @return bool
-     */
-    public function dettach()
-    {
-        return shm_detach($this->shm); //allocate shared memory
     }
 
     /**
@@ -98,6 +89,14 @@ class SharedMemory implements CacheInterface
     }
 
     /**
+     * @return bool
+     */
+    public function dettach()
+    {
+        return shm_detach($this->shm); //allocate shared memory
+    }
+
+    /**
      * set var
      *
      * @param $key
@@ -107,6 +106,18 @@ class SharedMemory implements CacheInterface
     public function set($key, $value)
     {
         return shm_put_var($this->shm, $this->shm_key($key), $value); //store var
+    }
+
+    /**
+     * generate shm key
+     *
+     * @param $val
+     * @return mixed
+     */
+    public function shm_key($val)
+    {   // enable all world langs and chars !
+        // text to number system.
+        return preg_replace("/[^0-9]/", "", (preg_replace("/[^0-9]/", "", md5($val)) / 35676248) / 619876);
     }
 
     /**
@@ -126,21 +137,6 @@ class SharedMemory implements CacheInterface
     }
 
     /**
-     * delete var
-     *
-     * @param $key
-     * @return bool
-     */
-    public function delete($key)
-    {
-        if ($this->has($key)) {
-            return shm_remove_var($this->shm, $this->shm_key($key));
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * has var ?
      *
      * @param $key
@@ -156,14 +152,18 @@ class SharedMemory implements CacheInterface
     }
 
     /**
-     * generate shm key
+     * delete var
      *
-     * @param $val
-     * @return mixed
+     * @param $key
+     * @return bool
      */
-    public function shm_key($val)
-    { // enable all world langs and chars !
-        return preg_replace("/[^0-9]/", "", (preg_replace("/[^0-9]/", "", md5($val)) / 35676248) / 619876); // text to number system.
+    public function delete($key)
+    {
+        if ($this->has($key)) {
+            return shm_remove_var($this->shm, $this->shm_key($key));
+        } else {
+            return false;
+        }
     }
 
     /**

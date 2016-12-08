@@ -39,10 +39,10 @@ class Pipe
     public function __construct($filename = '/tmp/simple-fork.pipe', $mode = 0666, $block = false)
     {
         if (!file_exists($filename) && !posix_mkfifo($filename, $mode)) {
-            throw new \RuntimeException("create pipe failed");
+            throw new \RuntimeException('create pipe failed');
         }
-        if (filetype($filename) != "fifo") {
-            throw new \RuntimeException("file exists and it is not a fifo file");
+        if (filetype($filename) != 'fifo') {
+            throw new \RuntimeException('file exists and it is not a fifo file');
         }
 
         $this->filename = $filename;
@@ -54,14 +54,14 @@ class Pipe
         if (is_resource($this->read)) {
             $set = stream_set_blocking($this->read, $block);
             if (!$set) {
-                throw new \RuntimeException("stream_set_blocking failed");
+                throw new \RuntimeException('stream_set_blocking failed');
             }
         }
 
         if (is_resource($this->write)) {
             $set = stream_set_blocking($this->write, $block);
             if (!$set) {
-                throw new \RuntimeException("stream_set_blocking failed");
+                throw new \RuntimeException('stream_set_blocking failed');
             }
         }
 
@@ -80,12 +80,12 @@ class Pipe
         if (!is_resource($this->read)) {
             $this->read = fopen($this->filename, 'r+');
             if (!is_resource($this->read)) {
-                throw new \RuntimeException("open file failed");
+                throw new \RuntimeException('open file failed');
             }
             if (!$this->block) {
                 $set = stream_set_blocking($this->read, false);
                 if (!$set) {
-                    throw new \RuntimeException("stream_set_blocking failed");
+                    throw new \RuntimeException('stream_set_blocking failed');
                 }
             }
         }
@@ -102,17 +102,25 @@ class Pipe
         if (!is_resource($this->write)) {
             $this->write = fopen($this->filename, 'w+');
             if (!is_resource($this->write)) {
-                throw new \RuntimeException("open file failed");
+                throw new \RuntimeException('open file failed');
             }
             if (!$this->block) {
                 $set = stream_set_blocking($this->write, false);
                 if (!$set) {
-                    throw new \RuntimeException("stream_set_blocking failed");
+                    throw new \RuntimeException('stream_set_blocking failed');
                 }
             }
         }
 
         return fwrite($this->write, $message);
+    }
+
+    /**
+     *
+     */
+    public function __destruct()
+    {
+        $this->close();
     }
 
     /**
@@ -126,14 +134,6 @@ class Pipe
         if (is_resource($this->write)) {
             fclose($this->write);
         }
-    }
-
-    /**
-     *
-     */
-    public function __destruct()
-    {
-        $this->close();
     }
 
     public function remove()

@@ -43,7 +43,7 @@ class PipeQueue implements QueueInterface
     {
         $len = strlen($value);
         if ($len > 2147483647) {
-            throw new \RuntimeException("value is too long");
+            throw new \RuntimeException('value is too long');
         }
         $raw = pack('N', $len) . $value;
         $write_len = $this->pipe->write($raw);
@@ -65,7 +65,7 @@ class PipeQueue implements QueueInterface
         }
         $len = $this->pipe->read(4);
         if ($len === false) {
-            throw new \RuntimeException("read pipe failed");
+            throw new \RuntimeException('read pipe failed');
         }
 
         if (strlen($len) === 0) {
@@ -73,7 +73,7 @@ class PipeQueue implements QueueInterface
         }
         $len = unpack('N', $len);
         if (empty($len) || !array_key_exists(1, $len) || empty($len[1])) {
-            throw new \RuntimeException("data protocol error");
+            throw new \RuntimeException('data protocol error');
         }
         $len = intval($len[1]);
 

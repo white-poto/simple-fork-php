@@ -82,8 +82,7 @@ class Process
         } elseif (!is_null($execution) && is_callable($execution)) {
             $this->runnable = $execution;
         } elseif (!is_null($execution)) {
-            $message = "param execution is not a object of Runnable or callable";
-            throw new \InvalidArgumentException($message);
+            throw new \InvalidArgumentException('param execution is not a object of Runnable or callable');
         } else {
             Utils::checkOverwriteRunMethod(get_class($this));
         }
@@ -242,8 +241,7 @@ class Process
         }
 
         if ($res === -1) {
-            $message = "pcntl_waitpid failed. the process maybe available";
-            throw new \RuntimeException($message);
+            throw new \RuntimeException('pcntl_waitpid failed. the process maybe available');
         } elseif ($res === 0) {
             $this->running = true;
         } else {
@@ -310,8 +308,7 @@ class Process
     public function shutdown($block = true, $signal = SIGTERM)
     {
         if (empty($this->pid)) {
-            $message = "the process pid is null, so maybe the process is not started";
-            throw new \LogicException($message);
+            throw new \LogicException('the process pid is null, so maybe the process is not started');
         }
         if (!$this->isRunning()) {
             throw new \LogicException("the process is not running");

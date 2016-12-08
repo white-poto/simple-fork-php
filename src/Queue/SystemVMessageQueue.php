@@ -62,7 +62,7 @@ class SystemVMessageQueue implements QueueInterface
      * @param int $channel message type
      * @param bool $serialize_needed serialize or not
      * @param bool $block_send if block when the queue is full
-     * @param int $option_receive if the value is MSG_IPC_NOWAIT£¬it will not
+     * @param int $option_receive if the value is MSG_IPC_NOWAIT it will not
      * going to wait a message coming. if the value is null,
      * it will block and wait a message
      * @param int $maxsize the max size of queue
@@ -110,8 +110,7 @@ class SystemVMessageQueue implements QueueInterface
         if (!file_exists($ipc_filename)) {
             $create_file = touch($ipc_filename);
             if ($create_file === false) {
-                $message = "ipc_file is not exists and create failed";
-                throw new \RuntimeException($message);
+                throw new \RuntimeException('ipc_file is not exists and create failed');
             }
         }
 
@@ -152,20 +151,10 @@ class SystemVMessageQueue implements QueueInterface
         }
     }
 
-    /**
-     * put message
-     *
-     * @param $message
-     * @return bool
-     * @throws \Exception
-     */
-    public function put($message)
+    public function status()
     {
-        if (!\msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
-            throw new \RuntimeException($err);
-        }
-
-        return true;
+        $queue_status = \msg_stat_queue($this->queue);
+        return $queue_status;
     }
 
     /*
@@ -184,10 +173,21 @@ class SystemVMessageQueue implements QueueInterface
      *
      * @return array
      */
-    public function status()
+
+    /**
+     * put message
+     *
+     * @param $message
+     * @return bool
+     * @throws \Exception
+     */
+    public function put($message)
     {
-        $queue_status = \msg_stat_queue($this->queue);
-        return $queue_status;
+        if (!\msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
+            throw new \RuntimeException($err);
+        }
+
+        return true;
     }
 
     /**
@@ -221,13 +221,20 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
-     * remove queue
+     * check the privilege of update the queue's status
      *
-     * @return bool
+     * @param $key
+     * @throws \Exception
      */
-    public function remove()
+    private function checkSetPrivilege($key)
     {
-        return \msg_remove_queue($this->queue);
+        $privilege_field = array('msg_perm.uid', 'msg_perm.gid', 'msg_perm.mode');
+        if (!\in_array($key, $privilege_field)) {
+            $message = 'you can only change msg_perm.uid, msg_perm.gid, ' .
+                ' msg_perm.mode and msg_qbytes. And msg_qbytes needs root privileges';
+
+            throw new \RuntimeException($message);
+        }
     }
 
     /**
@@ -248,6 +255,16 @@ class SystemVMessageQueue implements QueueInterface
     }
 
     /**
+     * remove queue
+     *
+     * @return bool
+     */
+    public function remove()
+    {
+        return \msg_remove_queue($this->queue);
+    }
+
+    /**
      * check if the queue is exists or not
      *
      * @param $key
@@ -256,23 +273,6 @@ class SystemVMessageQueue implements QueueInterface
     public function queueExists($key)
     {
         return \msg_queue_exists($key);
-    }
-
-    /**
-     * check the privilege of update the queue's status
-     *
-     * @param $key
-     * @throws \Exception
-     */
-    private function checkSetPrivilege($key)
-    {
-        $privilege_field = array('msg_perm.uid', 'msg_perm.gid', 'msg_perm.mode');
-        if (!\in_array($key, $privilege_field)) {
-            $message = 'you can only change msg_perm.uid, msg_perm.gid, " .
-            " msg_perm.mode and msg_qbytes. And msg_qbytes needs root privileges';
-
-            throw new \RuntimeException($message);
-        }
     }
 
     /**

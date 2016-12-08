@@ -20,14 +20,14 @@ class Utils
         $parent_class = '\\Jenner\\SimpleFork\\Process';
         if ($child_class == $parent_class) {
             $message = "you should extend the `{$parent_class}`" .
-                " and overwrite the run method";
+                ' and overwrite the run method';
             throw new \RuntimeException($message);
         }
 
         $child = new \ReflectionClass($child_class);
         if ($child->getParentClass() === false) {
             $message = "you should extend the `{$parent_class}`" .
-                " and overwrite the run method";
+                ' and overwrite the run method';
             throw new \RuntimeException($message);
         }
 
@@ -41,8 +41,7 @@ class Utils
                 ->getName();
 
             if ($declaring_class === $parent_class) {
-                $message = "you must overwrite the run method";
-                throw new \RuntimeException($message);
+                throw new \RuntimeException('you must overwrite the run method');
             }
         }
     }
