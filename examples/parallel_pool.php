@@ -16,7 +16,7 @@ class TestRunnable2 implements \Jenner\SimpleFork\Runnable {
     /**
      * process entry
      *
-     * @return mixed
+     * @return void
      */
     public function run()
     {

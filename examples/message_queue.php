@@ -41,7 +41,6 @@ $producer = new Producer();
 $worker = new Worker();
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit($producer);
-$pool->submit($worker);
-$pool->start();
+$pool->execute($producer);
+$pool->execute($worker);
 $pool->wait();

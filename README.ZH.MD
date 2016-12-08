@@ -116,8 +116,8 @@ $worker = new Worker();
 $worker->setCache($memory);
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit($producer);
-$pool->submit($worker);
+$pool->execute($producer);
+$pool->execute($worker);
 $pool->start();
 $pool->wait();
 ```

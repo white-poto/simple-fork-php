@@ -12,8 +12,7 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 {
 
     /**
-     * 进程执行入口
-     * @return mixed
+     * @return void
      */
     public function run()
     {

@@ -56,17 +56,17 @@ Process Pool
 ----------------------------------
 There are two pool you can use when you have more than one process or 
 task to manage:Pool and FixedPool.
-+ Pool: you can submit different processes to Pool object. and call the 
-`Pool::start` method to start them, and call the wait method to wait all
-the sub processes exit(or just do something else, but do not forget)
++ Pool: you can execute different processes in one Pool object. 
+and call the `wait` method to wait for all the sub processes exiting
+(or just do something else, but do not forget to call the `wait` method)
 + ParallelPool: it will keep the sub processes count, you should not init any
 socket connection before the FixedPool start(share socket connection is dangerous
 in multi processes).This class has a method `reload` which can reload 
 all the sub processes. When you call `reload` method, the master will 
 start new N processes and shutdown the old ones.
-+ SinglePool: no matter how many processes you submit, it will always keep one
++ SinglePool: no matter how many processes you execute, it will always keep one
 process starting and start another after it stopped.
-+ FixedPool: no matter how many processes you submit, it will always keep N
++ FixedPool: no matter how many processes you execute, it will always keep N
 processes starting and start another after it stopped. the active processes'
 count is less then N+1 forever.
 
@@ -146,9 +146,8 @@ $producer = new Producer();
 $worker = new Worker();
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit($producer);
-$pool->submit($worker);
-$pool->start();
+$pool->execute($producer);
+$pool->execute($worker);
 $pool->wait();
 ```
 
@@ -187,9 +186,8 @@ $producer = new Producer();
 $worker = new Worker();
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit($producer);
-$pool->submit($worker);
-$pool->start();
+$pool->execute($producer);
+$pool->execute($worker);
 $pool->wait();
 ```
 
@@ -224,10 +222,9 @@ class TestRunnable implements \Jenner\SimpleFork\Runnable
 }
 
 $pool = new \Jenner\SimpleFork\Pool();
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
-$pool->submit(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
+$pool->execute(new \Jenner\SimpleFork\Process(new TestRunnable()));
 
-$pool->start();
 $pool->wait();
 ```
 
