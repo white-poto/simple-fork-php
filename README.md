@@ -73,6 +73,8 @@ count is less then N+1 forever.
 Notice
 --------------------------
 + Remember that you must add `declare(ticks=n);` at the start of program.
++ A better way to handle the single is that calling `pcntl_signal_dispatch` 
+instead of `declare` which is more is a waste of CPU resources
 + If the sub processes exit continually and quickly, you should set `n` to 
 a small integer, else set a big one to save the CPU time.
 + If you want to register signal handler in the master process, the child 
