@@ -9,8 +9,16 @@
 namespace Jenner\SimpleFork;
 
 
+/**
+ * Only one process will be started at the same time
+ *
+ * @package Jenner\SimpleFork
+ */
 class SinglePool extends FixedPool
 {
+    /**
+     * SinglePool constructor.
+     */
     public function __construct()
     {
         parent::__construct(1);
