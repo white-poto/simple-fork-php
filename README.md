@@ -31,6 +31,7 @@ require '/path/to/simple-fork-php/autoload.php'
 Dependencies
 ----------------------
 must  
++ php > 5.3.0
 + ext-pcntl process control 
 
 optional
