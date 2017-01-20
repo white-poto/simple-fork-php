@@ -49,14 +49,14 @@ class ParallelPool extends AbstractPool
      */
     public function reload($block = true)
     {
-        $old_process = $this->processes;
+        $old_processes = $this->processes;
         for ($i = 0; $i < $this->max; $i++) {
             $process = new Process($this->runnable);
             $process->start();
             $this->processes[$process->getPid()] = $process;
         }
 
-        foreach ($old_process as $process) {
+        foreach ($old_processes as $process) {
             $process->shutdown();
             $process->wait($block);
             unset($this->processes[$process->getPid()]);
