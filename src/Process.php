@@ -353,6 +353,17 @@ class Process
     }
 
     /**
+     * after php-5.3.0, we can call pcntl_singal_dispatch to call signal handlers for pending signals
+     * which can save cpu resources than using declare(tick=n)
+     *
+     * @return bool
+     */
+    public function dispatchSignal()
+    {
+        return pcntl_signal_dispatch();
+    }
+
+    /**
      * you should overwrite this function
      * if you do not use the Runnable or callback.
      */

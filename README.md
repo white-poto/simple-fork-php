@@ -73,7 +73,10 @@ count is less then N+1 forever.
 
 Notice
 --------------------------
-+ Remember that you must add `declare(ticks=n);` at the start of program.
++ Remember that you should call the `Process::dispatchSignal` method to call
+call signal handlers for pending signals.
++ It is not recommend that adding `declare(ticks=n);` at the start of program
+to handle the pending signals.
 + A better way to handle the single is that calling `pcntl_signal_dispatch` 
 instead of `declare` which is more is a waste of CPU resources
 + If the sub processes exit continually and quickly, you should set `n` to 
