@@ -35,21 +35,4 @@ class Pool extends AbstractPool
 
         return array_push($this->processes, $process);
     }
-
-    /**
-     * get process by name
-     *
-     * @param string $name process name
-     * @return Process|null
-     */
-    public function getProcessByName($name)
-    {
-        foreach ($this->processes as $process) {
-            if ($process->name() == $name) {
-                return $process;
-            }
-        }
-
-        return null;
-    }
 }

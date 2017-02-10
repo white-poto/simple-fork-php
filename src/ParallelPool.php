@@ -103,24 +103,4 @@ class ParallelPool extends AbstractPool
             }
         }
     }
-
-    /**
-     * return process count
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return count($this->processes);
-    }
-
-    /**
-     * get all processes
-     *
-     * @return Process[]
-     */
-    public function getProcesses()
-    {
-        return $this->processes;
-    }
 }

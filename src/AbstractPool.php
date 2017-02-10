@@ -113,4 +113,71 @@ abstract class AbstractPool
 
         return $count;
     }
+
+    /**
+     * get process by name
+     *
+     * @param string $name process name
+     * @return Process|null
+     */
+    public function getProcessByName($name)
+    {
+        foreach ($this->processes as $process) {
+            if ($process->name() == $name) {
+                return $process;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * remove process by name
+     *
+     * @param string $name process name
+     * @throws \RuntimeException
+     */
+    public function removeProcessByName($name)
+    {
+        foreach ($this->processes as $key => $process) {
+            if ($process->name() == $name) {
+                if ($process->isRunning()) {
+                    throw new \RuntimeException("can not remove a running process");
+                }
+                unset($this->processes[$key]);
+            }
+        }
+    }
+
+    /**
+     * remove exited process
+     */
+    public function removeExitedProcess()
+    {
+        foreach ($this->processes as $key => $process) {
+            if ($process->isStopped()) {
+                unset($this->processes[$key]);
+            }
+        }
+    }
+
+    /**
+     * return process count
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->processes);
+    }
+
+    /**
+     * get all processes
+     *
+     * @return Process[]
+     */
+    public function getProcesses()
+    {
+        return $this->processes;
+    }
 }
