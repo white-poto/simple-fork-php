@@ -76,6 +76,7 @@ class Semaphore implements LockInterface
         if ($this->isLocked()) {
             $this->release();
         }
+        $this->remove();
     }
 
     /**
@@ -137,6 +138,15 @@ class Semaphore implements LockInterface
         }
         $this->locked = true;
 
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function remove()
+    {
+        if (!sem_remove($this->lock_id)) throw new \RuntimeException("Can't remove semaphore.");
         return true;
     }
 }
