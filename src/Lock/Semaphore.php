@@ -139,4 +139,25 @@ class Semaphore implements LockInterface
 
         return true;
     }
+
+    /**
+     * remove the semaphore resource
+     *
+     * @return bool
+     */
+    public function remove()
+    {
+        if ($this->locked) {
+            throw new \RuntimeException('can not remove a locked semaphore resource');
+        }
+        if (!is_resource($this->lock_id)) {
+            throw new \RuntimeException('can not remove a empty semaphore resource');
+        }
+
+        if (!sem_release($this->lock_id)) {
+            return false;
+        }
+
+        return true;
+    }
 }
