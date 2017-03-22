@@ -1,7 +1,6 @@
 {
   "name": "jenner/simple_fork",
   "description": "simple multi process manager based on pcntl",
-  "version": "1.2.1",
   "keywords": [
     "fork",
     "process manager",
