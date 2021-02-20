@@ -65,8 +65,8 @@ class SharedMemory implements CacheInterface
                 throw new \RuntimeException("file is not exists and it can not be created. file: {$file}");
             }
         }
-        $key = ftok($file, 'a');
-        $this->shm = shm_attach($key, $this->size); //allocate shared memory
+        
+        $this->shm = shm_attach(fileinode($file), $this->size); //allocate shared memory
     }
 
     /**
